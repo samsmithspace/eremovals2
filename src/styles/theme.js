@@ -1,4 +1,3 @@
-// src/styles/theme.js
 /**
  * JavaScript theme configuration
  * Provides theme values for use in JavaScript/React components
