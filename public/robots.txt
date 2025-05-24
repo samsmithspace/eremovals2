@@ -1,0 +1,13 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://eremovals.com/sitemap.xml
+
+# Disallow certain paths if needed
+# Disallow: /admin/
+# Disallow: /api/
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

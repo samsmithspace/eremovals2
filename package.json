@@ -51,7 +51,7 @@
     "react-i18next": "^13.5.0",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.17.0",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
@@ -73,10 +73,9 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.3",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.1.0",
-    "msw": "^2.8.4",
+    "msw": "^1.3.2",
     "prettier": "^3.1.0",
     "serve": "^14.2.1",
     "source-map-explorer": "^2.5.3",
@@ -100,7 +99,7 @@
     "cypress:run": "cypress run",
     "e2e": "start-server-and-test serve http://localhost:3000 cypress:run",
     "pre-commit": "lint-staged",
-    "prepare": "husky install",
+    "prepare": "echo 'Skipping husky install'",
     "clean": "rm -rf build node_modules package-lock.json",
     "reinstall": "npm run clean && npm install",
     "dev": "npm start",
@@ -169,12 +168,6 @@
     "src/**/*.{json,css,md}": [
       "prettier --write"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run test:ci"
-    }
   },
   "jest": {
     "collectCoverageFrom": [

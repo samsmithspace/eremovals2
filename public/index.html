@@ -1,0 +1,98 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#fa7731" />
+  <meta name="description" content="Professional moving and removal services in Edinburgh and Scotland. Student moves, house relocations, and courier services with competitive pricing." />
+  <meta name="keywords" content="moving service, removal company, Edinburgh movers, student move, house relocation, Scotland removals" />
+  <meta name="author" content="Eremovals" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://eremovals.com/" />
+  <meta property="og:title" content="Eremovals - Professional Moving Services in Edinburgh" />
+  <meta property="og:description" content="Professional moving and removal services in Edinburgh and Scotland. Student moves, house relocations, and courier services with competitive pricing." />
+  <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://eremovals.com/" />
+  <meta property="twitter:title" content="Eremovals - Professional Moving Services in Edinburgh" />
+  <meta property="twitter:description" content="Professional moving and removal services in Edinburgh and Scotland. Student moves, house relocations, and courier services with competitive pricing." />
+  <meta property="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://maps.googleapis.com" />
+  <link rel="preconnect" href="https://api.getaddress.io" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet" />
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MovingCompany",
+      "name": "Eremovals",
+      "description": "Professional moving and removal services in Edinburgh and Scotland",
+      "url": "https://eremovals.com",
+      "telephone": "+447404228217",
+      "email": "eremovalsscot@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Edinburgh",
+        "addressCountry": "GB"
+      },
+      "serviceArea": {
+        "@type": "Place",
+        "name": "Edinburgh and Scotland"
+      },
+      "services": [
+        "Student Moving Services",
+        "House Relocation",
+        "Courier Services",
+        "Storage Solutions",
+        "Clearance Services"
+      ],
+      "priceRange": "£",
+      "openingHours": "Mo-Su 08:00-20:00"
+    }
+  </script>
+
+  <title>Eremovals - Professional Moving Services in Edinburgh</title>
+</head>
+<body>
+<noscript>
+  <div style="padding: 2rem; text-align: center; font-family: Arial, sans-serif;">
+    <h1>JavaScript Required</h1>
+    <p>You need to enable JavaScript to run this app.</p>
+    <p>Please enable JavaScript in your browser settings and refresh the page.</p>
+  </div>
+</noscript>
+
+<!-- React App Root -->
+<div id="root"></div>
+
+<!-- Fallback for when the app fails to load -->
+<script>
+  // Simple fallback if React fails to mount
+  setTimeout(function() {
+    var root = document.getElementById('root');
+    if (root && root.children.length === 0) {
+      root.innerHTML = '<div style="padding: 2rem; text-align: center; font-family: Arial, sans-serif;"><h1>Loading...</h1><p>If this message persists, please try refreshing the page or contact us at <a href="tel:+447404228217">07404 228217</a></p></div>';
+    }
+  }, 5000);
+</script>
+</body>
+</html>
