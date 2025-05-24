@@ -1,8 +1,3 @@
-// src/config/config.js
-/**
- * Application-wide configuration
- * Centralizes environment variables and configuration settings
- */
 const config = {
   // API endpoints
   api: {
@@ -17,13 +12,14 @@ const config = {
 
   // External API keys
   apiKeys: {
-    googleMaps: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    getAddress: process.env.REACT_APP_GETADDRESS_API_KEY,
-    stripe: process.env.REACT_APP_STRIPKEY
+    googleMaps: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
+    getAddress: process.env.REACT_APP_GETADDRESS_API_KEY || '',
+    stripe: process.env.REACT_APP_STRIPKEY || '',
+    googleAnalytics: process.env.REACT_APP_GA_ID || ''
   },
 
   // Application mode
-  isDevelopment: process.env.REACT_APP_MODE === 'develop',
+  isDevelopment: process.env.NODE_ENV === 'development',
 
   // Default settings
   defaults: {
@@ -39,7 +35,9 @@ const config = {
     enablePromoCodes: true,
     enableHelperOption: true,
     enableWhatsApp: true,
-    enableMultiLanguage: true
+    enableMultiLanguage: true,
+    enableAnalytics: false,
+    enablePerformanceMonitoring: false
   },
 
   // Map configuration
