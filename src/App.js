@@ -204,7 +204,6 @@ function App() {
             screen_resolution: `${screen.width}x${screen.height}`,
             viewport_size: `${window.innerWidth}x${window.innerHeight}`
         });
-
         // Set up global error handling
         window.addEventListener('error', (event) => {
             analyticsService.trackError(event.error || new Error(event.message), {
