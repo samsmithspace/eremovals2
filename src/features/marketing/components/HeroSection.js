@@ -47,6 +47,14 @@ const HeroSection = () => {
     }
   };
 
+  const handleLanguageChange = (newLang) => {
+    i18n.changeLanguage(newLang);
+    // Update URL to reflect language change
+    const currentPath = window.location.pathname;
+    const newPath = currentPath.replace(`/${lang}`, `/${newLang}`);
+    navigate(newPath);
+  };
+
   return (
     <div className="hero-container">
       {/* Header */}
@@ -61,14 +69,7 @@ const HeroSection = () => {
             </a>
             <select
               value={i18n.language}
-              onChange={(e) => {
-                const newLang = e.target.value;
-                i18n.changeLanguage(newLang);
-                // Update URL to reflect language change
-                const currentPath = window.location.pathname;
-                const newPath = currentPath.replace(`/${lang}`, `/${newLang}`);
-                navigate(newPath);
-              }}
+              onChange={(e) => handleLanguageChange(e.target.value)}
               className="lang-select"
             >
               <option value="en">English</option>
@@ -90,16 +91,16 @@ const HeroSection = () => {
               {/* Moving Services */}
               <div className="service-group">
                 <h3 className="service-heading">
-                  {t('marketing.movingServices', 'Moving Services')}
+                  {t('common.movingServices', 'Moving Services')}
                 </h3>
                 <div className="move-buttons-container">
                   <button
                     className="btn2 st"
                     onClick={() => handleServiceNavigation('move', 'student')}
                   >
-                                        <span className="btn-text">
-                                            {t('common.studentMove', 'Student Move')}
-                                        </span>
+                    <span className="btn-text">
+                      {t('common.studentMove', 'Student Move')}
+                    </span>
                     <img
                       src={studentMoveImg}
                       alt="Student move"
@@ -114,9 +115,9 @@ const HeroSection = () => {
                     className="btn2 hm"
                     onClick={() => handleServiceNavigation('move', 'house')}
                   >
-                                        <span className="btn-text">
-                                            {t('common.homeMove', 'Home Move')}
-                                        </span>
+                    <span className="btn-text">
+                      {t('common.homeMove', 'Home Move')}
+                    </span>
                     <img
                       src={homeMoveImg}
                       alt="Home move"
@@ -131,9 +132,9 @@ const HeroSection = () => {
                     className="btn2 sd"
                     onClick={() => handleServiceNavigation('courier')}
                   >
-                                        <span className="btn-text-cur">
-                                            {t('common.sameDayMove', 'Same Day Move')}
-                                        </span>
+                    <span className="btn-text-cur">
+                      {t('common.sameDayMove', 'Same Day Move')}
+                    </span>
                     <img
                       src={courierImg}
                       alt="Same day move"
@@ -149,7 +150,7 @@ const HeroSection = () => {
               {/* Additional Services */}
               <div className="service-group additional">
                 <h3 className="service-heading">
-                  {t('marketing.additionalServices', 'Additional Services')}
+                  {t('common.additionalServices', 'Additional Services')}
                 </h3>
                 <div className="additional-services-container">
                   <button
@@ -162,8 +163,8 @@ const HeroSection = () => {
                       className="button-bg-image-store"
                     />
                     <span className="service-name">
-                                            {t('common.storage', 'Storage')}
-                                        </span>
+                      {t('common.storage', 'Storage')}
+                    </span>
                   </button>
 
                   <button
@@ -176,8 +177,8 @@ const HeroSection = () => {
                       className="button-bg-image-width"
                     />
                     <span className="service-name">
-                                            {t('common.clearanceDisposal', 'Clearance & Disposal')}
-                                        </span>
+                      {t('common.clearanceDisposal', 'Clearance & Disposal')}
+                    </span>
                   </button>
 
                   <button
@@ -190,8 +191,8 @@ const HeroSection = () => {
                       className="button-bg-image"
                     />
                     <span className="service-name">
-                                            {t('common.cleaningService', 'Cleaning Service')}
-                                        </span>
+                      {t('common.cleaningService', 'Cleaning Service')}
+                    </span>
                   </button>
                 </div>
               </div>

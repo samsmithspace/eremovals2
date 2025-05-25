@@ -7,7 +7,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import enTranslation from './locales/en/translation.json';
 import zhTranslation from './locales/zh/translation.json';
 
-// Use the JSON files directly - they already have the correct structure
 const resources = {
   en: {
     translation: enTranslation
@@ -18,9 +17,10 @@ const resources = {
 };
 
 const detectionOptions = {
-  order: ['localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
-  caches: ['localStorage'],
+  order: ['path', 'localStorage', 'navigator', 'htmlTag'],
   lookupFromPathIndex: 0,
+  lookupFromSubdomainIndex: 0,
+  caches: ['localStorage'],
   excludeCacheFor: ['cimode'],
   checkWhitelist: true
 };
@@ -41,26 +41,36 @@ i18n
       escapeValue: false
     },
 
-    // Simplified namespace configuration
+    // Namespace configuration
     defaultNS: 'translation',
+    ns: ['translation'],
 
     react: {
-      useSuspense: false,
-      bindI18n: 'languageChanged',
-      transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'em', 'span']
+      useSuspense: true,
+      bindI18n: 'languageChanged loaded',
+      bindI18nStore: 'added removed',
+      transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'em', 'span'],
+      transSupportBasicHtmlNodes: true
     },
 
     keySeparator: '.',
-    nsSeparator: false, // Disable namespace separator
+    nsSeparator: false,
 
     returnObjects: true,
     returnEmptyString: false,
     returnNull: false,
 
-    missingKeyHandler: (lng, ns, key, fallbackValue) => {
+    // Handle missing keys
+    parseMissingKeyHandler: (key) => {
       if (process.env.NODE_ENV === 'development') {
-        console.warn(`Missing translation key: ${lng}:${ns}:${key}`);
+        console.warn(`Missing translation key: ${key}`);
       }
+      return key;
+    },
+
+    // Load path for dynamic loading (if needed later)
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
     }
   });
 

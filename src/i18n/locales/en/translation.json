@@ -24,33 +24,75 @@
     "no": "No",
     "ok": "OK",
     "apply": "Apply",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "view": "View",
-    "print": "Print",
-    "export": "Export",
-    "import": "Import",
-    "help": "Help",
-    "about": "About",
-    "contact": "Contact",
-    "home": "Home",
-    "dashboard": "Dashboard",
-    "settings": "Settings",
-    "profile": "Profile",
-    "logout": "Logout",
-    "login": "Login",
-    "register": "Register",
-    "forgotPassword": "Forgot Password",
-    "required": "Required",
-    "optional": "Optional",
-    "pleaseWait": "Please wait...",
-    "processing": "Processing...",
-    "completed": "Completed",
-    "failed": "Failed",
-    "tryAgain": "Try Again",
-    "learnMore": "Learn More"
+    "studentMove": "Student Move",
+    "homeMove": "Home Move",
+    "sameDayMove": "Same Day Move",
+    "storage": "Storage",
+    "clearanceDisposal": "Clearance & Disposal",
+    "cleaningService": "Cleaning Service",
+    "movingServices": "Moving Services",
+    "additionalServices": "Additional Services",
+    "termsAndConditions": "Terms and Conditions",
+    "emailUs": "Email Us",
+    "callUs": "Call Us"
   },
+  "siteTitle": "Eremovals",
+  "studentMove": "Student Move",
+  "homeMove": "Home Move",
+  "sameDayMove": "Same Day Move",
+  "storage": "Storage",
+  "clearanceDisposal": "Clearance & Disposal",
+  "cleaningService": "Cleaning Service",
+  "movingServices": "Moving Services",
+  "additionalServices": "Additional Services",
+  "termsAndConditions": "Terms and Conditions",
+  "emailUs": "Email Us",
+  "callUs": "Call Us",
+  "items": "Items",
+  "details": "Details",
+  "selectYourItems": "Select Your Items",
+  "itemSelectionDescription": "Please select all items you need to move to get an accurate quote.",
+  "boxes": "Boxes",
+  "furniture": "Furniture",
+  "appliances": "Appliances",
+  "specialItems": "Special Items",
+  "specialItemsDescription": "Items that require special handling, extra care, or have unique characteristics.",
+  "floorAccess": "Floor Access",
+  "pickupLocation": "Pickup Location",
+  "destinationLocation": "Destination Location",
+  "liftAvailable": "Lift Available",
+  "numberOfFloors": "Number of Floors",
+  "quantity": "Quantity",
+  "description": "Description",
+  "describeItem": "Describe the item in detail...",
+  "selectItemType": "Select Item Type",
+  "fragile": "Fragile",
+  "bulky": "Bulky",
+  "valuable": "Valuable",
+  "hazardous": "Hazardous",
+  "antique": "Antique",
+  "artwork": "Artwork",
+  "other": "Other (Specify Below)",
+  "addSpecialItem": "Add Special Item",
+  "addAnotherSpecialItem": "Add Another Special Item",
+  "noSpecialItems": "No special items selected",
+  "addAppliance": "Add Appliance",
+  "selectAppliance": "Select Appliance",
+  "noAppliancesSelected": "No appliances selected",
+  "addFurniture": "Add Furniture",
+  "selectFurniture": "Select Furniture",
+  "noFurnitureSelected": "No furniture items selected",
+  "small": "Small",
+  "medium": "Medium",
+  "large": "Large",
+  "extraLarge": "Extra Large",
+  "smallBoxDescription": "carry-on luggage/microwave",
+  "mediumBoxDescription": "night stand",
+  "largeBoxDescription": "or heavier than 20 kg",
+  "extraLargeBoxDescription": "small fridge",
+  "increase": "Increase",
+  "decrease": "Decrease",
+  "loadingOptions": "Loading options...",
   "booking": {
     "title": "Booking",
     "bookingConfirmation": "Booking Confirmation",
@@ -85,8 +127,6 @@
     "smoothExperienceMessage": "We're here to make sure everything goes smoothly for you.",
     "needAssistance": "If you need assistance, feel free to",
     "contactUsWhatsApp": "contact us on WhatsApp",
-    "emailUs": "Email Us",
-    "callUs": "Call Us",
     "paymentError": "Payment Error",
     "paymentCancelled": "Payment Cancelled",
     "paymentCancelledMessage": "Your payment has been canceled.",
@@ -103,8 +143,6 @@
     "to": "To",
     "pickup": "Pickup",
     "destination": "Destination",
-    "pickupLocation": "Pickup Location",
-    "destinationLocation": "Destination Location",
     "enterLocation": "Enter Location",
     "searchLocation": "Search Location...",
     "confirmLocations": "Confirm Locations",
@@ -129,7 +167,8 @@
     "loadingMap": "Loading map...",
     "mapLoadError": "Error loading Google Maps",
     "gpsNotAvailable": "GPS location not available",
-    "gpsPermissionDenied": "Location permission denied"
+    "gpsPermissionDenied": "Location permission denied",
+    "locationSelected": "Location Selected"
   },
   "quotes": {
     "title": "Quote",
@@ -177,7 +216,17 @@
     "printQuote": "Print Quote",
     "quoteReference": "Quote Reference",
     "quoteDate": "Quote Date",
-    "validUntil": "Valid Until"
+    "validUntil": "Valid Until",
+    "promotionCode": "Promotion Code",
+    "promoCodeDescription": "Have a promotion code? Enter it below to get a discount.",
+    "enterPromoCode": "Promotion Code",
+    "promoCodePlaceholder": "Enter 6-character code",
+    "applying": "Applying...",
+    "applyCode": "Apply Code",
+    "promoCodeHelp": "Promotion codes are case-sensitive and must be exactly 6 characters.",
+    "invalidPromoCodeLength": "Promotion code must be exactly 6 characters long.",
+    "promoCodeApplied": "Promotion code applied! You get a discount of {{discount}}% off",
+    "processing": "Processing..."
   },
   "scheduling": {
     "title": "Scheduling",
@@ -201,38 +250,7 @@
     "duration": "Duration",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "earliestTime": "Earliest Time",
-    "latestTime": "Latest Time",
-    "preferredTime": "Preferred Time",
-    "alternativeTime": "Alternative Time",
-    "suggestedTimes": "Suggested Times",
-    "flexibleTiming": "Flexible Timing",
-    "exactTiming": "Exact Timing",
-    "morningSlot": "Morning (8:00 AM - 12:00 PM)",
-    "afternoonSlot": "Afternoon (12:00 PM - 5:00 PM)",
-    "eveningSlot": "Evening (5:00 PM - 8:00 PM)",
-    "businessHours": "Business Hours",
-    "outsideBusinessHours": "Outside Business Hours",
-    "weekdaySlots": "Weekday Slots",
-    "weekendSlots": "Weekend Slots",
-    "publicHoliday": "Public Holiday",
-    "dateUnavailable": "Date unavailable",
-    "timeUnavailable": "Time unavailable",
-    "slotBooked": "Slot already booked",
-    "slotExpired": "Slot expired",
-    "reschedule": "Reschedule",
-    "rescheduleBooking": "Reschedule Booking",
-    "newDateTime": "New Date & Time",
-    "confirmReschedule": "Confirm Reschedule",
-    "reschedulingFee": "Rescheduling Fee",
-    "noReschedulingFee": "No additional fee",
-    "advanceNotice": "Advance Notice Required",
-    "minimumNotice": "Minimum 24 hours notice required",
-    "schedulingError": "Scheduling Error",
-    "dateInPast": "Selected date is in the past",
-    "dateTooFar": "Date is too far in advance",
-    "invalidDateTime": "Invalid date or time selected",
-    "conflictingBooking": "Time slot conflicts with existing booking"
+    "schedulingError": "Scheduling Error"
   },
   "marketing": {
     "heroHeading": "Move at Ease, Move with Confidence",
@@ -245,80 +263,61 @@
       "✅ Quick & Reliable Service – We work around your schedule",
       "✅ Professional Team – Stress-free, hassle-free moves",
       "✅ Big or Small Moves – From a single box to your full setup"
-    ],
-    "testimonials": {
-      "heading": "What Our Customers Say",
-      "subtitle": "Real experiences from satisfied customers",
-      "items": [
-        {
-          "name": "Nina",
-          "location": "Edinburgh",
-          "text": "The team was incredibly helpful during my move. They handled everything with care, and the entire process was stress-free. I'll definitely be using their services again."
-        },
-        {
-          "name": "Josh",
-          "location": "Glasgow",
-          "text": "I had to relocate on short notice, and they managed to fit me in. The movers were punctual, professional, and got everything done faster than I expected. Highly recommend!"
-        },
-        {
-          "name": "Prescott",
-          "location": "Aberdeen",
-          "text": "I was worried about my fragile items, but they packed everything so securely. Not a single item was damaged during the move. Great experience overall."
-        },
-        {
-          "name": "Calvin",
-          "location": "Dundee",
-          "text": "Super efficient and friendly crew! They made what could have been a stressful day really easy for us. It's rare to find a company this reliable these days."
-        }
-      ]
-    },
-    "faqs": {
-      "heading": "Frequently Asked Questions",
-      "subtitle": "Get answers to common questions about our services",
-      "items": [
-        {
-          "question": "How much does your service cost?",
-          "answer": "Our pricing depends on the type and size of the move, distance, and additional services required. We provide free, no-obligation quotes tailored to your specific needs. Contact us for a detailed estimate."
-        },
-        {
-          "question": "What areas do you serve?",
-          "answer": "We are based in Edinburgh and provide services throughout Scotland. We also offer nationwide moving services for long-distance relocations. Contact us to confirm service availability in your area."
-        },
-        {
-          "question": "Can I change my moving date after booking?",
-          "answer": "Yes, you can reschedule your move as long as you provide at least 72 hours advance notice. Changes made with less notice may incur additional fees. We'll do our best to accommodate your new preferred date."
-        },
-        {
-          "question": "Do you provide packing materials?",
-          "answer": "Yes, we offer a full range of packing materials including boxes, bubble wrap, packing paper, and tape. We can also provide professional packing services to ensure your items are properly protected."
-        },
-        {
-          "question": "Are my belongings insured during the move?",
-          "answer": "Yes, we carry comprehensive insurance coverage for your belongings during the move. We also offer additional insurance options for high-value items. Details will be provided in your booking confirmation."
-        },
-        {
-          "question": "How far in advance should I book?",
-          "answer": "We recommend booking at least 2-3 weeks in advance, especially during peak moving seasons (summer months and weekends). However, we can often accommodate last-minute bookings based on availability."
-        }
-      ]
-    }
-  ,
-    "features": {
-      "professional": "Professional Service",
-      "insured": "Fully Insured",
-      "available": "7 Days Available",
-      "affordable": "Affordable Rates",
-      "experienced": "Experienced Team",
-      "reliable": "Reliable & Punctual"
-    },
-    "callToAction": {
-      "ready": "Ready to Move?",
-      "contact": "Contact Us Today",
-      "freeQuote": "Get Your Free Quote",
-      "bookNow": "Book Now",
-      "callNow": "Call Now",
-      "getStarted": "Get Started Today"
-    }
+    ]
+  },
+  "whatCustomersSay": "What Our Customers Say",
+  "frequentlyAskedQuestions": "Frequently Asked Questions",
+  "testimonials": {
+    "items": [
+      {
+        "name": "Nina",
+        "location": "Edinburgh",
+        "text": "The team was incredibly helpful during my move. They handled everything with care, and the entire process was stress-free. I'll definitely be using their services again."
+      },
+      {
+        "name": "Josh",
+        "location": "Glasgow",
+        "text": "I had to relocate on short notice, and they managed to fit me in. The movers were punctual, professional, and got everything done faster than I expected. Highly recommend!"
+      },
+      {
+        "name": "Prescott",
+        "location": "Aberdeen",
+        "text": "I was worried about my fragile items, but they packed everything so securely. Not a single item was damaged during the move. Great experience overall."
+      },
+      {
+        "name": "Calvin",
+        "location": "Dundee",
+        "text": "Super efficient and friendly crew! They made what could have been a stressful day really easy for us. It's rare to find a company this reliable these days."
+      }
+    ]
+  },
+  "faqs": {
+    "items": [
+      {
+        "question": "How much does your service cost?",
+        "answer": "Our pricing depends on the type and size of the move, distance, and additional services required. We provide free, no-obligation quotes tailored to your specific needs. Contact us for a detailed estimate."
+      },
+      {
+        "question": "What areas do you serve?",
+        "answer": "We are based in Edinburgh and provide services throughout Scotland. We also offer nationwide moving services for long-distance relocations. Contact us to confirm service availability in your area."
+      },
+      {
+        "question": "Can I change my moving date after booking?",
+        "answer": "Yes, you can reschedule your move as long as you provide at least 72 hours advance notice. Changes made with less notice may incur additional fees. We'll do our best to accommodate your new preferred date."
+      },
+      {
+        "question": "Do you provide packing materials?",
+        "answer": "Yes, we offer a full range of packing materials including boxes, bubble wrap, packing paper, and tape. We can also provide professional packing services to ensure your items are properly protected."
+      },
+      {
+        "question": "Are my belongings insured during the move?",
+        "answer": "Yes, we carry comprehensive insurance coverage for your belongings during the move. We also offer additional insurance options for high-value items. Details will be provided in your booking confirmation."
+      },
+      {
+        "question": "How far in advance should I book?",
+        "answer": "We recommend booking at least 2-3 weeks in advance, especially during peak moving seasons (summer months and weekends). However, we can often accommodate last-minute bookings based on availability."
+      }
+    ]
   },
   "navigation": {
     "home": "Home",
@@ -376,5 +375,8 @@
     "goBack": "Go Back",
     "contactSupport": "Contact Support",
     "reportIssue": "Report Issue"
-  }
+  },
+  "missingLocationData": "Missing Location Data",
+  "pleaseSelectLocations": "Please select your pickup and destination locations first.",
+  "contact": "Contact Us"
 }

@@ -16,8 +16,10 @@ const libraries = ['places', 'marker'];
  * @param {Object} props.defaultLocation - Default map center
  * @param {number} props.zoom - Map zoom level
  */
+
 const GoogleMapComponent = ({
                                 onPlaceSelected,
+                                selectedLocation,
                                 defaultLocation = config.map.defaultCenter,
                                 zoom = config.map.defaultZoom
                             }) => {
@@ -73,6 +75,7 @@ const GoogleMapComponent = ({
                 onPlaceSelected(place);
             } else {
                 // In production, wait for detailed address selection
+                console.log("production--------------")
                 onPlaceSelected(place.formatted_address || place.name);
             }
         }
@@ -87,6 +90,7 @@ const GoogleMapComponent = ({
 
     // Handle loading and error states
     if (loadError || mapsLoadError) {
+
         return (
             <div className="map-error">
                 <p>{t('mapLoadError', 'Error loading Google Maps')}</p>
@@ -97,62 +101,62 @@ const GoogleMapComponent = ({
     if (!isLoaded || !mapsLoaded) {
         return (
             <div className="map-loading">
-                <p>{t('loadingMap', 'Loading map...')}</p>
+                <p>{t('locations.loadingMap', 'Loading map...')}</p>
             </div>
         );
     }
 
     return (
-        <div className="google-map-component">
-            {/* Address Input with Autocomplete */}
-            <div className="map-input-container">
-                <Autocomplete
-                    onLoad={onLoad}
-                    onPlaceChanged={onPlaceChanged}
-                    className="map-autocomplete"
-                >
-                    <input
-                        type="text"
-                        placeholder={t('enterLocation', 'Enter Location')}
-                        className="map-input"
-                    />
-                </Autocomplete>
-            </div>
+      <div className="google-map-component">
+          {/* Address Input with Autocomplete */}
+          <div className="map-input-container">
+              <Autocomplete
+                onLoad={onLoad}
+                onPlaceChanged={onPlaceChanged}
+                className="map-autocomplete"
+              >
+                  <input
+                    type="text"
+                    placeholder={selectedLocation || t('locations.enterLocation', 'Enter Location')}
+                    className="map-input"
+                  />
+              </Autocomplete>
+          </div>
 
-            {/* Detailed Address Selection (Production mode) */}
-            {!config.isDevelopment && postcode && addresses.length > 0 && (
-                <AddressDropdown
-                    addresses={addresses}
-                    onAddressChange={handleAddressChange}
-                    isLoading={addressesLoading}
-                    placeholder={t('selectDetailedAddress', 'Click here to select detailed address...')}
+          {/* Detailed Address Selection (Production mode) */}
+          {!config.isDevelopment && postcode && addresses.length > 0 && (
+            <AddressDropdown
+              addresses={addresses}
+              onAddressChange={handleAddressChange}
+              isLoading={addressesLoading}
+              placeholder={t('selectDetailedAddress', 'Click here to select detailed address...')}
+            />
+          )}
+
+          {/* Map Display */}
+          {markerPosition && (
+            <div className="map-container">
+                <GoogleMap
+                  mapContainerStyle={{ height: '100%', width: '100%' }}
+                  center={center}
+                  zoom={zoom}
+                  options={{ mapId: config.map.mapId }}
+                  onLoad={(map) => {
+                      // Add advanced marker if available
+                      const { AdvancedMarkerElement } = window.google.maps.marker || {};
+                      if (AdvancedMarkerElement) {
+                          new AdvancedMarkerElement({
+                              map,
+                              position: markerPosition,
+                          });
+                      } else {
+                          //  console.warn("AdvancedMarkerElement not available");
+                      }
+                  }}
                 />
-            )}
-
-            {/* Map Display */}
-            {markerPosition && (
-                <div className="map-container">
-                    <GoogleMap
-                        mapContainerStyle={{ height: "100%", width: "100%" }}
-                        center={center}
-                        zoom={zoom}
-                        options={{ mapId: config.map.mapId }}
-                        onLoad={(map) => {
-                            // Add advanced marker if available
-                            const { AdvancedMarkerElement } = window.google.maps.marker || {};
-                            if (AdvancedMarkerElement) {
-                                new AdvancedMarkerElement({
-                                    map,
-                                    position: markerPosition
-                                });
-                            } else {
-                              //  console.warn("AdvancedMarkerElement not available");
-                            }
-                        }}
-                    />
-                </div>
-            )}
-        </div>
+            </div>
+          )}
+      </div>
     );
 };
 
@@ -163,15 +167,15 @@ const AddressDropdown = ({
                              addresses,
                              onAddressChange,
                              isLoading,
-                             placeholder
+                             placeholder,
                          }) => {
     return (
-        <div className="address-dropdown">
-            <select
-                className="address-select"
-                onChange={onAddressChange}
-                disabled={isLoading}
-            >
+      <div className="address-dropdown">
+          <select
+            className="address-select"
+            onChange={onAddressChange}
+            disabled={isLoading}
+          >
                 <option value="">
                     {isLoading ? 'Loading addresses...' : placeholder}
                 </option>

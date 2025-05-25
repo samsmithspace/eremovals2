@@ -19,7 +19,7 @@ const config = {
   },
 
   // Application mode
-  isDevelopment: process.env.NODE_ENV === 'development',
+  isDevelopment: process.env.NODE_ENV === 'production',
 
   // Default settings
   defaults: {
@@ -57,5 +57,9 @@ const config = {
     twitter: 'https://x.com/yourprofile'
   }
 };
-
+console.log('Environment check:', {
+  NODE_ENV: process.env.NODE_ENV,
+  GOOGLE_MAPS_KEY: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  ALL_ENV_VARS: Object.keys(process.env).filter(key => key.startsWith('REACT_APP_'))
+});
 export default config;
