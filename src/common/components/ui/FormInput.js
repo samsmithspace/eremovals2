@@ -1,7 +1,7 @@
 // src/common/components/ui/FormInput.js
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-
+import './FormInput.css';
 /**
  * Form input component with label, error handling, and validation
  */

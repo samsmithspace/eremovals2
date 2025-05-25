@@ -2,6 +2,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import './i18n/i18n'; // Import i18n configuration BEFORE App
 import config from './config/config';
 import storageService from './services/storage';
 import reportWebVitals from './reportWebVitals';

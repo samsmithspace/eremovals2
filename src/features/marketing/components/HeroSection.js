@@ -2,11 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Button } from '../../../common/components/ui';
+import { FaPhone } from 'react-icons/fa';
 import { useScrollPosition } from '../../../common/hooks/useScrollPosition';
-import routes from '../../../config/routes';
 import './HeroSection.css';
+
 // Import hero images
 import studentMoveImg from '../../../assets/images/bt21.png';
 import homeMoveImg from '../../../assets/images/btn3.png';
@@ -19,221 +18,213 @@ import binImg from '../../../assets/images/disp.png';
 import cleanImg from '../../../assets/images/clean.png';
 import storageImg from '../../../assets/images/shelfwithbox.png';
 
-/**
- * Hero section component with service selection and animations
- */
 const HeroSection = () => {
-    const { lang } = useParams();
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const [slideIn, setSlideIn] = useState(false);
-    const scrollPosition = useScrollPosition();
+  const { lang } = useParams();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const [slideIn, setSlideIn] = useState(false);
+  const scrollPosition = useScrollPosition();
 
-    useEffect(() => {
-        const timer = setTimeout(() => setSlideIn(true), 500);
-        return () => clearTimeout(timer);
-    }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => setSlideIn(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const handleServiceNavigation = (serviceType, locationType = null) => {
-        if (locationType) {
-            navigate(routes.generate.location(lang), {
-                state: { locationType: { locationType } }
-            });
-        } else {
-            navigate(routes.generate.contact(lang));
-        }
-    };
-
-    return (
-        <div className="hero-container">
-            {/* Hero Section */}
-            <div className="hero-section d-flex align-items-center justify-content-center">
-                <div className="content-card">
-                    <div className="hero-content text-white">
-                        <h2 className="main-heading">{t('heroHeading')}</h2>
-
-                        <div className="services-container">
-                            {/* Moving Services */}
-                            <ServiceGroup
-                                title={t('movingServices', 'Moving Services')}
-                                services={[
-                                    {
-                                        key: 'student',
-                                        label: t('studentMove'),
-                                        image: studentMoveImg,
-                                        onClick: () => handleServiceNavigation('move', 'student'),
-                                        className: 'btn2 st'
-                                    },
-                                    {
-                                        key: 'home',
-                                        label: t('homeMove'),
-                                        image: homeMoveImg,
-                                        onClick: () => handleServiceNavigation('move', 'house'),
-                                        className: 'btn2 hm'
-                                    },
-                                    {
-                                        key: 'courier',
-                                        label: t('sameDayMove'),
-                                        image: courierImg,
-                                        onClick: () => handleServiceNavigation('courier'),
-                                        className: 'btn2 sd'
-                                    }
-                                ]}
-                            />
-
-                            {/* Additional Services */}
-                            <ServiceGroup
-                                title={t('additionalServices', 'Additional Services')}
-                                services={[
-                                    {
-                                        key: 'storage',
-                                        label: t('storage', 'Storage'),
-                                        image: storageImg,
-                                        onClick: () => handleServiceNavigation('storage'),
-                                        isAdditional: true
-                                    },
-                                    {
-                                        key: 'clearance',
-                                        label: t('clearanceDisposal', 'Clearance & Disposal'),
-                                        image: binImg,
-                                        onClick: () => handleServiceNavigation('clearance'),
-                                        isAdditional: true
-                                    },
-                                    {
-                                        key: 'cleaning',
-                                        label: t('cleaningService', 'Cleaning Service'),
-                                        image: cleanImg,
-                                        onClick: () => handleServiceNavigation('cleaning'),
-                                        isAdditional: true
-                                    }
-                                ]}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Animated Background Images */}
-            <AnimatedImages slideIn={slideIn} />
-        </div>
-    );
-};
-
-/**
- * Service group component for organizing related services
- */
-const ServiceGroup = ({ title, services }) => {
-    return (
-        <div className="service-group">
-            <h3 className="service-heading">{title}</h3>
-            <div className={services[0]?.isAdditional ? 'additional-services-container' : 'move-buttons-container'}>
-                {services.map((service) => (
-                    <ServiceButton key={service.key} {...service} />
-                ))}
-            </div>
-        </div>
-    );
-};
-
-/**
- * Individual service button component
- */
-const ServiceButton = ({
-                           label,
-                           image,
-                           onClick,
-                           className,
-                           isAdditional = false
-                       }) => {
-    const baseClass = isAdditional ? 'service-btn' : className;
-
-    return (
-        <button className={baseClass} onClick={onClick}>
-      <span className={isAdditional ? 'service-name' : 'btn-text'}>
-        {label}
-      </span>
-            <img
-                src={image}
-                alt={label}
-                className={getImageClassName(isAdditional, image)}
-                width={getImageWidth(isAdditional)}
-                height="auto"
-                loading="lazy"
-            />
-        </button>
-    );
-};
-
-/**
- * Animated background images component
- */
-const AnimatedImages = ({ slideIn }) => {
-    return (
-        <div className="static-images-container">
-            <div className="static-image left-image">
-                <img
-                    src={shelfImage}
-                    alt="Storage shelf"
-                    className={`animate-image from-left ${slideIn ? 'visible' : ''}`}
-                    width="600"
-                    height="auto"
-                    loading="lazy"
-                />
-            </div>
-            <div className="static-image right-image">
-                <img
-                    src={slidingImage}
-                    alt="Moving van"
-                    className={`animate-image from-right ${slideIn ? 'visible' : ''}`}
-                    width="600"
-                    height="auto"
-                    loading="lazy"
-                />
-            </div>
-        </div>
-    );
-};
-
-// Helper functions
-const getImageClassName = (isAdditional, image) => {
-    if (!isAdditional) {
-        if (image.includes('btn3')) return 'btn3-img';
-        if (image.includes('courier')) return 'btn4-img';
-        return 'btn2-img';
+  useEffect(() => {
+    // Set language based on URL parameter
+    if (lang && i18n.language !== lang) {
+      i18n.changeLanguage(lang);
     }
+  }, [lang, i18n]);
 
-    if (image.includes('shelfwithbox')) return 'button-bg-image-store';
-    if (image.includes('disp')) return 'button-bg-image-width';
-    return 'button-bg-image';
-};
+  const handleServiceNavigation = (serviceType, locationType = null) => {
+    if (locationType) {
+      navigate(`/${lang}/location`, {
+        state: { locationType: { locationType } }
+      });
+    } else {
+      navigate(`/${lang}/contact`);
+    }
+  };
 
-const getImageWidth = (isAdditional) => {
-    return isAdditional ? undefined : "420";
-};
+  return (
+    <div className="hero-container">
+      {/* Header */}
+      <header className={`header ${scrollPosition > 0 ? 'scrolled' : ''}`}>
+        <div className="container d-flex align-items-center justify-content-between">
+          <div className="header-left d-flex align-items-center">
+            <h1 className="site-title">{t('common.siteTitle', 'Eremovals')}</h1>
+          </div>
+          <div className="header-right d-flex align-items-center">
+            <a href="tel:07404228217" className="phone-link">
+              <FaPhone className="phone-icon" />
+            </a>
+            <select
+              value={i18n.language}
+              onChange={(e) => {
+                const newLang = e.target.value;
+                i18n.changeLanguage(newLang);
+                // Update URL to reflect language change
+                const currentPath = window.location.pathname;
+                const newPath = currentPath.replace(`/${lang}`, `/${newLang}`);
+                navigate(newPath);
+              }}
+              className="lang-select"
+            >
+              <option value="en">English</option>
+              <option value="zh">中文</option>
+            </select>
+          </div>
+        </div>
+      </header>
 
-// PropTypes
-ServiceGroup.propTypes = {
-    title: PropTypes.string.isRequired,
-    services: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired,
-        className: PropTypes.string,
-        isAdditional: PropTypes.bool
-    })).isRequired
-};
+      {/* Hero Section */}
+      <div className="hero-section d-flex align-items-center justify-content-center">
+        <div className="content-card">
+          <div className="hero-content text-white">
+            <h2 className="main-heading">
+              {t('marketing.heroHeading', 'Move at Ease, Move with Confidence')}
+            </h2>
 
-ServiceButton.propTypes = {
-    label: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    isAdditional: PropTypes.bool
-};
+            <div className="services-container">
+              {/* Moving Services */}
+              <div className="service-group">
+                <h3 className="service-heading">
+                  {t('marketing.movingServices', 'Moving Services')}
+                </h3>
+                <div className="move-buttons-container">
+                  <button
+                    className="btn2 st"
+                    onClick={() => handleServiceNavigation('move', 'student')}
+                  >
+                                        <span className="btn-text">
+                                            {t('common.studentMove', 'Student Move')}
+                                        </span>
+                    <img
+                      src={studentMoveImg}
+                      alt="Student move"
+                      className="btn2-img"
+                      width="420"
+                      height="auto"
+                      loading="lazy"
+                    />
+                  </button>
 
-AnimatedImages.propTypes = {
-    slideIn: PropTypes.bool.isRequired
+                  <button
+                    className="btn2 hm"
+                    onClick={() => handleServiceNavigation('move', 'house')}
+                  >
+                                        <span className="btn-text">
+                                            {t('common.homeMove', 'Home Move')}
+                                        </span>
+                    <img
+                      src={homeMoveImg}
+                      alt="Home move"
+                      className="btn3-img"
+                      width="340"
+                      height="auto"
+                      loading="lazy"
+                    />
+                  </button>
+
+                  <button
+                    className="btn2 sd"
+                    onClick={() => handleServiceNavigation('courier')}
+                  >
+                                        <span className="btn-text-cur">
+                                            {t('common.sameDayMove', 'Same Day Move')}
+                                        </span>
+                    <img
+                      src={courierImg}
+                      alt="Same day move"
+                      className="btn4-img"
+                      width="220"
+                      height="auto"
+                      loading="lazy"
+                    />
+                  </button>
+                </div>
+              </div>
+
+              {/* Additional Services */}
+              <div className="service-group additional">
+                <h3 className="service-heading">
+                  {t('marketing.additionalServices', 'Additional Services')}
+                </h3>
+                <div className="additional-services-container">
+                  <button
+                    className="service-btn storage"
+                    onClick={() => handleServiceNavigation('storage')}
+                  >
+                    <img
+                      src={storageImg}
+                      alt="Storage"
+                      className="button-bg-image-store"
+                    />
+                    <span className="service-name">
+                                            {t('common.storage', 'Storage')}
+                                        </span>
+                  </button>
+
+                  <button
+                    className="service-btn clearance"
+                    onClick={() => handleServiceNavigation('clearance')}
+                  >
+                    <img
+                      src={binImg}
+                      alt="Clearance"
+                      className="button-bg-image-width"
+                    />
+                    <span className="service-name">
+                                            {t('common.clearanceDisposal', 'Clearance & Disposal')}
+                                        </span>
+                  </button>
+
+                  <button
+                    className="service-btn cleaning"
+                    onClick={() => handleServiceNavigation('cleaning')}
+                  >
+                    <img
+                      src={cleanImg}
+                      alt="Cleaning"
+                      className="button-bg-image"
+                    />
+                    <span className="service-name">
+                                            {t('common.cleaningService', 'Cleaning Service')}
+                                        </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Animated Background Images */}
+      <div className="static-images-container">
+        <div className="static-image left-image">
+          <img
+            src={shelfImage}
+            alt="Storage shelf"
+            className={`animate-image from-left ${slideIn ? 'visible' : ''}`}
+            width="600"
+            height="auto"
+            loading="lazy"
+          />
+        </div>
+        <div className="static-image right-image">
+          <img
+            src={slidingImage}
+            alt="Moving van"
+            className={`animate-image from-right ${slideIn ? 'visible' : ''}`}
+            width="600"
+            height="auto"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default HeroSection;

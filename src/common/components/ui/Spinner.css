@@ -1,0 +1,396 @@
+/* Spinner.css */
+
+/* Base Spinner Styles */
+.spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 0.25em solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #fa7731;
+    animation: spin 1s linear infinite;
+}
+
+/* Small Spinner */
+.spinner-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.125em;
+}
+
+/* Large Spinner */
+.spinner-lg {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.375em;
+}
+
+/* Extra Large Spinner */
+.spinner-xl {
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.5em;
+}
+
+/* Spinner Variants */
+.spinner-primary {
+    border-top-color: #fa7731;
+    border-right-color: #fa7731;
+}
+
+.spinner-secondary {
+    border-top-color: #6c757d;
+    border-right-color: #6c757d;
+}
+
+.spinner-success {
+    border-top-color: #28a745;
+    border-right-color: #28a745;
+}
+
+.spinner-warning {
+    border-top-color: #ffc107;
+    border-right-color: #ffc107;
+}
+
+.spinner-error {
+    border-top-color: #dc3545;
+    border-right-color: #dc3545;
+}
+
+.spinner-info {
+    border-top-color: #17a2b8;
+    border-right-color: #17a2b8;
+}
+
+.spinner-white {
+    border-color: rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-right-color: #fff;
+}
+
+.spinner-dark {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-top-color: #333;
+    border-right-color: #333;
+}
+
+/* Dot Spinner Variant */
+.spinner-dots {
+    display: inline-block;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+}
+
+.spinner-dots div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: #fa7731;
+    animation: spinner-dots 1.2s linear infinite;
+}
+
+.spinner-dots div:nth-child(1) {
+    animation-delay: 0s;
+    transform: translate(-50%, -50%) rotate(0deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(2) {
+    animation-delay: -0.1s;
+    transform: translate(-50%, -50%) rotate(30deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(3) {
+    animation-delay: -0.2s;
+    transform: translate(-50%, -50%) rotate(60deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(4) {
+    animation-delay: -0.3s;
+    transform: translate(-50%, -50%) rotate(90deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(5) {
+    animation-delay: -0.4s;
+    transform: translate(-50%, -50%) rotate(120deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(6) {
+    animation-delay: -0.5s;
+    transform: translate(-50%, -50%) rotate(150deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(7) {
+    animation-delay: -0.6s;
+    transform: translate(-50%, -50%) rotate(180deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(8) {
+    animation-delay: -0.7s;
+    transform: translate(-50%, -50%) rotate(210deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(9) {
+    animation-delay: -0.8s;
+    transform: translate(-50%, -50%) rotate(240deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(10) {
+    animation-delay: -0.9s;
+    transform: translate(-50%, -50%) rotate(270deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(11) {
+    animation-delay: -1s;
+    transform: translate(-50%, -50%) rotate(300deg) translate(0.75rem, 0);
+}
+
+.spinner-dots div:nth-child(12) {
+    animation-delay: -1.1s;
+    transform: translate(-50%, -50%) rotate(330deg) translate(0.75rem, 0);
+}
+
+/* Pulse Spinner Variant */
+.spinner-pulse {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-color: #fa7731;
+    border-radius: 50%;
+    animation: spinner-pulse 1s ease-in-out infinite;
+}
+
+/* Bounce Spinner Variant */
+.spinner-bounce {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+}
+
+.spinner-bounce div {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #fa7731;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spinner-bounce 2s infinite ease-in-out;
+}
+
+.spinner-bounce div:nth-child(2) {
+    animation-delay: -1s;
+}
+
+/* Wave Spinner Variant */
+.spinner-wave {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+}
+
+.spinner-wave div {
+    display: inline-block;
+    width: 0.25rem;
+    height: 100%;
+    background-color: #fa7731;
+    animation: spinner-wave 1.2s infinite ease-in-out;
+    margin-right: 0.125rem;
+}
+
+.spinner-wave div:nth-child(1) {
+    animation-delay: -1.2s;
+}
+
+.spinner-wave div:nth-child(2) {
+    animation-delay: -1.1s;
+}
+
+.spinner-wave div:nth-child(3) {
+    animation-delay: -1s;
+}
+
+.spinner-wave div:nth-child(4) {
+    animation-delay: -0.9s;
+}
+
+.spinner-wave div:nth-child(5) {
+    animation-delay: -0.8s;
+}
+
+/* Spinner with Text */
+.spinner-with-text {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.spinner-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* Loading Overlay */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner-overlay .spinner {
+    border-color: rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+}
+
+/* Button Spinner */
+.btn-spinner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-spinner .spinner {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.125em;
+    margin-right: 0.25rem;
+}
+
+/* Centered Spinner */
+.spinner-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 3rem;
+}
+
+/* Animations */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinner-dots {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes spinner-pulse {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes spinner-bounce {
+    0%, 100% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+@keyframes spinner-wave {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1);
+    }
+}
+
+/* Screen Reader Text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .spinner-lg {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-width: 0.3em;
+    }
+
+    .spinner-xl {
+        width: 3rem;
+        height: 3rem;
+        border-width: 0.4em;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .spinner {
+        border-color: transparent;
+        border-top-color: currentColor;
+        border-right-color: currentColor;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .spinner,
+    .spinner-dots div,
+    .spinner-pulse,
+    .spinner-bounce div,
+    .spinner-wave div {
+        animation-duration: 2s;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .spinner {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .spinner-text {
+        color: #adb5bd;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .spinner,
+    .spinner-overlay {
+        display: none !important;
+    }
+}
