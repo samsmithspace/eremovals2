@@ -1,5 +1,5 @@
 // src/features/locations/components/LocationSelection.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -8,6 +8,7 @@ import { Button } from '../../../common/components/ui';
 import routes from '../../../config/routes';
 import './LocationSelection.css';
 import './GoogleMapComponent.css';
+import { locationService } from '../services/locationService';
 /**
  * Modern Location Selection Component with enhanced UX
  */
@@ -346,7 +347,7 @@ const LocationPreview = ({ location, onEdit }) => {
           onClick={onEdit}
           type="button"
         >
-          {t('edit', 'Edit')}
+          {t('locations.edit', 'Edit')}
         </button>
       </div>
       <div className="location-actions">
@@ -385,14 +386,14 @@ const ConfirmationSection = ({
       <div className="location-summary">
         <SummaryCard
           icon="🏠"
-          label={t('from', 'From')}
+          label={t('locations.from', 'From')}
           location={startLocation}
           type="pickup"
           onEdit={onEditStart}  // Pass the edit handler
         />
         <SummaryCard
           icon="📍"
-          label={t('to', 'To')}
+          label={t('locations.to', 'To')}
           location={destinationLocation}
           type="destination"
           onEdit={onEditDestination}  // Pass the edit handler
@@ -412,7 +413,7 @@ const ConfirmationSection = ({
         size="large"
         className="confirm-button"
       >
-        {t('confirmLocations', 'Confirm Locations')}
+        {t('locations.confirmLocations', 'Confirm Locations')}
       </Button>
     </div>
   );
@@ -423,6 +424,7 @@ const ConfirmationSection = ({
  */
 // Update the SummaryCard component to be clickable
 const SummaryCard = ({ icon, label, location, type, onEdit }) => {
+  const { t } = useTranslation(); // Add this line
   return (
     <div
       className={`location-card summary-card ${type} clickable`}
@@ -443,7 +445,10 @@ const SummaryCard = ({ icon, label, location, type, onEdit }) => {
       <div className="location-content">
         <p className="location-address">{location}</p>
         <span className="edit-hint">
-          {type === 'pickup' ? '🔄 Click to change pickup' : '🔄 Click to change destination'}
+          {type === 'pickup'
+            ? t('locations.clickToChangePickup', '🔄 Click to change pickup')
+            : t('locations.clickToChangeDestination', '🔄 Click to change destination')
+          }
         </span>
       </div>
     </div>
@@ -452,38 +457,60 @@ const SummaryCard = ({ icon, label, location, type, onEdit }) => {
 
 
 /**
- * Route Information Component - Simplified to show only distance
+ * Route Information Component - Uses real distance calculation
  */
 const RouteInformation = ({ startLocation, destinationLocation }) => {
   const { t } = useTranslation();
   const [routeInfo, setRouteInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const calculateRoute = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const distanceData = await locationService.calculateDistance(
+        startLocation,
+        destinationLocation
+      );
+
+      setRouteInfo({
+        distance: distanceData.distance,
+        distanceValue: distanceData.distanceValue
+      });
+    } catch (error) {
+      console.error('Route calculation error:', error);
+      setError(error.message);
+      // Fallback to show something rather than nothing
+      setRouteInfo({
+        distance: t('locations.distanceCalculationFailed', 'Distance calculation unavailable')
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [startLocation, destinationLocation, t]);
 
   useEffect(() => {
     if (startLocation && destinationLocation) {
       calculateRoute();
     }
-  }, [startLocation, destinationLocation]);
-
-  const calculateRoute = async () => {
-    setLoading(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setRouteInfo({
-        distance: '5.2 miles'
-      });
-    } catch (error) {
-      console.error('Route calculation error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [startLocation, destinationLocation, calculateRoute]);
 
   if (loading) {
     return (
       <div className="route-info loading">
         <div className="loading-spinner"></div>
-        <span>{t('calculatingRoute', 'Calculating route...')}</span>
+        <span>{t('locations.calculatingRoute', 'Calculating route...')}</span>
+      </div>
+    );
+  }
+
+  if (error && !routeInfo) {
+    return (
+      <div className="route-info error">
+        <span className="route-icon">⚠️</span>
+        <span className="route-label">{t('locations.routeError', 'Route calculation failed')}</span>
       </div>
     );
   }
