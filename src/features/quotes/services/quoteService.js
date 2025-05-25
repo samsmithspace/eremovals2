@@ -29,7 +29,7 @@ export const quoteService = {
                 booking: response.booking
             };
         } catch (error) {
-            console.error('Error calculating quote:', error);
+           // console.error('Error calculating quote:', error);
             throw new Error('Failed to calculate quote. Please try again.');
         }
     },
@@ -57,7 +57,7 @@ export const quoteService = {
                 discount: response.discount
             };
         } catch (error) {
-            console.error('Error applying promo code:', error);
+           // console.error('Error applying promo code:', error);
             throw new Error(error.message || 'Invalid promotion code. Please try again.');
         }
     },
@@ -78,7 +78,7 @@ export const quoteService = {
                 helperPrice: response.helperprice
             };
         } catch (error) {
-            console.error('Error fetching latest prices:', error);
+           // console.error('Error fetching latest prices:', error);
             throw new Error('Failed to fetch latest prices');
         }
     },
@@ -115,7 +115,7 @@ export const quoteService = {
 
             return response.sessionId;
         } catch (error) {
-            console.error('Error creating checkout session:', error);
+          //  console.error('Error creating checkout session:', error);
             throw new Error('Failed to create payment session. Please try again.');
         }
     },
@@ -138,7 +138,7 @@ export const quoteService = {
 
             return response;
         } catch (error) {
-            console.error('Error updating booking contact:', error);
+           // console.error('Error updating booking contact:', error);
             throw new Error('Failed to update contact information');
         }
     },
@@ -156,7 +156,7 @@ export const quoteService = {
 
             return response;
         } catch (error) {
-            console.error('Error fetching booking:', error);
+           // console.error('Error fetching booking:', error);
             throw new Error('Failed to fetch booking details');
         }
     },

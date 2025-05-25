@@ -18,7 +18,7 @@ import shelfImage from '../../../assets/images/shelf.png';
 import binImg from '../../../assets/images/disp.png';
 import cleanImg from '../../../assets/images/clean.png';
 import storageImg from '../../../assets/images/shelfwithbox.png';
-
+import './ServiceOverview.css';
 /**
  * Hero section component with service selection and animations
  */

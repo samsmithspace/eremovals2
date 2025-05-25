@@ -8,7 +8,7 @@ import QuoteSummary from './QuoteSummary';
 import QuoteActions from './QuoteActions';
 import { useQuoteCalculation } from '../hooks/useQuoteCalculation';
 import MoveOptions from '../../inventory/components/MoveOptions';
-
+import './QuoteActions.css';
 /**
  * Main quote page component that orchestrates the quote creation process
  */
@@ -83,7 +83,7 @@ const QuotePage = () => {
             await calculateQuote(quoteData);
             setIsDetailsConfirmed(true);
         } catch (error) {
-            console.error('Error confirming details:', error);
+          //  console.error('Error confirming details:', error);
         }
     };
 
@@ -93,7 +93,7 @@ const QuotePage = () => {
 
     const handleQuoteSubmitted = (bookingData) => {
         // Handle successful quote submission
-        console.log('Quote submitted:', bookingData);
+        //console.log('Quote submitted:', bookingData);
     };
 
     if (!startLocation || !destinationLocation) {

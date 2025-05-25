@@ -65,7 +65,7 @@ export const usePromoCode = (bookingId, originalPrice = 0, originalHelperPrice =
             setCurrentPrice(latestPrices.price);
             setCurrentHelperPrice(latestPrices.helperPrice);
         } catch (err) {
-            console.error('Error refreshing prices:', err);
+           // console.error('Error refreshing prices:', err);
         }
     }, [bookingId]);
 

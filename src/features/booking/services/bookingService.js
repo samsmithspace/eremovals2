@@ -22,7 +22,7 @@ export const bookingService = {
             });
             return response;
         } catch (error) {
-            console.error('Error creating booking:', error);
+           // console.error('Error creating booking:', error);
             throw new Error(error.message || 'Failed to create booking');
         }
     },
@@ -37,7 +37,7 @@ export const bookingService = {
             const response = await fetchApi(`${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}`);
             return response;
         } catch (error) {
-            console.error('Error fetching booking:', error);
+        //    console.error('Error fetching booking:', error);
             throw new Error(error.message || 'Failed to fetch booking details');
         }
     },
@@ -56,7 +56,7 @@ export const bookingService = {
             });
             return response;
         } catch (error) {
-            console.error('Error updating contact info:', error);
+           // console.error('Error updating contact info:', error);
             throw new Error(error.message || 'Failed to update contact information');
         }
     },
@@ -79,7 +79,7 @@ export const bookingService = {
             );
             return response;
         } catch (error) {
-            console.error('Error creating checkout session:', error);
+          //  console.error('Error creating checkout session:', error);
             throw new Error(error.message || 'Failed to create payment session');
         }
     },
@@ -102,7 +102,7 @@ export const bookingService = {
             );
             return response;
         } catch (error) {
-            console.error('Error creating helper checkout session:', error);
+          //  console.error('Error creating helper checkout session:', error);
             throw new Error(error.message || 'Failed to create payment session with helper');
         }
     },
@@ -123,7 +123,7 @@ export const bookingService = {
             );
             return response;
         } catch (error) {
-            console.error('Error sending booking confirmation:', error);
+           // console.error('Error sending booking confirmation:', error);
             throw new Error(error.message || 'Failed to send booking confirmation');
         }
     },
@@ -145,7 +145,7 @@ export const bookingService = {
             );
             return response;
         } catch (error) {
-            console.error('Error cancelling booking:', error);
+           // console.error('Error cancelling booking:', error);
             throw new Error(error.message || 'Failed to cancel booking');
         }
     },
@@ -162,7 +162,7 @@ export const bookingService = {
             );
             return response;
         } catch (error) {
-            console.error('Error fetching booking history:', error);
+           // console.error('Error fetching booking history:', error);
             throw new Error(error.message || 'Failed to fetch booking history');
         }
     },
@@ -184,7 +184,7 @@ export const bookingService = {
             );
             return response;
         } catch (error) {
-            console.error('Error updating booking status:', error);
+          //  console.error('Error updating booking status:', error);
             throw new Error(error.message || 'Failed to update booking status');
         }
     }

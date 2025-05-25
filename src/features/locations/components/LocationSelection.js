@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import GoogleMapComponent from './GoogleMapComponent';
 import { Button } from '../../../common/components/ui';
 import routes from '../../../config/routes';
-import '../../../styles/LocationSelection.css';
+import './LocationSelection.css'; // Add this line
+import './GoogleMapComponent.css'; // If using GoogleMap in same component
 /**
  * Main location selection component for choosing pickup and destination locations
  */

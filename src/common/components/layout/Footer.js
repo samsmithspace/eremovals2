@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import './Footer.css'
 /**
  * Footer component for the application
  * Displays contact links, terms and social media icons

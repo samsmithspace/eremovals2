@@ -1,10 +1,10 @@
-// src/features/marketing/components/Testimonials.js
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaQuoteLeft, FaChevronDown, FaChevronUp, FaStar } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { useTestimonials } from '../hooks/useTestimonials';
-
+import './Testimonials.css';
 /**
  * Testimonials and FAQ component
  */

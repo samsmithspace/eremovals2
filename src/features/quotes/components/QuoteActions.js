@@ -9,7 +9,7 @@ import { Button, Spinner, Alert } from '../../../common/components/ui';
 import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
 import config from '../../../config/config';
-
+import './QuoteActions.css';
 const stripePromise = loadStripe(config.apiKeys.stripe);
 
 /**
@@ -59,17 +59,17 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
                 const { error } = await stripe.redirectToCheckout({ sessionId });
 
                 if (error) {
-                    console.error('Stripe redirect error:', error);
+                 //   console.error('Stripe redirect error:', error);
                 }
             }
         } catch (error) {
-            console.error('Payment processing error:', error);
+           // console.error('Payment processing error:', error);
         }
     };
 
     const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent) => {
         // The usePromoCode hook handles the state updates
-        console.log('Promo code applied:', { newPrice, newHelperPrice, discountPercent });
+        //console.log('Promo code applied:', { newPrice, newHelperPrice, discountPercent });
     };
 
     return (

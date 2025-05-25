@@ -19,7 +19,7 @@ export const useLocalStorage = (key, initialValue) => {
             const item = window.localStorage.getItem(key);
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
-            console.warn(`Error reading localStorage key "${key}":`, error);
+         //   console.warn(`Error reading localStorage key "${key}":`, error);
             return initialValue;
         }
     };
@@ -30,7 +30,7 @@ export const useLocalStorage = (key, initialValue) => {
     // persists the new value to localStorage
     const setValue = (value) => {
         if (typeof window === 'undefined') {
-            console.warn(`Can't set localStorage key "${key}" when window is undefined`);
+        //    console.warn(`Can't set localStorage key "${key}" when window is undefined`);
             return;
         }
 
@@ -47,7 +47,7 @@ export const useLocalStorage = (key, initialValue) => {
             // Dispatch an event so other hooks listening to the same key can update
             window.dispatchEvent(new Event('local-storage'));
         } catch (error) {
-            console.warn(`Error setting localStorage key "${key}":`, error);
+          //  console.warn(`Error setting localStorage key "${key}":`, error);
         }
     };
 

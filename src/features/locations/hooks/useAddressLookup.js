@@ -26,7 +26,7 @@ export const useAddressLookup = (postcode) => {
                 const addressData = await locationService.getAddressesByPostcode(postcode);
                 setAddresses(addressData);
             } catch (err) {
-                console.error('Error fetching addresses:', err);
+              //  console.error('Error fetching addresses:', err);
                 setError(err.message);
                 setAddresses([]);
             } finally {

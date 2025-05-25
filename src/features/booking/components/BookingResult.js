@@ -43,7 +43,7 @@ const BookingResult = () => {
                 }
 
             } catch (err) {
-                console.error('Error fetching booking details:', err);
+               // console.error('Error fetching booking details:', err);
                 setError(err.message || 'Failed to load booking details');
             } finally {
                 setLoading(false);

@@ -201,7 +201,7 @@ function App() {
             timestamp: new Date().toISOString(),
             user_agent: navigator.userAgent,
             language: navigator.language,
-            screen_resolution: `${screen.width}x${screen.height}`,
+            screen_resolution: `${window.screen.width}x${window.screen.height}`,
             viewport_size: `${window.innerWidth}x${window.innerHeight}`
         });
         // Set up global error handling

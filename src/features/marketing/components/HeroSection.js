@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../../../common/components/ui';
 import { useScrollPosition } from '../../../common/hooks/useScrollPosition';
 import routes from '../../../config/routes';
-import '../../../styles/HeroSection.css';
+import './HeroSection.css';
 // Import hero images
 import studentMoveImg from '../../../assets/images/bt21.png';
 import homeMoveImg from '../../../assets/images/btn3.png';

@@ -83,7 +83,7 @@ const QuotePage = () => {
             await calculateQuote(quoteData);
             setIsDetailsConfirmed(true);
         } catch (error) {
-            console.error('Error confirming details:', error);
+          //  console.error('Error confirming details:', error);
         }
     };
 
@@ -93,7 +93,7 @@ const QuotePage = () => {
 
     const handleQuoteSubmitted = (bookingData) => {
         // Handle successful quote submission
-        console.log('Quote submitted:', bookingData);
+       // console.log('Quote submitted:', bookingData);
     };
 
     if (!startLocation || !destinationLocation) {

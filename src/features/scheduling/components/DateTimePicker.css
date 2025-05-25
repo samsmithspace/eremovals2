@@ -1,0 +1,303 @@
+/* DateTimePicker.css */
+
+/* Ensure the picker is responsive */
+.rdtPicker {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    z-index: 1000;
+    margin-bottom: 10px;
+}
+
+.rdtDisabled {
+    pointer-events: none;
+    color: #d3d3d3;
+}
+
+.date-time-picker {
+    position: relative;
+    z-index: 1000;
+    margin-bottom: 20px;
+}
+
+/* Form Group Styling */
+.date-selector-section,
+.time-selector-section {
+    margin-bottom: 20px;
+}
+
+.date-label,
+.time-label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+/* Date and Time Picker Input Styling */
+.date-picker input,
+.time-picker input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.date-picker input:focus,
+.time-picker input:focus {
+    outline: none;
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+/* Available Time Slots */
+.available-time-slots {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.slots-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.time-slot-button {
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    background-color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.time-slot-button:hover {
+    border-color: #fa7731;
+    background-color: rgba(250, 119, 49, 0.05);
+    color: #fa7731;
+}
+
+.time-slot-button.selected {
+    border-color: #fa7731;
+    background-color: #fa7731;
+    color: white;
+}
+
+.time-slot-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+}
+
+/* Loading States */
+.time-loading,
+.time-selector-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Error and Warning Messages */
+.scheduling-error,
+.no-available-times {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+    font-weight: 500;
+}
+
+.scheduling-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.no-available-times {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+/* React DateTime Overrides */
+.rdtPicker {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+}
+
+.rdtPicker td,
+.rdtPicker th {
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.rdtPicker td.rdtDay:hover,
+.rdtPicker td.rdtHour:hover,
+.rdtPicker td.rdtMinute:hover {
+    background-color: rgba(250, 119, 49, 0.1);
+    color: #fa7731;
+    cursor: pointer;
+}
+
+.rdtPicker td.rdtActive,
+.rdtPicker td.rdtActive:hover {
+    background-color: #fa7731 !important;
+    color: white !important;
+}
+
+.rdtPicker td.rdtToday:before {
+    border-bottom: 7px solid #fa7731;
+}
+
+.rdtPicker .rdtCounter {
+    height: 100px;
+}
+
+.rdtPicker .rdtCounterSeparator {
+    line-height: 100px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.rdtPicker .rdtCount {
+    height: 40px;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.rdtPicker .rdtCount:hover {
+    background-color: rgba(250, 119, 49, 0.1);
+}
+
+.rdtPicker .rdtBtn {
+    background-color: #fa7731;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.rdtPicker .rdtBtn:hover {
+    background-color: #e05f16;
+}
+
+/* Styling for smaller devices */
+@media (max-width: 600px) {
+    .date-time-picker {
+        padding: 8px;
+        font-size: 16px;
+    }
+
+    .date-picker input,
+    .time-picker input {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .rdtPicker {
+        width: 100% !important;
+        max-width: 400px;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: auto;
+        z-index: 1000;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .rdtPicker td.rdtDay:hover,
+    .rdtPicker td.rdtDay.selected {
+        background-color: #fa7731;
+        color: white;
+    }
+
+    .rdtTime td {
+        width: 100%;
+    }
+
+    .time-slots-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .time-slot-button {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    .available-time-slots {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .time-slots-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rdtPicker {
+        padding: 10px;
+    }
+
+    .slots-title {
+        font-size: 1rem;
+    }
+}
+
+/* Accessibility Improvements */
+.date-time-picker [aria-label] {
+    outline: none;
+}
+
+.date-time-picker input:focus,
+.time-slot-button:focus {
+    outline: 2px solid #fa7731;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .date-time-picker,
+    .rdtPicker {
+        display: none !important;
+    }
+}

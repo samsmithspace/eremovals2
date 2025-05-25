@@ -27,7 +27,7 @@ const initializePerformanceMonitoring = () => {
 
         // Store performance data locally for debugging
         if (config.isDevelopment) {
-            console.log('Performance Metric:', metric);
+            //console.log('Performance Metric:', metric);
         }
     });
 
@@ -38,7 +38,7 @@ const initializePerformanceMonitoring = () => {
             const longTaskObserver = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry) => {
                     if (entry.duration > 50) { // Tasks longer than 50ms
-                        console.warn('Long Task detected:', entry);
+                       // console.warn('Long Task detected:', entry);
                     }
                 });
             });
@@ -48,14 +48,14 @@ const initializePerformanceMonitoring = () => {
             const layoutShiftObserver = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry) => {
                     if (entry.value > 0.1) { // Significant layout shifts
-                        console.warn('Layout Shift detected:', entry);
+                    //    console.warn('Layout Shift detected:', entry);
                     }
                 });
             });
             layoutShiftObserver.observe({ entryTypes: ['layout-shift'] });
 
         } catch (error) {
-            console.warn('Performance monitoring setup failed:', error);
+          //  console.warn('Performance monitoring setup failed:', error);
         }
     }
 };
@@ -74,7 +74,7 @@ const checkBrowserSupport = () => {
     const missingFeatures = requiredFeatures.filter(feature => !(feature in window));
 
     if (missingFeatures.length > 0) {
-        console.warn('Missing browser features:', missingFeatures);
+      //  console.warn('Missing browser features:', missingFeatures);
 
         // Show a warning for unsupported browsers
         const warningMessage = `
@@ -83,7 +83,7 @@ const checkBrowserSupport = () => {
       Missing: ${missingFeatures.join(', ')}
     `;
 
-        if (confirm(warningMessage + '\n\nContinue anyway?')) {
+        if (window.confirm(warningMessage + '\n\nContinue anyway?')) {
             return true;
         } else {
             document.body.innerHTML = `
@@ -111,7 +111,7 @@ const initializeApp = () => {
 
     // Set up error handling before React renders
     window.addEventListener('error', (event) => {
-        console.error('Global error:', event.error);
+      //  console.error('Global error:', event.error);
 
         // Store error info for debugging
         const errorInfo = {
@@ -140,7 +140,7 @@ const initializeApp = () => {
     const container = document.getElementById('root');
 
     if (!container) {
-        console.error('Root element not found');
+      //  console.error('Root element not found');
         return;
     }
 
@@ -166,13 +166,13 @@ const initializeApp = () => {
             clearStorage: () => {
                 storageService.clearLocal();
                 storageService.clearSession();
-                console.log('Storage cleared');
+              //  console.log('Storage cleared');
             },
             getStorageInfo: () => storageService.getStorageInfo()
         };
 
-        console.log('🚀 App initialized in development mode');
-        console.log('🛠️ Debug tools available at window.appDebug');
+       // console.log('🚀 App initialized in development mode');
+      //  console.log('🛠️ Debug tools available at window.appDebug');
     }
 };
 

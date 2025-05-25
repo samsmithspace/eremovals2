@@ -44,7 +44,7 @@ export const usePaymentProcessing = () => {
                 throw new Error(`Payment redirect error: ${error.message}`);
             }
         } catch (error) {
-            console.error('Payment processing error:', error);
+         //   console.error('Payment processing error:', error);
             setError(error.message || 'Payment processing failed');
         } finally {
             setIsProcessing(false);
@@ -80,7 +80,7 @@ export const usePaymentProcessing = () => {
                 throw new Error(`Payment redirect error: ${error.message}`);
             }
         } catch (error) {
-            console.error('Helper payment processing error:', error);
+          //  console.error('Helper payment processing error:', error);
             setError(error.message || 'Payment processing failed');
         } finally {
             setIsProcessing(false);

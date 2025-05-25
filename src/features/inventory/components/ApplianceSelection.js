@@ -19,7 +19,7 @@ const ApplianceSelection = ({ applianceDetails, onApplianceChange }) => {
                 const options = await inventoryService.getApplianceOptions();
                 setApplianceOptions(options);
             } catch (error) {
-                console.error('Error fetching appliance options:', error);
+              //  console.error('Error fetching appliance options:', error);
             } finally {
                 setLoading(false);
             }

@@ -22,7 +22,7 @@ export const useQuoteCalculation = () => {
         } catch (err) {
             const errorMessage = err.message || 'Failed to calculate quote';
             setError(errorMessage);
-            console.error('Quote calculation error:', err);
+           // console.error('Quote calculation error:', err);
             throw err;
         } finally {
             setIsCalculating(false);

@@ -1,0 +1,334 @@
+/* MoveOptions.css */
+
+.move-options {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.move-options h3 {
+    font-size: 1.5rem;
+    color: #ff8c00;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    position: relative;
+    display: inline-block;
+    align-items: center;
+    gap: 5px;
+}
+
+.numberinput {
+    width: 50px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+.increment-button {
+    position: absolute;
+    width: 45px;
+    height: 50px;
+    top: 11px;
+    right: 45px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.decrement-button {
+    position: absolute;
+    width: 45px;
+    height: 50px;
+    top: 11px;
+    right: 1px;
+    background-color: #f9f9f9;
+    border: none;
+    border-color: #ddc8c8;
+    cursor: pointer;
+}
+
+.increment-button:hover,
+.decrement-button:hover {
+    background-color: #ddd;
+}
+
+.move-type-button {
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    border: 1px solid #ccc;
+    height: 140px;
+    border-radius: 9px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.move-type-button:hover {
+    background-color: #ececec;
+}
+
+.boxoption {
+    background-color: rgba(240, 240, 240, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.move-type-button.active {
+    background-color: #ff8c00;
+    color: #fff;
+    border-color: #ff8c00;
+}
+
+.furniture-input {
+    background-color: rgba(240, 240, 240, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.housebutt {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    cursor: pointer;
+    width: 50%;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.move-options select,
+.move-options input {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.student-options h4 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.student-options label {
+    display: block;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.student-options input[type="checkbox"] {
+    width: auto;
+    margin-left: 10px;
+}
+
+/* Align the lift and stairs input in a row */
+.lift-stairs-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Style for the lift and stairs options */
+.lift-option, .stairs-input {
+    flex: 1;
+}
+
+.lift-button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 40%;
+    border-radius: 9px;
+}
+
+.lift-button.active {
+    background-color: #ff9c34;
+    color: #fff;
+}
+
+.deletebutton {
+    background-color: #ff3e15;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    border-radius: 9px;
+    border: 1px solid #ccc;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.checkbox-input {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+/* Box Selection Styles */
+.box-detail {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.box-detail label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Furniture and Appliance Selection */
+.furniture-detail,
+.appliance-detail {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.furniture-detail select,
+.appliance-detail select {
+    flex: 2;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.furniture-detail input[type="number"],
+.appliance-detail input[type="number"] {
+    flex: 1;
+    max-width: 80px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Special Items Styles */
+.special-items {
+    background-color: rgba(240, 240, 240, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.special-items h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.special-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.special-item select,
+.special-item input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.remove-button {
+    padding: 8px 12px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.remove-button:hover {
+    background-color: #ff1a1a;
+}
+
+.add-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    cursor: pointer;
+    width: 50%;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: rgba(252, 247, 247, 0.7);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .move-options {
+        margin: 10px;
+    }
+
+    .lift-stairs-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .furniture-detail,
+    .appliance-detail {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .furniture-detail input[type="number"],
+    .appliance-detail input[type="number"] {
+        max-width: 100%;
+    }
+
+    .housebutt,
+    .add-button {
+        width: 100%;
+    }
+
+    .lift-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}

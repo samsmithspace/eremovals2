@@ -7,7 +7,7 @@ import BoxSelection from './BoxSelection';
 import FurnitureSelection from './FurnitureSelection';
 import ApplianceSelection from './ApplianceSelection';
 import SpecialItems from './SpecialItems';
-
+import './MoveOptions.css';
 /**
  * Main component for selecting move options and inventory
  * Orchestrates all inventory-related sub-components

@@ -55,7 +55,7 @@ const PromotionCode = ({ bookingId, onApplied, isApplying, error }) => {
                 setPromoCode('');
             }
         } catch (err) {
-            console.error('Error applying promotion code:', err);
+          //  console.error('Error applying promotion code:', err);
         }
     };
 

@@ -24,7 +24,7 @@ class StorageService {
             localStorage.setItem(key, JSON.stringify(value));
             return true;
         } catch (e) {
-            console.warn('Failed to set localStorage item:', e);
+           // console.warn('Failed to set localStorage item:', e);
             return false;
         }
     }
@@ -35,7 +35,7 @@ class StorageService {
             const item = localStorage.getItem(key);
             return item ? JSON.parse(item) : defaultValue;
         } catch (e) {
-            console.warn('Failed to get localStorage item:', e);
+           // console.warn('Failed to get localStorage item:', e);
             return defaultValue;
         }
     }
@@ -46,7 +46,7 @@ class StorageService {
             localStorage.removeItem(key);
             return true;
         } catch (e) {
-            console.warn('Failed to remove localStorage item:', e);
+            //console.warn('Failed to remove localStorage item:', e);
             return false;
         }
     }
@@ -57,7 +57,7 @@ class StorageService {
             localStorage.clear();
             return true;
         } catch (e) {
-            console.warn('Failed to clear localStorage:', e);
+           // console.warn('Failed to clear localStorage:', e);
             return false;
         }
     }
@@ -69,7 +69,7 @@ class StorageService {
             sessionStorage.setItem(key, JSON.stringify(value));
             return true;
         } catch (e) {
-            console.warn('Failed to set sessionStorage item:', e);
+           // console.warn('Failed to set sessionStorage item:', e);
             return false;
         }
     }
@@ -80,7 +80,7 @@ class StorageService {
             const item = sessionStorage.getItem(key);
             return item ? JSON.parse(item) : defaultValue;
         } catch (e) {
-            console.warn('Failed to get sessionStorage item:', e);
+          //  console.warn('Failed to get sessionStorage item:', e);
             return defaultValue;
         }
     }
@@ -91,7 +91,7 @@ class StorageService {
             sessionStorage.removeItem(key);
             return true;
         } catch (e) {
-            console.warn('Failed to remove sessionStorage item:', e);
+            //console.warn('Failed to remove sessionStorage item:', e);
             return false;
         }
     }
@@ -102,7 +102,7 @@ class StorageService {
             sessionStorage.clear();
             return true;
         } catch (e) {
-            console.warn('Failed to clear sessionStorage:', e);
+            //console.warn('Failed to clear sessionStorage:', e);
             return false;
         }
     }
@@ -135,7 +135,7 @@ class StorageService {
 
     cleanup() {
         // Remove expired items (if you implement expiration)
-        console.log('Storage cleanup completed');
+       // console.log('Storage cleanup completed');
     }
 }
 

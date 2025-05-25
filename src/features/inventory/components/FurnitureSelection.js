@@ -19,7 +19,7 @@ const FurnitureSelection = ({ furnitureDetails, onFurnitureChange }) => {
                 const options = await inventoryService.getFurnitureOptions();
                 setFurnitureOptions(options);
             } catch (error) {
-                console.error('Error fetching furniture options:', error);
+                //console.error('Error fetching furniture options:', error);
             } finally {
                 setLoading(false);
             }

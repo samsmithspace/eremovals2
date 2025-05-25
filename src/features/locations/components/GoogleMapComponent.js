@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useLocationSearch } from '../hooks/useLocationSearch';
 import { useAddressLookup } from '../hooks/useAddressLookup';
 import config from '../../../config/config';
-
+import './GoogleMapComponent.css';
 const libraries = ['places', 'marker'];
 
 /**
@@ -46,7 +46,7 @@ const GoogleMapComponent = ({
             const place = autocomplete.getPlace();
 
             if (!place.geometry) {
-                console.warn('No geometry data available for the selected place');
+             //   console.warn('No geometry data available for the selected place');
                 return;
             }
 
@@ -146,7 +146,7 @@ const GoogleMapComponent = ({
                                     position: markerPosition
                                 });
                             } else {
-                                console.warn("AdvancedMarkerElement not available");
+                              //  console.warn("AdvancedMarkerElement not available");
                             }
                         }}
                     />

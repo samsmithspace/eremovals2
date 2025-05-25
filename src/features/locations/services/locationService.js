@@ -27,7 +27,7 @@ export const locationService = {
 
             return [];
         } catch (error) {
-            console.error('Error fetching addresses from GetAddress.io:', error);
+         //   console.error('Error fetching addresses from GetAddress.io:', error);
             throw new Error('Failed to fetch addresses');
         }
     },

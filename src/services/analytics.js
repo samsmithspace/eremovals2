@@ -19,7 +19,7 @@ class AnalyticsService {
      */
     async initialize(options = {}) {
         if (this.isInitialized) {
-            console.warn('Analytics service already initialized');
+           // console.warn('Analytics service already initialized');
             return;
         }
 
@@ -38,9 +38,9 @@ class AnalyticsService {
             this.processEventQueue();
 
             this.isInitialized = true;
-            console.log('Analytics service initialized');
+          //  console.log('Analytics service initialized');
         } catch (error) {
-            console.error('Failed to initialize analytics:', error);
+           // console.error('Failed to initialize analytics:', error);
         }
     }
 
@@ -209,9 +209,9 @@ class AnalyticsService {
                 }
             });
 
-            console.log('Google Analytics initialized');
+          //  console.log('Google Analytics initialized');
         } catch (error) {
-            console.error('Failed to initialize Google Analytics:', error);
+         //   console.error('Failed to initialize Google Analytics:', error);
         }
     }
 
@@ -221,7 +221,7 @@ class AnalyticsService {
      */
     async initializeMixpanel(token) {
         // Implementation would depend on Mixpanel SDK
-        console.log('Mixpanel initialization would go here');
+       // console.log('Mixpanel initialization would go here');
     }
 
     /**
@@ -233,13 +233,13 @@ class AnalyticsService {
             try {
                 provider.track(event);
             } catch (error) {
-                console.error(`Failed to track event with ${provider.name}:`, error);
+              //  console.error(`Failed to track event with ${provider.name}:`, error);
             }
         });
 
         // Log in development
         if (config.isDevelopment) {
-            console.log('Analytics Event:', event);
+          //  console.log('Analytics Event:', event);
         }
     }
 

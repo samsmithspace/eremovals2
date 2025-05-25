@@ -129,7 +129,7 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
                 onSubmitSuccess(formValues);
             }
         } catch (error) {
-            console.error('Error updating contact information:', error);
+          //  console.error('Error updating contact information:', error);
             setError(error.message || 'Failed to update contact information');
         } finally {
             setIsSubmitting(false);
