@@ -7,379 +7,386 @@ import moment from 'moment';
 import 'react-datetime/css/react-datetime.css';
 import { useAvailableTimeSlots } from '../hooks/useAvailableTimeSlots';
 import { Alert, Spinner } from '../../../common/components/ui';
+import './DateTimePicker.css';
 
 /**
- * Date and time picker component with availability checking
- * @param {Object} props
- * @param {Function} props.onDateChange - Callback when date is selected
- * @param {Function} props.onTimeChange - Callback when time is selected
- * @param {Object} props.restrictions - Date/time restrictions
- * @param {boolean} props.disabled - Whether the picker is disabled
+ * Modern date and time picker component with enhanced UX
  */
 const DateTimePicker = ({
-                            onDateChange,
-                            onTimeChange,
-                            restrictions = {},
-                            disabled = false
+                          onDateChange,
+                          onTimeChange,
+                          restrictions = {},
+                          disabled = false
                         }) => {
-    const { t } = useTranslation();
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedTime, setSelectedTime] = useState(null);
-    const [showTimePicker, setShowTimePicker] = useState(false);
+  const { t } = useTranslation();
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
 
-    // Custom hook for available time slots
-    const {
-        availableTimeSlots,
-        unavailableDates,
-        isLoading,
-        error,
-        fetchTimeSlots
-    } = useAvailableTimeSlots();
+  // Custom hook for available time slots
+  const {
+    availableTimeSlots,
+    unavailableDates,
+    isLoading,
+    error,
+    fetchTimeSlots
+  } = useAvailableTimeSlots();
 
-    useEffect(() => {
-        if (selectedDate && moment(selectedDate).isValid()) {
-            fetchTimeSlots(selectedDate.format('YYYY-MM-DD'));
-        }
-    }, [selectedDate, fetchTimeSlots]);
+  useEffect(() => {
+    if (selectedDate && moment(selectedDate).isValid()) {
+      fetchTimeSlots(selectedDate.format('YYYY-MM-DD'));
+    }
+  }, [selectedDate, fetchTimeSlots]);
 
-    const handleDateChange = async (newDate) => {
-        if (!moment(newDate).isValid()) return;
+  useEffect(() => {
+    setShowSummary(selectedDate && selectedTime);
+  }, [selectedDate, selectedTime]);
 
-        const momentDate = moment(newDate);
-        setSelectedDate(momentDate);
-        setSelectedTime(null);
-        setShowTimePicker(false);
+  const handleDateChange = async (newDate) => {
+    if (!moment(newDate).isValid()) return;
 
-        if (onDateChange) {
-            onDateChange(momentDate.format('YYYY-MM-DD'));
-        }
+    const momentDate = moment(newDate);
+    setSelectedDate(momentDate);
+    setSelectedTime(null);
+    setShowTimePicker(false);
 
-        // Automatically show time picker after date selection
-        setTimeout(() => setShowTimePicker(true), 100);
-    };
+    if (onDateChange) {
+      onDateChange(momentDate.format('YYYY-MM-DD'));
+    }
 
-    const handleTimeChange = (newTime) => {
-        if (!moment(newTime).isValid()) return;
+    // Automatically show time picker after date selection
+    setTimeout(() => setShowTimePicker(true), 500);
+  };
 
-        const timeValue = moment(newTime);
+  const handleTimeChange = (timeSlot) => {
+    if (!timeSlot) return;
 
-        // Validate if time is within available slots
-        if (!isTimeInAvailableSlots(timeValue)) {
-            return;
-        }
+    const timeValue = typeof timeSlot === 'string'
+      ? moment(timeSlot, 'HH:mm')
+      : moment(timeSlot);
 
-        setSelectedTime(timeValue);
+    if (!timeValue.isValid()) return;
 
-        if (onTimeChange) {
-            onTimeChange(timeValue.format('HH:mm'));
-        }
-    };
+    setSelectedTime(timeValue);
 
-    const isDateUnavailable = (currentDate) => {
-        const dateString = moment(currentDate).format('YYYY-MM-DD');
-        return unavailableDates.includes(dateString);
-    };
+    if (onTimeChange) {
+      onTimeChange(timeValue.format('HH:mm'));
+    }
+  };
 
-    const isValidDate = (currentDate) => {
-        const momentDate = moment(currentDate);
+  const isDateUnavailable = (currentDate) => {
+    const dateString = moment(currentDate).format('YYYY-MM-DD');
+    return unavailableDates.includes(dateString);
+  };
 
-        // Must be today or future
-        if (!momentDate.isSameOrAfter(moment(), 'day')) {
-            return false;
-        }
+  const isValidDate = (currentDate) => {
+    const momentDate = moment(currentDate);
 
-        // Check against unavailable dates
-        if (isDateUnavailable(currentDate)) {
-            return false;
-        }
+    // Must be today or future
+    if (!momentDate.isSameOrAfter(moment(), 'day')) {
+      return false;
+    }
 
-        // Apply custom restrictions
-        if (restrictions.maxDaysInAdvance) {
-            const maxDate = moment().add(restrictions.maxDaysInAdvance, 'days');
-            if (momentDate.isAfter(maxDate)) {
-                return false;
-            }
-        }
+    // Check against unavailable dates
+    if (isDateUnavailable(currentDate)) {
+      return false;
+    }
 
-        if (restrictions.excludeWeekends) {
-            const dayOfWeek = momentDate.day();
-            if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday = 0, Saturday = 6
-                return false;
-            }
-        }
+    // Apply custom restrictions
+    if (restrictions.maxDaysInAdvance) {
+      const maxDate = moment().add(restrictions.maxDaysInAdvance, 'days');
+      if (momentDate.isAfter(maxDate)) {
+        return false;
+      }
+    }
 
-        return true;
-    };
+    if (restrictions.excludeWeekends) {
+      const dayOfWeek = momentDate.day();
+      if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday = 0, Saturday = 6
+        return false;
+      }
+    }
 
-    const isTimeInAvailableSlots = (timeValue) => {
-        if (!availableTimeSlots.length) return false;
+    return true;
+  };
 
-        return availableTimeSlots.some(slot => {
-            const [startTime, endTime] = slot.split('-').map(t => moment(t, 'HH:mm'));
-            return timeValue.isBetween(startTime, endTime, 'minute', '[]');
-        });
-    };
+  return (
+    <div className="date-time-picker">
+      {error && (
+        <Alert variant="error" title={t('schedulingError', 'Scheduling Error')}>
+          {error}
+        </Alert>
+      )}
 
-    const getTimeConstraints = () => {
-        if (!availableTimeSlots.length) {
-            return {
-                hours: { min: 0, max: 23 },
-                minutes: { step: 15 }
-            };
-        }
+      {/* Date Selection */}
+      <DateSelector
+        selectedDate={selectedDate}
+        onDateChange={handleDateChange}
+        isValidDate={isValidDate}
+        disabled={disabled}
+        label={t('selectDate', 'Select your preferred date')}
+      />
 
-        // Get the earliest start time and latest end time
-        const allTimes = availableTimeSlots.flatMap(slot =>
-            slot.split('-').map(t => moment(t, 'HH:mm').hour())
-        );
+      {/* Time Selection - Only show when date is selected */}
+      {showTimePicker && selectedDate && (
+        <TimeSlotSelector
+          availableTimeSlots={availableTimeSlots}
+          selectedTime={selectedTime}
+          onTimeSelect={handleTimeChange}
+          isLoading={isLoading}
+          disabled={disabled}
+          selectedDate={selectedDate}
+        />
+      )}
 
-        return {
-            hours: {
-                min: Math.min(...allTimes),
-                max: Math.max(...allTimes)
-            },
-            minutes: { step: 15 }
-        };
-    };
-
-    return (
-        <div className="date-time-picker">
-            {error && (
-                <Alert variant="error" title={t('schedulingError', 'Scheduling Error')}>
-                    {error}
-                </Alert>
-            )}
-
-            {/* Date Selection */}
-            <DateSelector
-                selectedDate={selectedDate}
-                onDateChange={handleDateChange}
-                isValidDate={isValidDate}
-                disabled={disabled}
-                label={t('selectDate', 'Select Date')}
-            />
-
-            {/* Time Selection - Only show when date is selected */}
-            {showTimePicker && selectedDate && (
-                <TimeSelector
-                    selectedTime={selectedTime}
-                    onTimeChange={handleTimeChange}
-                    timeConstraints={getTimeConstraints()}
-                    availableTimeSlots={availableTimeSlots}
-                    isLoading={isLoading}
-                    disabled={disabled}
-                    label={t('selectTime', 'Select Time')}
-                />
-            )}
-
-            {/* Available Time Slots Display */}
-            {selectedDate && !isLoading && (
-                <AvailableTimeSlotsDisplay
-                    timeSlots={availableTimeSlots}
-                    selectedTime={selectedTime}
-                    onTimeSelect={handleTimeChange}
-                />
-            )}
-
-            {/* Loading State */}
-            {selectedDate && isLoading && (
-                <div className="time-loading">
-                    <Spinner size="small" />
-                    <span>{t('loadingAvailableTimes', 'Loading available times...')}</span>
-                </div>
-            )}
-
-            {/* No Available Times Message */}
-            {selectedDate && !isLoading && availableTimeSlots.length === 0 && (
-                <Alert variant="warning">
-                    {t('noAvailableTimesForDate', 'No available time slots for the selected date.')}
-                </Alert>
-            )}
-        </div>
-    );
+      {/* Summary Display */}
+      {showSummary && (
+        <DateTimeSummary
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+        />
+      )}
+    </div>
+  );
 };
 
 /**
- * Date selector sub-component
+ * Enhanced date selector component
  */
 const DateSelector = ({
-                          selectedDate,
-                          onDateChange,
-                          isValidDate,
-                          disabled,
-                          label
+                        selectedDate,
+                        onDateChange,
+                        isValidDate,
+                        disabled,
+                        label
                       }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="date-selector-section">
+      <label htmlFor="date-input" className="date-label">
+        {label}
+      </label>
+      <p className="section-description">
+        Choose any date from today onwards. We're available 7 days a week.
+      </p>
+      <DateTime
+        id="date-input"
+        value={selectedDate}
+        onChange={onDateChange}
+        dateFormat="MMMM Do, YYYY"
+        timeFormat={false}
+        isValidDate={isValidDate}
+        closeOnSelect={true}
+        disabled={disabled}
+        inputProps={{
+          id: 'date-input',
+          placeholder: 'Click to select a date',
+          readOnly: true
+        }}
+        className="date-picker"
+      />
+      {selectedDate && (
+        <div className="date-preview">
+          <span className="preview-icon">📅</span>
+          <span className="preview-text">
+                        Selected: {selectedDate.format('dddd, MMMM Do, YYYY')}
+                    </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * Modern time slot selector component
+ */
+const TimeSlotSelector = ({
+                            availableTimeSlots,
+                            selectedTime,
+                            onTimeSelect,
+                            isLoading,
+                            disabled,
+                            selectedDate
+                          }) => {
+  const { t } = useTranslation();
+
+  if (isLoading) {
     return (
-        <div className="date-selector-section">
-            <label htmlFor="date-input" className="date-label">
-                {label}:
-            </label>
-            <DateTime
-                id="date-input"
-                value={selectedDate}
-                onChange={onDateChange}
-                dateFormat="YYYY-MM-DD"
-                timeFormat={false}
-                isValidDate={isValidDate}
-                closeOnSelect={true}
-                disabled={disabled}
-                inputProps={{
-                    id: 'date-input',
-                    placeholder: 'Select a date',
-                    readOnly: true
-                }}
-                className="date-picker"
+      <div className="time-selector-loading">
+        <div className="loading-spinner"></div>
+        <span className="loading-text">
+                    {t('loadingAvailableTimes', 'Finding available times...')}
+                </span>
+      </div>
+    );
+  }
+
+  if (!availableTimeSlots.length) {
+    return (
+      <div className="no-available-times">
+        <span>{t('noAvailableTimesForDate', 'No available time slots for this date.')}</span>
+        <p>Please select a different date or contact us directly.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="available-time-slots">
+      <h4 className="slots-title">
+        {t('availableTimeSlots', 'Available Time Slots')}
+      </h4>
+      <p className="section-description">
+        Choose the time that works best for you on {selectedDate.format('MMMM Do')}.
+      </p>
+
+      <div className="time-slots-grid">
+        {availableTimeSlots.map((slot, index) => {
+          const [startTime, endTime] = slot.split('-');
+          const startMoment = moment(startTime, 'HH:mm');
+          const endMoment = moment(endTime, 'HH:mm');
+
+          const isSelected = selectedTime &&
+            selectedTime.format('HH:mm') === startTime;
+
+          return (
+            <TimeSlotButton
+              key={index}
+              startTime={startTime}
+              endTime={endTime}
+              startMoment={startMoment}
+              endMoment={endMoment}
+              isSelected={isSelected}
+              onSelect={() => onTimeSelect(startTime)}
+              disabled={disabled}
             />
-        </div>
-    );
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 /**
- * Time selector sub-component
+ * Individual time slot button with enhanced styling
  */
-const TimeSelector = ({
-                          selectedTime,
-                          onTimeChange,
-                          timeConstraints,
-                          availableTimeSlots,
-                          isLoading,
-                          disabled,
-                          label
-                      }) => {
-    const { t } = useTranslation();
+const TimeSlotButton = ({
+                          startTime,
+                          endTime,
+                          startMoment,
+                          endMoment,
+                          isSelected,
+                          onSelect,
+                          disabled
+                        }) => {
+  const duration = endMoment.diff(startMoment, 'hours');
+  const period = startMoment.format('A');
 
-    if (isLoading) {
-        return (
-            <div className="time-selector-loading">
-                <Spinner size="small" />
-                <span>{t('loadingTimes', 'Loading available times...')}</span>
-            </div>
-        );
-    }
-
-    if (!availableTimeSlots.length) {
-        return null;
-    }
-
-    return (
-        <div className="time-selector-section">
-            <label htmlFor="time-input" className="time-label">
-                {label}:
-            </label>
-            <DateTime
-                id="time-input"
-                value={selectedTime}
-                onChange={onTimeChange}
-                dateFormat={false}
-                timeFormat="HH:mm"
-                timeConstraints={timeConstraints}
-                disabled={disabled}
-                inputProps={{
-                    id: 'time-input',
-                    placeholder: 'Select a time',
-                    required: true,
-                    readOnly: true
-                }}
-                className="time-picker"
-            />
-        </div>
-    );
+  return (
+    <button
+      type="button"
+      className={`time-slot-button ${isSelected ? 'selected' : ''}`}
+      onClick={onSelect}
+      disabled={disabled}
+    >
+      <div className="slot-main-time">
+        {startMoment.format('h:mm')} - {endMoment.format('h:mm')}
+      </div>
+      <div className="slot-period">{period}</div>
+      <div className="slot-duration">{duration}h window</div>
+    </button>
+  );
 };
 
 /**
- * Available time slots display component
+ * Summary component showing selected date and time
  */
-const AvailableTimeSlotsDisplay = ({
-                                       timeSlots,
-                                       selectedTime,
-                                       onTimeSelect
-                                   }) => {
-    const { t } = useTranslation();
+const DateTimeSummary = ({ selectedDate, selectedTime }) => {
+  const { t } = useTranslation();
 
-    if (!timeSlots.length) return null;
+  return (
+    <div className="datetime-summary">
+      <h4>{t('schedulingSummary', 'Your Scheduling Summary')}</h4>
 
-    return (
-        <div className="available-time-slots">
-            <h4 className="slots-title">
-                {t('availableTimeSlots', 'Available Time Slots')}
-            </h4>
-            <div className="time-slots-grid">
-                {timeSlots.map((slot, index) => {
-                    const [startTime, endTime] = slot.split('-');
-                    const isSelected = selectedTime &&
-                        selectedTime.format('HH:mm') >= startTime &&
-                        selectedTime.format('HH:mm') <= endTime;
-
-                    return (
-                        <TimeSlotButton
-                            key={index}
-                            startTime={startTime}
-                            endTime={endTime}
-                            isSelected={isSelected}
-                            onSelect={() => onTimeSelect(moment(startTime, 'HH:mm'))}
-                        />
-                    );
-                })}
-            </div>
+      <div className="summary-details">
+        <div className="summary-item">
+          <div className="summary-item-label">Date</div>
+          <div className="summary-item-value">
+            {selectedDate.format('dddd, MMM Do')}
+          </div>
         </div>
-    );
-};
 
-/**
- * Individual time slot button
- */
-const TimeSlotButton = ({ startTime, endTime, isSelected, onSelect }) => {
-    return (
-        <button
-            type="button"
-            className={`time-slot-button ${isSelected ? 'selected' : ''}`}
-            onClick={onSelect}
-        >
-            {startTime} - {endTime}
-        </button>
-    );
+        <div className="summary-item">
+          <div className="summary-item-label">Time</div>
+          <div className="summary-item-value">
+            {selectedTime.format('h:mm A')}
+          </div>
+        </div>
+
+        <div className="summary-item">
+          <div className="summary-item-label">Days from now</div>
+          <div className="summary-item-value">
+            {selectedDate.diff(moment(), 'days') === 0
+              ? 'Today'
+              : `${selectedDate.diff(moment(), 'days')} days`
+            }
+          </div>
+        </div>
+      </div>
+
+      <div className="summary-note">
+        <p>
+          ✅ Perfect! We'll be ready for your move on{' '}
+          <strong>{selectedDate.format('dddd, MMMM Do')}</strong> at{' '}
+          <strong>{selectedTime.format('h:mm A')}</strong>.
+        </p>
+      </div>
+    </div>
+  );
 };
 
 // PropTypes
 DateSelector.propTypes = {
-    selectedDate: PropTypes.object,
-    onDateChange: PropTypes.func.isRequired,
-    isValidDate: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    label: PropTypes.string.isRequired
+  selectedDate: PropTypes.object,
+  onDateChange: PropTypes.func.isRequired,
+  isValidDate: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  label: PropTypes.string.isRequired
 };
 
-TimeSelector.propTypes = {
-    selectedTime: PropTypes.object,
-    onTimeChange: PropTypes.func.isRequired,
-    timeConstraints: PropTypes.object.isRequired,
-    availableTimeSlots: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool,
-    disabled: PropTypes.bool,
-    label: PropTypes.string.isRequired
-};
-
-AvailableTimeSlotsDisplay.propTypes = {
-    timeSlots: PropTypes.array.isRequired,
-    selectedTime: PropTypes.object,
-    onTimeSelect: PropTypes.func.isRequired
+TimeSlotSelector.propTypes = {
+  availableTimeSlots: PropTypes.array.isRequired,
+  selectedTime: PropTypes.object,
+  onTimeSelect: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  disabled: PropTypes.bool,
+  selectedDate: PropTypes.object.isRequired
 };
 
 TimeSlotButton.propTypes = {
-    startTime: PropTypes.string.isRequired,
-    endTime: PropTypes.string.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-    onSelect: PropTypes.func.isRequired
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+  startMoment: PropTypes.object.isRequired,
+  endMoment: PropTypes.object.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
+};
+
+DateTimeSummary.propTypes = {
+  selectedDate: PropTypes.object.isRequired,
+  selectedTime: PropTypes.object.isRequired
 };
 
 DateTimePicker.propTypes = {
-    onDateChange: PropTypes.func.isRequired,
-    onTimeChange: PropTypes.func.isRequired,
-    restrictions: PropTypes.shape({
-        maxDaysInAdvance: PropTypes.number,
-        excludeWeekends: PropTypes.bool
-    }),
-    disabled: PropTypes.bool
+  onDateChange: PropTypes.func.isRequired,
+  onTimeChange: PropTypes.func.isRequired,
+  restrictions: PropTypes.shape({
+    maxDaysInAdvance: PropTypes.number,
+    excludeWeekends: PropTypes.bool
+  }),
+  disabled: PropTypes.bool
 };
 
 export default DateTimePicker;

@@ -1,334 +1,703 @@
-/* MoveOptions.css */
+/* MoveOptions.css - Modern Professional Design */
 
 .move-options {
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    min-height: 100vh;
 }
 
-.move-options h3 {
+.move-options-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.move-options-header h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fa7731 0%, #ff9a66 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.move-options-description {
+    font-size: 1.125rem;
+    color: #718096;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Section Container */
+.inventory-section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: 1px solid rgba(250, 119, 49, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(250, 119, 49, 0.2);
+}
+
+.section-header {
+    background: linear-gradient(135deg, #fa7731 0%, #ff9a66 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='50' cy='50' r='4'/%3E%3Ccircle cx='10' cy='10' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    opacity: 0.3;
+}
+
+.section-header h4 {
     font-size: 1.5rem;
-    color: #ff8c00;
-    margin-bottom: 10px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-icon {
+    font-size: 1.75rem;
+    opacity: 0.9;
+}
+
+.section-content {
+    padding: 2rem;
+}
+
+/* Box Selection Redesign */
+.box-selection {
+    margin-bottom: 0;
+}
+
+.box-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.box-option {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.box-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fa7731, #ff9a66);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.box-option:hover {
+    border-color: #fa7731;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(250, 119, 49, 0.15);
+}
+
+.box-option:hover::before {
+    transform: scaleX(1);
+}
+
+.box-info {
+    margin-bottom: 1.5rem;
+}
+
+.box-info h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.box-info h5::before {
+    content: '📦';
+    font-size: 1.125rem;
+}
+
+.box-size {
+    font-size: 0.875rem;
+    color: #718096;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.box-description {
+    font-size: 0.875rem;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+.quantity-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.quantity-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin: 0;
 }
 
 .input-group {
-    position: relative;
-    display: inline-block;
-    align-items: center;
-    gap: 5px;
-}
-
-.numberinput {
-    width: 50px;
-    text-align: left;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    flex-grow: 1;
-}
-
-.increment-button {
-    position: absolute;
-    width: 45px;
-    height: 50px;
-    top: 11px;
-    right: 45px;
-    border: none;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    cursor: pointer;
-}
-
-.decrement-button {
-    position: absolute;
-    width: 45px;
-    height: 50px;
-    top: 11px;
-    right: 1px;
-    background-color: #f9f9f9;
-    border: none;
-    border-color: #ddc8c8;
-    cursor: pointer;
-}
-
-.increment-button:hover,
-.decrement-button:hover {
-    background-color: #ddd;
-}
-
-.move-type-button {
-    padding: 10px 20px;
-    font-size: 1.5rem;
-    border: 1px solid #ccc;
-    height: 140px;
-    border-radius: 9px;
-    cursor: pointer;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease;
-}
-
-.button-group {
     display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.move-type-button:hover {
-    background-color: #ececec;
-}
-
-.boxoption {
-    background-color: rgba(240, 240, 240, 0.8);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.move-type-button.active {
-    background-color: #ff8c00;
-    color: #fff;
-    border-color: #ff8c00;
-}
-
-.furniture-input {
-    background-color: rgba(240, 240, 240, 0.8);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.housebutt {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 9px;
-    cursor: pointer;
-    width: 50%;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease;
-}
-
-.move-options select,
-.move-options input {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.student-options h4 {
-    font-size: 1.2rem;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.student-options label {
-    display: block;
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-}
-
-.student-options input[type="checkbox"] {
-    width: auto;
-    margin-left: 10px;
-}
-
-/* Align the lift and stairs input in a row */
-.lift-stairs-group {
-    display: flex;
-    gap: 20px;
     align-items: center;
-    margin-bottom: 20px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s ease;
 }
 
-/* Style for the lift and stairs options */
-.lift-option, .stairs-input {
+.input-group:focus-within {
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+.quantity-input {
     flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    color: #2d3748;
+    outline: none;
 }
 
-.lift-button {
-    padding: 10px 20px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    color: #333;
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #f7fafc;
+    color: #4a5568;
+    font-size: 1.125rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 40%;
-    border-radius: 9px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.lift-button.active {
-    background-color: #ff9c34;
-    color: #fff;
+.quantity-btn:hover {
+    background: #fa7731;
+    color: white;
 }
 
-.deletebutton {
-    background-color: #ff3e15;
-    color: #fff;
+.quantity-btn:active {
+    transform: scale(0.95);
+}
+
+/* Furniture and Appliance Selection */
+.furniture-selection,
+.appliance-selection {
+    margin-bottom: 0;
+}
+
+.furniture-items,
+.appliance-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.furniture-item,
+.appliance-item {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+}
+
+.furniture-item:hover,
+.appliance-item:hover {
+    border-color: #fa7731;
+    transform: translateX(4px);
+    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.12);
+}
+
+.furniture-select,
+.appliance-select {
+    flex: 2;
+    min-width: 200px;
+}
+
+.furniture-select select,
+.appliance-select select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.2s ease;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-    border-radius: 9px;
-    border: 1px solid #ccc;
+}
+
+.furniture-select select:focus,
+.appliance-select select:focus {
+    outline: none;
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+.quantity-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+}
+
+.quantity-input-wrapper label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin: 0;
+}
+
+.quantity-input-wrapper input {
+    width: 80px;
+    padding: 0.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.quantity-input-wrapper input:focus {
+    outline: none;
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+.remove-btn,
+.add-furniture-btn,
+.add-appliance-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: fit-content;
+    white-space: nowrap;
+}
+
+.remove-btn {
+    background: linear-gradient(135deg, #f56565, #e53e3e);
+    color: white;
+    font-size: 0.875rem;
+}
+
+.remove-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 101, 101, 0.3);
+}
+
+.add-furniture-btn,
+.add-appliance-btn {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    margin-top: 1rem;
+    font-size: 1rem;
+    align-self: flex-start;
+}
+
+.add-furniture-btn:hover,
+.add-appliance-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
+}
+
+/* Special Items Section */
+.special-items {
+    margin-bottom: 0;
+}
+
+.special-items-description {
+    color: #718096;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #fef5e7, #fff7ed);
+    border-radius: 12px;
+    border-left: 4px solid #fa7731;
+}
+
+.special-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.special-item {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.special-item:hover {
+    border-color: #fa7731;
+    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.12);
+}
+
+.special-item-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.item-type-select select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.item-type-select select:focus {
+    outline: none;
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+.description-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.description-wrapper label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.description-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+
+.description-textarea:focus {
+    outline: none;
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+.add-special-item-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.add-special-item-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.remove-special-item-btn {
+    background: linear-gradient(135deg, #f56565, #e53e3e);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+}
+
+.remove-special-item-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 101, 101, 0.3);
+}
+
+/* Floor Access Section */
+.floor-details-section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    margin-top: 2rem;
+    overflow: hidden;
+    border: 1px solid rgba(250, 119, 49, 0.1);
+}
+
+.floor-details-section h4 {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+    padding: 1.5rem 2rem;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.floor-details-section h4::before {
+    content: '🏢';
+    font-size: 1.5rem;
+}
+
+.floor-access-group {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.pickup-access,
+.destination-access {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.pickup-access:hover,
+.destination-access:hover {
+    border-color: #4299e1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(66, 153, 225, 0.15);
+}
+
+.pickup-access h5,
+.destination-access h5 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pickup-access h5::before {
+    content: '📍';
+}
+
+.destination-access h5::before {
+    content: '🎯';
 }
 
 .checkbox-container {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 16px;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 1rem;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.checkbox-container:hover {
+    border-color: #4299e1;
+    background: #f7fafc;
 }
 
 .checkbox-input {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
+    accent-color: #4299e1;
 }
 
-/* Box Selection Styles */
-.box-detail {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: white;
+.checkbox-container span {
+    font-weight: 500;
+    color: #4a5568;
+    user-select: none;
 }
 
-.box-detail label {
+.stairs-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stairs-input label {
+    font-size: 0.875rem;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
+    color: #4a5568;
+    margin: 0;
 }
 
-/* Furniture and Appliance Selection */
-.furniture-detail,
-.appliance-detail {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: white;
-}
-
-.furniture-detail select,
-.appliance-detail select {
-    flex: 2;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.furniture-detail input[type="number"],
-.appliance-detail input[type="number"] {
-    flex: 1;
-    max-width: 80px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Special Items Styles */
-.special-items {
-    background-color: rgba(240, 240, 240, 0.8);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.special-items h4 {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.special-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
-}
-
-.special-item select,
-.special-item input {
-    flex: 1;
-    margin-right: 10px;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-.remove-button {
-    padding: 8px 12px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.remove-button:hover {
-    background-color: #ff1a1a;
-}
-
-.add-button {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 10px 20px;
+.stairs-input input {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 9px;
-    cursor: pointer;
-    width: 50%;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-.add-button:hover {
-    background-color: rgba(252, 247, 247, 0.7);
+.stairs-input input:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+/* No items selected states */
+.no-items {
+    text-align: center;
+    padding: 2rem;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+.no-items::before {
+    content: '📋';
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Loading states */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+    font-style: italic;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .move-options {
-        margin: 10px;
+        padding: 1rem;
     }
 
-    .lift-stairs-group {
+    .move-options-header h3 {
+        font-size: 2rem;
+    }
+
+    .section-content {
+        padding: 1.5rem;
+    }
+
+    .box-options {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .furniture-item,
+    .appliance-item {
         flex-direction: column;
-        gap: 15px;
+        align-items: stretch;
+        gap: 1rem;
     }
 
-    .furniture-detail,
-    .appliance-detail {
-        flex-direction: column;
-        gap: 8px;
+    .floor-access-group {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        gap: 1.5rem;
     }
 
-    .furniture-detail input[type="number"],
-    .appliance-detail input[type="number"] {
-        max-width: 100%;
+    .special-item-fields {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .move-options-header {
+        padding: 1rem 0;
+        margin-bottom: 2rem;
     }
 
-    .housebutt,
-    .add-button {
-        width: 100%;
+    .move-options-header h3 {
+        font-size: 1.75rem;
     }
 
-    .lift-button {
-        width: 100%;
-        margin: 5px 0;
+    .section-header {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .section-header h4 {
+        font-size: 1.25rem;
+    }
+
+    .box-option,
+    .pickup-access,
+    .destination-access,
+    .special-item {
+        padding: 1.25rem;
     }
 }

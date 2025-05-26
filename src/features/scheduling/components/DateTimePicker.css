@@ -1,51 +1,86 @@
-/* DateTimePicker.css */
-
-/* Ensure the picker is responsive */
-.rdtPicker {
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    z-index: 1000;
-    margin-bottom: 10px;
-}
-
-.rdtDisabled {
-    pointer-events: none;
-    color: #d3d3d3;
-}
+/* Modern DateTimePicker.css */
 
 .date-time-picker {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(250, 119, 49, 0.1);
     position: relative;
-    z-index: 1000;
-    margin-bottom: 20px;
+    overflow: hidden;
 }
 
-/* Form Group Styling */
+.date-time-picker::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fa7731, #ff9a66, #fbca1f);
+}
+
+/* Section Headers */
 .date-selector-section,
 .time-selector-section {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.date-selector-section:hover,
+.time-selector-section:hover {
+    border-color: #fa7731;
+    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.12);
+    transform: translateY(-2px);
 }
 
 .date-label,
 .time-label {
-    display: block;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
 }
 
-/* Date and Time Picker Input Styling */
+.date-label::before {
+    content: '📅';
+    font-size: 1.25rem;
+}
+
+.time-label::before {
+    content: '🕐';
+    font-size: 1.25rem;
+}
+
+/* Input Styling */
+.date-picker,
+.time-picker {
+    position: relative;
+}
+
 .date-picker input,
 .time-picker input {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e1e5e9;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: white;
-    transition: all 0.3s ease;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-sizing: border-box;
+    color: #2d3748;
+    cursor: pointer;
 }
 
 .date-picker input:focus,
@@ -53,234 +88,486 @@
     outline: none;
     border-color: #fa7731;
     box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.date-picker input::placeholder,
+.time-picker input::placeholder {
+    color: #a0aec0;
+    font-style: italic;
 }
 
 /* Available Time Slots */
 .available-time-slots {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    border: 1px solid #e9ecef;
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 2rem;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.available-time-slots:hover {
+    border-color: #fa7731;
+    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.08);
 }
 
 .slots-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.slots-title::before {
+    content: '⏰';
+    font-size: 1.5rem;
 }
 
 .time-slots-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 .time-slot-button {
-    padding: 12px 16px;
-    border: 2px solid #e9ecef;
-    background-color: white;
-    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #495057;
-    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4a5568;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.time-slot-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(250, 119, 49, 0.1), transparent);
+    transition: left 0.5s;
 }
 
 .time-slot-button:hover {
     border-color: #fa7731;
-    background-color: rgba(250, 119, 49, 0.05);
+    background: linear-gradient(145deg, #fff7ed, #ffffff);
     color: #fa7731;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.15);
+}
+
+.time-slot-button:hover::before {
+    left: 100%;
 }
 
 .time-slot-button.selected {
     border-color: #fa7731;
-    background-color: #fa7731;
+    background: linear-gradient(135deg, #fa7731, #ff9a66);
     color: white;
+    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.3);
+    transform: translateY(-2px);
+}
+
+.time-slot-button.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 0.25rem;
+    right: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: bold;
 }
 
 .time-slot-button:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
-    background-color: #f8f9fa;
+    background: #f7fafc;
+    color: #a0aec0;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.time-slot-button:disabled:hover {
+    border-color: #e2e8f0;
+    background: #f7fafc;
 }
 
 /* Loading States */
 .time-loading,
 .time-selector-loading {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 20px;
-    color: #666;
+    gap: 1rem;
+    padding: 3rem;
+    color: #718096;
     font-style: italic;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e2e8f0;
+    border-radius: 50%;
+    border-top-color: #fa7731;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 /* Error and Warning Messages */
 .scheduling-error,
 .no-available-times {
-    padding: 15px;
-    border-radius: 8px;
-    margin: 15px 0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1rem 0;
     text-align: center;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
 }
 
 .scheduling-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background: linear-gradient(135deg, #fed7d7, #feb2b2);
+    color: #c53030;
+    border: 2px solid #fc8181;
+}
+
+.scheduling-error::before {
+    content: '⚠️';
+    font-size: 1.25rem;
 }
 
 .no-available-times {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeaa7;
+    background: linear-gradient(135deg, #fefcbf, #faf089);
+    color: #b7791f;
+    border: 2px solid #f6e05e;
+}
+
+.no-available-times::before {
+    content: '📅';
+    font-size: 1.25rem;
 }
 
 /* React DateTime Overrides */
 .rdtPicker {
     background: white;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
+    position: absolute;
+    z-index: 1000;
+    margin-top: 0.5rem;
+    min-width: 280px;
+}
+
+.rdtPicker table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0.25rem;
 }
 
 .rdtPicker td,
 .rdtPicker th {
     text-align: center;
-    padding: 8px;
-    border-radius: 4px;
+    padding: 0.5rem;
+    border-radius: 8px;
     transition: all 0.2s ease;
+    font-weight: 500;
+    position: relative;
+}
+
+.rdtPicker th {
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.rdtPicker td.rdtDay,
+.rdtPicker td.rdtHour,
+.rdtPicker td.rdtMinute {
+    cursor: pointer;
+    color: #2d3748;
 }
 
 .rdtPicker td.rdtDay:hover,
 .rdtPicker td.rdtHour:hover,
 .rdtPicker td.rdtMinute:hover {
-    background-color: rgba(250, 119, 49, 0.1);
+    background: linear-gradient(135deg, #fed7cc, #feebc8);
     color: #fa7731;
-    cursor: pointer;
+    transform: scale(1.05);
 }
 
 .rdtPicker td.rdtActive,
 .rdtPicker td.rdtActive:hover {
-    background-color: #fa7731 !important;
+    background: linear-gradient(135deg, #fa7731, #ff9a66) !important;
     color: white !important;
+    box-shadow: 0 4px 12px rgba(250, 119, 49, 0.3);
+    transform: scale(1.05);
 }
 
 .rdtPicker td.rdtToday:before {
-    border-bottom: 7px solid #fa7731;
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: #fa7731;
+    border-radius: 50%;
 }
 
+.rdtPicker td.rdtDisabled {
+    color: #cbd5e0;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.rdtPicker td.rdtDisabled:hover {
+    background: transparent;
+    transform: none;
+}
+
+/* Calendar Navigation */
+.rdtPicker .rdtPrev,
+.rdtPicker .rdtNext {
+    cursor: pointer;
+    user-select: none;
+    color: #4a5568;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.rdtPicker .rdtPrev:hover,
+.rdtPicker .rdtNext:hover {
+    background: #f7fafc;
+    color: #fa7731;
+}
+
+.rdtPicker .rdtSwitch {
+    cursor: pointer;
+    color: #2d3748;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.rdtPicker .rdtSwitch:hover {
+    background: #f7fafc;
+    color: #fa7731;
+}
+
+/* Time Counter */
 .rdtPicker .rdtCounter {
-    height: 100px;
+    height: 120px;
+    width: 100%;
 }
 
 .rdtPicker .rdtCounterSeparator {
-    line-height: 100px;
-    font-size: 1.2em;
-    color: #333;
+    line-height: 120px;
+    font-size: 1.5rem;
+    color: #4a5568;
+    font-weight: 600;
 }
 
 .rdtPicker .rdtCount {
-    height: 40px;
-    font-size: 1em;
+    height: 60px;
+    font-size: 1.125rem;
     border: none;
     background: transparent;
-    color: #333;
+    color: #2d3748;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    line-height: 60px;
 }
 
 .rdtPicker .rdtCount:hover {
-    background-color: rgba(250, 119, 49, 0.1);
+    background: linear-gradient(135deg, #fed7cc, #feebc8);
+    color: #fa7731;
 }
 
+/* Action Buttons */
 .rdtPicker .rdtBtn {
-    background-color: #fa7731;
+    background: linear-gradient(135deg, #fa7731, #ff9a66);
     color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    margin: 0.25rem;
 }
 
 .rdtPicker .rdtBtn:hover {
-    background-color: #e05f16;
+    background: linear-gradient(135deg, #e05f16, #f56500);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(250, 119, 49, 0.3);
 }
 
-/* Styling for smaller devices */
-@media (max-width: 600px) {
+/* Summary Card */
+.datetime-summary {
+    background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+    border: 2px solid #4fd1c7;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.datetime-summary h4 {
+    color: #234e52;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.datetime-summary h4::before {
+    content: '✅';
+    font-size: 1.25rem;
+}
+
+.summary-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.summary-item {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(77, 209, 199, 0.3);
+}
+
+.summary-item-label {
+    font-size: 0.875rem;
+    color: #2c7a7b;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.summary-item-value {
+    font-size: 1.125rem;
+    color: #234e52;
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     .date-time-picker {
-        padding: 8px;
-        font-size: 16px;
-    }
-
-    .date-picker input,
-    .time-picker input {
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 16px; /* Prevent zoom on iOS */
-    }
-
-    .rdtPicker {
-        width: 100% !important;
-        max-width: 400px;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        margin: auto;
-        z-index: 1000;
-        border-radius: 8px 8px 0 0;
-    }
-
-    .rdtPicker td.rdtDay:hover,
-    .rdtPicker td.rdtDay.selected {
-        background-color: #fa7731;
-        color: white;
-    }
-
-    .rdtTime td {
-        width: 100%;
+        padding: 1.5rem;
+        margin: 1rem;
+        border-radius: 16px;
     }
 
     .time-slots-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.75rem;
     }
 
     .time-slot-button {
-        padding: 10px 12px;
-        font-size: 0.85rem;
+        padding: 0.875rem 1rem;
+        font-size: 0.875rem;
     }
 
-    .available-time-slots {
-        padding: 15px;
+    .rdtPicker {
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+
+    .summary-details {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
     }
 }
 
 @media (max-width: 480px) {
+    .date-time-picker {
+        padding: 1rem;
+    }
+
+    .date-selector-section,
+    .time-selector-section,
+    .available-time-slots {
+        padding: 1.25rem;
+    }
+
     .time-slots-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .time-slot-button {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.8rem;
     }
 
     .rdtPicker {
-        padding: 10px;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0;
+        border-radius: 16px 16px 0 0;
+        max-height: 60vh;
+        overflow-y: auto;
     }
+}
 
-    .slots-title {
-        font-size: 1rem;
+/* Animations */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.available-time-slots {
+    animation: fadeInUp 0.5s ease-out;
 }
 
 /* Accessibility Improvements */
@@ -294,10 +581,79 @@
     outline-offset: 2px;
 }
 
-/* Print Styles */
-@media print {
-    .date-time-picker,
-    .rdtPicker {
-        display: none !important;
-    }
+.time-slot-button:focus-visible {
+    outline: 2px solid #fa7731;
+    outline-offset: 2px;
+}
+
+/* Section Descriptions */
+.section-description {
+    color: #718096;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Date Preview */
+.date-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #e6fffa, #f0fff4);
+    border: 1px solid #81e6d9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.preview-icon {
+    font-size: 1.25rem;
+}
+
+.preview-text {
+    font-weight: 600;
+    color: #2c7a7b;
+}
+
+/* Enhanced Time Slot Button */
+.slot-main-time {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.slot-period {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.slot-duration {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+/* Summary Note */
+.summary-note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 1px solid rgba(77, 209, 199, 0.3);
+}
+
+.summary-note p {
+    margin: 0;
+    color: #234e52;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.summary-note strong {
+    color: #2c7a7b;
 }
