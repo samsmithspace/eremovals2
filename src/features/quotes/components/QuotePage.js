@@ -8,7 +8,7 @@ import QuoteSummary from './QuoteSummary';
 import QuoteActions from './QuoteActions';
 import { useQuoteCalculation } from '../hooks/useQuoteCalculation';
 import MoveOptions from '../../inventory/components/MoveOptions';
-
+import './QuotePage.css'; // Add this import at the top
 /**
  * Main quote page component that orchestrates the quote creation process
  */
@@ -187,7 +187,7 @@ const MoveOptionsSection = ({
 
     return (
         <div className="move-options-section">
-            <h1>{t('items', 'Items')}</h1>
+
             <MoveOptions
                 onDetailsChange={onDetailsChange}
                 onDateChange={onDateChange}

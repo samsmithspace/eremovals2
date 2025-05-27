@@ -1,0 +1,153 @@
+/* QuotePage.css - Styles for the quote page layout */
+
+.quote-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4c81b5 0%, #752d2d 100%);
+    padding-top: 120px; /* Add space for fixed header */
+    padding-bottom: 2rem;
+}
+
+/* Quote Header Styles */
+.quote-header {
+    max-width: 1150px;
+    margin: 0 auto 3rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(58, 175, 250, 0.37) 0%, #a27fec 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-left: 6px solid #fa7731;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quote-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.quote-header h2::before {
+    content: '📋';
+    font-size: 1.5rem;
+}
+
+/* Location Summary Styling within Quote Page */
+.quote-header .location-summary {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Move Options Section */
+.move-options-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.move-options-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    text-align: center;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #fa7731 0%, #ff9a66 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Error States */
+.quote-page-error {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 3rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 2px solid #fed7d7;
+}
+
+.quote-page-error h2 {
+    color: #c53030;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.quote-page-error h2::before {
+    content: '⚠️';
+    font-size: 2rem;
+}
+
+.quote-page-error p {
+    color: #4a5568;
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quote-page {
+        padding-top: 100px; /* Smaller header on mobile */
+        padding-bottom: 1rem;
+    }
+
+    .quote-header {
+        margin: 0 1rem 2rem;
+        padding: 2rem;
+        border-radius: 16px;
+        border-left-width: 4px;
+    }
+
+    .quote-header h2 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .move-options-section {
+        padding: 0 1rem;
+    }
+
+    .move-options-section h1 {
+        font-size: 2rem;
+    }
+
+    .quote-page-error {
+        margin: 2rem 1rem;
+        padding: 2rem;
+    }
+
+    .quote-page-error h2 {
+        font-size: 1.5rem;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .quote-header {
+        padding: 1.25rem;
+    }
+
+    .quote-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .move-options-section h1 {
+        font-size: 1.75rem;
+    }
+}

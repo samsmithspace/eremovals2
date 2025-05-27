@@ -6,6 +6,8 @@
     padding: 2rem;
     background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
     min-height: 100vh;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .move-options-header {
