@@ -7,6 +7,7 @@ import BoxSelection from './BoxSelection';
 import FurnitureSelection from './FurnitureSelection';
 import ApplianceSelection from './ApplianceSelection';
 import SpecialItems from './SpecialItems';
+import DateTimePicker from '../../scheduling/components/DateTimePicker'; // Add this import
 import './MoveOptions.css';
 
 /**
@@ -14,6 +15,8 @@ import './MoveOptions.css';
  */
 const MoveOptions = ({
                          onDetailsChange,
+                         onDateChange, // Add this prop
+                         onTimeChange, // Add this prop
                          initialDetails = {},
                          onValidationChange
                      }) => {
@@ -80,41 +83,37 @@ const MoveOptions = ({
               </div>
           </div>
 
-          {/* Furniture Selection Section - Only for student and house moves */}
+          {/* Furniture Selection Section */}
+          <div className="inventory-section">
+              <div className="section-header">
+                  <h4>
+                      <span className="section-icon">🛋️</span>
+                      {t('furniture', 'Furniture & Large Items')}
+                  </h4>
+              </div>
+              <div className="section-content">
+                  <FurnitureSelection
+                    furnitureDetails={inventoryData.furnitureDetails}
+                    onFurnitureChange={updateFurnitureDetails}
+                  />
+              </div>
+          </div>
 
-            <div className="inventory-section">
-                <div className="section-header">
-                    <h4>
-                        <span className="section-icon">🛋️</span>
-                        {t('furniture', 'Furniture & Large Items')}
-                    </h4>
-                </div>
-                <div className="section-content">
-                    <FurnitureSelection
-                      furnitureDetails={inventoryData.furnitureDetails}
-                      onFurnitureChange={updateFurnitureDetails}
-                    />
-                </div>
-            </div>
-
-
-          {/* Appliance Selection Section - Only for student and house moves */}
-
-            <div className="inventory-section">
-                <div className="section-header">
-                    <h4>
-                        <span className="section-icon">🔌</span>
-                        {t('appliances', 'Appliances & Electronics')}
-                    </h4>
-                </div>
-                <div className="section-content">
-                    <ApplianceSelection
-                      applianceDetails={inventoryData.applianceDetails}
-                      onApplianceChange={updateApplianceDetails}
-                    />
-                </div>
-            </div>
-
+          {/* Appliance Selection Section */}
+          <div className="inventory-section">
+              <div className="section-header">
+                  <h4>
+                      <span className="section-icon">🔌</span>
+                      {t('appliances', 'Appliances & Electronics')}
+                  </h4>
+              </div>
+              <div className="section-content">
+                  <ApplianceSelection
+                    applianceDetails={inventoryData.applianceDetails}
+                    onApplianceChange={updateApplianceDetails}
+                  />
+              </div>
+          </div>
 
           {/* Special Items Section */}
           <div className="inventory-section">
@@ -224,13 +223,34 @@ const MoveOptions = ({
                   </div>
               </div>
           </div>
+
+          {/* Date and Time Selection Section - ADD THIS */}
+          <div className="inventory-section">
+              <div className="section-header">
+                  <h4>
+                      <span className="section-icon">📅</span>
+                      {t('scheduling.selectDateAndTime', 'Select Date & Time')}
+                  </h4>
+              </div>
+              <div className="section-content">
+                  <DateTimePicker
+                    onDateChange={onDateChange}
+                    onTimeChange={onTimeChange}
+                    restrictions={{
+                        maxDaysInAdvance: 90,
+                        excludeWeekends: false
+                    }}
+                  />
+              </div>
+          </div>
       </div>
     );
 };
 
 MoveOptions.propTypes = {
-    moveType: PropTypes.oneOf(['student', 'house', 'courier']).isRequired,
     onDetailsChange: PropTypes.func.isRequired,
+    onDateChange: PropTypes.func.isRequired, // Add this
+    onTimeChange: PropTypes.func.isRequired, // Add this
     initialDetails: PropTypes.object,
     onValidationChange: PropTypes.func
 };

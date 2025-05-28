@@ -1,4 +1,4 @@
-// src/features/quotes/components/QuotePage.js
+// src/features/quotes/components/QuotePage.js - Updated Layout
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import LocationSummary from '../../locations/components/LocationSummary';
 import QuoteSummary from './QuoteSummary';
 import QuoteActions from './QuoteActions';
+import DateTimePicker from '../../scheduling/components/DateTimePicker'; // Add import
 import { useQuoteCalculation } from '../hooks/useQuoteCalculation';
 import MoveOptions from '../../inventory/components/MoveOptions';
-import './QuotePage.css'; // Add this import at the top
+import './QuotePage.css';
+
 /**
- * Main quote page component that orchestrates the quote creation process
+ * Main quote page component with optimized layout
  */
 const QuotePage = () => {
     const { t } = useTranslation();
@@ -25,6 +27,7 @@ const QuotePage = () => {
     const [time, setTime] = useState('');
     const [showSummary, setShowSummary] = useState(false);
     const [showOptions, setShowOptions] = useState(true);
+    const [showDatePicker, setShowDatePicker] = useState(false); // Add this state
     const [triggerUpdate, setTriggerUpdate] = useState(0);
 
     // Extract data from navigation state
@@ -55,6 +58,8 @@ const QuotePage = () => {
 
     const handleDetailsChange = (details) => {
         setMoveDetails(details);
+        // Show date picker after details are selected
+        setShowDatePicker(true);
         setTriggerUpdate(prev => prev + 1);
     };
 
@@ -83,7 +88,7 @@ const QuotePage = () => {
             await calculateQuote(quoteData);
             setIsDetailsConfirmed(true);
         } catch (error) {
-          //  console.error('Error confirming details:', error);
+            console.error('Error confirming details:', error);
         }
     };
 
@@ -92,122 +97,90 @@ const QuotePage = () => {
     };
 
     const handleQuoteSubmitted = (bookingData) => {
-        // Handle successful quote submission
-       // console.log('Quote submitted:', bookingData);
+        console.log('Quote submitted:', bookingData);
     };
 
     if (!startLocation || !destinationLocation) {
         return (
-            <div className="quote-page-error">
-                <h2>{t('missingLocationData', 'Missing Location Data')}</h2>
-                <p>{t('pleaseSelectLocations', 'Please select your pickup and destination locations first.')}</p>
-            </div>
+          <div className="quote-page-error">
+              <h2>{t('missingLocationData', 'Missing Location Data')}</h2>
+              <p>{t('pleaseSelectLocations', 'Please select your pickup and destination locations first.')}</p>
+          </div>
         );
     }
 
     return (
-        <div className="quote-page">
-            {/* Header Section - Only show when options are visible */}
-            {showOptions && (
-                <QuotePageHeader
-                    startLocation={startLocation}
-                    destinationLocation={destinationLocation}
+      <div className="quote-page">
+          {/* Header Section - Simplified */}
+          {showOptions && (
+            <div className="quote-header-simple">
+                <h2>{t('details', 'Move Details')}</h2>
+                <LocationSummary
+                  startLocation={startLocation}
+                  destinationLocation={destinationLocation}
                 />
-            )}
+            </div>
+          )}
 
-            {/* Move Options Section */}
-            {showOptions && (
-                <MoveOptionsSection
-                    locationType={locationType}
-                    onDetailsChange={handleDetailsChange}
-                    onDateChange={handleDateChange}
-                    onTimeChange={handleTimeChange}
+          {/* Move Options Section - Remove extra card wrapper */}
+          {showOptions && (
+            <div className="move-options-wrapper">
+                <MoveOptions
+                  locationType={locationType}
+                  onDetailsChange={handleDetailsChange}
+                  initialDetails={moveDetails}
                 />
-            )}
+            </div>
+          )}
 
-            {/* Quote Summary Section */}
-            {showSummary && (
-                <QuoteSummary
-                    ref={childRef}
-                    hideOptions={hideOptions}
-                    moveType={locationType.locationType}
-                    details={moveDetails}
-                    date={date}
-                    time={time}
-                    startLocation={startLocation}
-                    destinationLocation={destinationLocation}
-                    onConfirmDetails={handleConfirmDetails}
-                    isCalculating={isCalculating}
-                    calculationError={calculationError}
+          {/* Date Time Picker Section - Separate section */}
+          {showDatePicker && showOptions && (
+            <div className="datetime-picker-section">
+                <h3 className="section-title">
+                    <span className="section-icon">📅</span>
+                    {t('scheduling.selectDateAndTime', 'Select Date & Time')}
+                </h3>
+                <DateTimePicker
+                  onDateChange={handleDateChange}
+                  onTimeChange={handleTimeChange}
+                  restrictions={{
+                      maxDaysInAdvance: 90,
+                      excludeWeekends: false
+                  }}
                 />
-            )}
+            </div>
+          )}
 
-            {/* Quote Actions Section */}
-            {isDetailsConfirmed && quote && (
-                <div ref={quoteActionsRef}>
-                    <QuoteActions
-                        bookingId={quote.bookingId}
-                        price={quote.price}
-                        helperPrice={quote.helperPrice}
-                        onSubmitted={handleQuoteSubmitted}
-                    />
-                </div>
-            )}
-        </div>
-    );
-};
-
-/**
- * Header section component for the quote page
- */
-const QuotePageHeader = ({ startLocation, destinationLocation }) => {
-    const { t } = useTranslation();
-
-    return (
-        <header className="quote-header">
-            <h2>{t('details', 'Details')}</h2>
-            <LocationSummary
-                startLocation={startLocation}
-                destinationLocation={destinationLocation}
+          {/* Quote Summary Section */}
+          {showSummary && (
+            <QuoteSummary
+              ref={childRef}
+              hideOptions={hideOptions}
+              moveType={locationType.locationType}
+              details={moveDetails}
+              date={date}
+              time={time}
+              startLocation={startLocation}
+              destinationLocation={destinationLocation}
+              onConfirmDetails={handleConfirmDetails}
+              isCalculating={isCalculating}
+              calculationError={calculationError}
             />
-        </header>
+          )}
+
+          {/* Quote Actions Section */}
+          {isDetailsConfirmed && quote && (
+            <div ref={quoteActionsRef}>
+                <QuoteActions
+                  bookingId={quote.bookingId}
+                  price={quote.price}
+                  helperPrice={quote.helperPrice}
+                  onSubmitted={handleQuoteSubmitted}
+                />
+            </div>
+          )}
+      </div>
     );
-};
-
-/**
- * Move options section component
- */
-const MoveOptionsSection = ({
-                                locationType,
-                                onDetailsChange,
-                                onDateChange,
-                                onTimeChange
-                            }) => {
-    const { t } = useTranslation();
-
-    return (
-        <div className="move-options-section">
-
-            <MoveOptions
-                onDetailsChange={onDetailsChange}
-                onDateChange={onDateChange}
-                onTimeChange={onTimeChange}
-                locationType={locationType}
-            />
-        </div>
-    );
-};
-
-QuotePageHeader.propTypes = {
-    startLocation: PropTypes.string.isRequired,
-    destinationLocation: PropTypes.string.isRequired
-};
-
-MoveOptionsSection.propTypes = {
-    locationType: PropTypes.object.isRequired,
-    onDetailsChange: PropTypes.func.isRequired,
-    onDateChange: PropTypes.func.isRequired,
-    onTimeChange: PropTypes.func.isRequired
 };
 
 export default QuotePage;
