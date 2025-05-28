@@ -164,17 +164,40 @@
     font-size: 1.125rem;
 }
 
-.box-size {
+.box-specs {
+    margin-bottom: 1rem;
+}
+
+.box-size,
+.box-weight {
     font-size: 0.875rem;
     color: #718096;
     font-weight: 500;
     margin-bottom: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.spec-label {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.spec-value {
+    color: #718096;
 }
 
 .box-description {
     font-size: 0.875rem;
     color: #a0aec0;
     font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.description-icon {
+    font-size: 1rem;
 }
 
 .quantity-controls {
@@ -247,6 +270,20 @@
 
 .quantity-btn:active {
     transform: scale(0.95);
+}
+
+.quantity-summary {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(250, 119, 49, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.summary-text {
+    font-size: 0.875rem;
+    color: #c05621;
+    font-weight: 600;
 }
 
 /* ===========================================
@@ -327,6 +364,7 @@
     align-items: center;
     gap: 1rem;
     transition: all 0.3s ease;
+    flex-wrap: wrap;
 }
 
 .furniture-item:hover,
@@ -361,12 +399,13 @@
     box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
 }
 
+/* Updated Quantity Input Wrapper */
 .quantity-input-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    min-width: 120px;
+    min-width: 140px;
 }
 
 .quantity-input-wrapper label {
@@ -376,28 +415,43 @@
     margin: 0;
 }
 
-.quantity-input-wrapper input {
-    width: 80px;
-    padding: 0.5rem;
+/* Quantity Input Group - Same style as floor input */
+.quantity-input-group {
+    display: flex;
+    align-items: center;
+    background: white;
     border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 600;
+    border-radius: 12px;
+    overflow: hidden;
     transition: all 0.2s ease;
+    max-width: 120px;
+}
+
+.quantity-input-group:focus-within {
+    border-color: #fa7731;
+    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+}
+
+/* Quantity Display/Input - Shows current quantity */
+.quantity-display {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    background: white;
+    border: none;
+    outline: none;
+    min-width: 40px;
     /* Hide number input arrows/spinners */
     -moz-appearance: textfield; /* Firefox */
 }
 
-.quantity-input-wrapper input::-webkit-outer-spin-button,
-.quantity-input-wrapper input::-webkit-inner-spin-button {
+.quantity-display::-webkit-outer-spin-button,
+.quantity-display::-webkit-inner-spin-button {
     -webkit-appearance: none; /* Chrome, Safari, Edge */
     margin: 0;
-}
-
-.quantity-input-wrapper input:focus {
-    outline: none;
-    border-color: #fa7731;
-    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
 }
 
 /* ===========================================
@@ -754,27 +808,69 @@
     margin: 0;
 }
 
-.stairs-input input {
-    padding: 0.75rem 1rem;
+/* Floor Input Group - The main container for the floor picker */
+.floor-input-group {
+    display: flex;
+    align-items: center;
+    background: white;
     border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
+    border-radius: 12px;
+    overflow: hidden;
     transition: all 0.2s ease;
-    /* Hide number input arrows/spinners */
-    -moz-appearance: textfield; /* Firefox */
+    max-width: 200px;
+    margin-top: 0.5rem;
 }
 
-.stairs-input input::-webkit-outer-spin-button,
-.stairs-input input::-webkit-inner-spin-button {
-    -webkit-appearance: none; /* Chrome, Safari, Edge */
-    margin: 0;
-}
-
-.stairs-input input:focus {
-    outline: none;
+.floor-input-group:focus-within {
     border-color: #4299e1;
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+/* Floor Buttons - Plus and Minus buttons */
+.floor-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: #f7fafc;
+    color: #4a5568;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.floor-btn:hover:not(:disabled) {
+    background: #4299e1;
+    color: white;
+}
+
+.floor-btn:active {
+    transform: scale(0.95);
+}
+
+.floor-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f7fafc;
+    color: #a0aec0;
+}
+
+/* Floor Display - Shows current floor number/Ground */
+.floor-display {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #2d3748;
+    background: white;
+    border: none;
+    outline: none;
+    min-width: 80px;
 }
 
 /* ===========================================
@@ -896,6 +992,105 @@
 }
 
 /* ===========================================
+   BOX SUMMARY STYLES
+   =========================================== */
+
+.box-summary {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.box-summary.empty {
+    background: linear-gradient(135deg, #f8fafc, #edf2f7);
+    border: 2px dashed #cbd5e0;
+    text-align: center;
+    color: #718096;
+}
+
+.box-summary:not(.empty) {
+    background: linear-gradient(135deg, #e6fffa, #f0fff4);
+    border-color: #81e6d9;
+}
+
+.summary-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.summary-icon {
+    font-size: 1.5rem;
+}
+
+.summary-header h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.total-count {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 1px solid rgba(129, 230, 217, 0.3);
+}
+
+.count-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c7a7b;
+    line-height: 1;
+}
+
+.count-label {
+    font-size: 0.875rem;
+    color: #4a5568;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+}
+
+.breakdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    border: 1px solid rgba(129, 230, 217, 0.2);
+}
+
+.breakdown-count {
+    font-weight: 700;
+    color: #2c7a7b;
+    font-size: 0.9rem;
+}
+
+.breakdown-type {
+    font-size: 0.875rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* ===========================================
    RESPONSIVE DESIGN
    =========================================== */
 
@@ -924,10 +1119,53 @@
         gap: 1rem;
     }
 
+    .furniture-select,
+    .appliance-select {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .quantity-input-wrapper {
+        align-self: center;
+        min-width: 120px;
+    }
+
+    .quantity-input-group {
+        max-width: 110px;
+    }
+
+    .quantity-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.125rem;
+    }
+
+    .quantity-display {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+        min-width: 35px;
+    }
+
     .floor-access-group {
         grid-template-columns: 1fr;
         padding: 1.5rem;
         gap: 1.5rem;
+    }
+
+    .floor-input-group {
+        max-width: 160px;
+    }
+
+    .floor-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+
+    .floor-display {
+        font-size: 1rem;
+        padding: 0.5rem 0.75rem;
+        min-width: 60px;
     }
 
     .special-item-fields {
@@ -962,6 +1200,11 @@
     .appliance-description,
     .special-items-description {
         font-size: 0.85rem;
+    }
+
+    .breakdown {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.5rem;
     }
 }
 
@@ -1025,5 +1268,50 @@
         box-sizing: border-box;
         white-space: normal;
         word-wrap: break-word;
+    }
+
+    .quantity-input-group {
+        max-width: 100px;
+    }
+
+    .quantity-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .quantity-display {
+        font-size: 0.85rem;
+        padding: 0.25rem;
+        min-width: 30px;
+    }
+
+    .floor-input-group {
+        max-width: 140px;
+    }
+
+    .floor-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.125rem;
+    }
+
+    .floor-display {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+        min-width: 50px;
+    }
+
+    .pickup-access,
+    .destination-access {
+        padding: 1.25rem;
+    }
+
+    .breakdown {
+        grid-template-columns: 1fr;
+    }
+
+    .breakdown-item {
+        justify-content: center;
     }
 }

@@ -101,16 +101,38 @@ const ApplianceSelection = ({ applianceDetails, onApplianceChange }) => {
                             className="appliance-select"
                           />
 
+                          {/* Updated Quantity Input with Plus/Minus Buttons */}
                           <div className="quantity-input-wrapper">
                               <label>{t('quantity', 'Quantity')}:</label>
-                              <input
-                                type="number"
-                                min="1"
-                                max="20"
-                                value={appliance.quantity}
-                                onChange={(e) => handleApplianceChange(index, 'quantity', parseInt(e.target.value) || 1)}
-                                className="quantity-input"
-                              />
+                              <div className="quantity-input-group">
+                                  <button
+                                    type="button"
+                                    className="quantity-btn"
+                                    onClick={() => handleApplianceChange(index, 'quantity', Math.max(1, appliance.quantity - 1))}
+                                    disabled={appliance.quantity <= 1}
+                                    aria-label="Decrease quantity"
+                                  >
+                                      −
+                                  </button>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="50"
+                                    value={appliance.quantity}
+                                    onChange={(e) => handleApplianceChange(index, 'quantity', parseInt(e.target.value) || 1)}
+                                    className="quantity-display"
+                                    readOnly // Make it read-only so only buttons control the value
+                                  />
+                                  <button
+                                    type="button"
+                                    className="quantity-btn"
+                                    onClick={() => handleApplianceChange(index, 'quantity', Math.min(50, appliance.quantity + 1))}
+                                    disabled={appliance.quantity >= 50}
+                                    aria-label="Increase quantity"
+                                  >
+                                      +
+                                  </button>
+                              </div>
                           </div>
 
                           <Button
