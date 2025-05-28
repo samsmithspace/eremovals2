@@ -145,6 +145,7 @@ const QuotePage = () => {
                     </div>
                     <div className="section-content datetime-content">
                         <DateTimePicker
+                          portalId="root-portal"  // ❶ renders the popup at <body>
                           onDateChange={handleDateChange}
                           onTimeChange={handleTimeChange}
                           restrictions={{

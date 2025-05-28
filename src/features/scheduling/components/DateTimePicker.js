@@ -234,6 +234,27 @@ const DateTimePicker = ({
 
       {/* Date Selection */}
       <DateSelector
+        popperPlacement="bottom-start"
+        popperModifiers={[
+          /* auto-flip to the top when needed */
+          {
+            name: 'flip',
+            enabled: true,
+            options: { fallbackPlacements: ['top-start'] },
+          },
+          /* don’t let the popup leave the viewport (so it never
+             slides under the footer or outside the screen) */
+          {
+            name: 'preventOverflow',
+            enabled: true,
+            options: { rootBoundary: 'viewport' },
+          },
+          /* optional: push it 8 px away from the input for breathing room */
+          {
+            name: 'offset',
+            options: { offset: [0, 8] },
+          },
+        ]}
         selectedDate={selectedDate}
         onDateChange={handleDateChange}
         isValidDate={isValidDate}
