@@ -1,4 +1,4 @@
-// src/features/scheduling/components/DateTimePicker.js
+// Updated DateTimePicker.js with dynamic page extension
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,117 @@ import { Alert, Spinner } from '../../../common/components/ui';
 import './DateTimePicker.css';
 
 /**
- * Modern date and time picker component with enhanced UX
+ * Custom hook to dynamically extend page height when calendar is open
+ */
+const useDynamicPageExtension = () => {
+  const originalHeights = React.useRef(null);
+
+  useEffect(() => {
+    const handleCalendarResize = () => {
+      const calendar = document.querySelector('.rdtPicker');
+      const quotePage = document.querySelector('.quote-page');
+
+      if (calendar && quotePage) {
+        const calendarRect = calendar.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const footerHeight = 100;
+
+        // Calculate overflow amount
+        const overflowAmount = calendarRect.bottom - (windowHeight - footerHeight);
+
+        if (overflowAmount > 0) {
+          // Store original heights
+          if (!originalHeights.current) {
+            originalHeights.current = {
+              pageHeight: quotePage.style.minHeight || '',
+              bodyHeight: document.body.style.minHeight || ''
+            };
+          }
+
+          // Calculate new heights
+          const currentPageHeight = quotePage.offsetHeight;
+          const extensionAmount = Math.max(overflowAmount + 100, 400); // Minimum 400px extension
+          const newMinHeight = currentPageHeight + extensionAmount;
+
+          // Apply new heights
+          quotePage.style.minHeight = `${newMinHeight}px`;
+          document.body.style.minHeight = `${newMinHeight}px`;
+          document.body.classList.add('calendar-extended');
+
+          console.log('Calendar extended page by:', extensionAmount, 'px');
+        }
+      } else {
+        // Calendar closed - restore original heights
+        if (originalHeights.current && quotePage) {
+          quotePage.style.minHeight = originalHeights.current.pageHeight;
+          document.body.style.minHeight = originalHeights.current.bodyHeight;
+          document.body.classList.remove('calendar-extended');
+          originalHeights.current = null;
+
+          console.log('Page height restored');
+        }
+      }
+    };
+
+    // Observer for calendar DOM changes
+    const observer = new MutationObserver((mutations) => {
+      let shouldCheck = false;
+
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          const addedNodes = Array.from(mutation.addedNodes);
+          const removedNodes = Array.from(mutation.removedNodes);
+
+          const calendarChanged = [...addedNodes, ...removedNodes].some(node =>
+              node.nodeType === 1 && (
+                node.classList?.contains('rdtPicker') ||
+                node.querySelector?.('.rdtPicker')
+              )
+          );
+
+          if (calendarChanged) {
+            shouldCheck = true;
+          }
+        }
+      });
+
+      if (shouldCheck) {
+        // Small delay to ensure DOM is fully updated
+        setTimeout(handleCalendarResize, 100);
+      }
+    });
+
+    // Start observing
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // Handle window resize
+    const handleResize = () => {
+      setTimeout(handleCalendarResize, 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
+
+      // Restore heights on cleanup
+      const quotePage = document.querySelector('.quote-page');
+      if (originalHeights.current && quotePage) {
+        quotePage.style.minHeight = originalHeights.current.pageHeight;
+        document.body.style.minHeight = originalHeights.current.bodyHeight;
+        document.body.classList.remove('calendar-extended');
+      }
+    };
+  }, []);
+};
+
+/**
+ * Enhanced DateTimePicker with dynamic page extension
  */
 const DateTimePicker = ({
                           onDateChange,
@@ -23,6 +133,9 @@ const DateTimePicker = ({
   const [selectedTime, setSelectedTime] = useState(null);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
+
+  // Use the dynamic page extension hook
+  useDynamicPageExtension();
 
   // Custom hook for available time slots
   const {
@@ -55,7 +168,7 @@ const DateTimePicker = ({
       onDateChange(momentDate.format('YYYY-MM-DD'));
     }
 
-    // Automatically show time picker after date selection
+    // Show time picker after date selection
     setTimeout(() => setShowTimePicker(true), 500);
   };
 
@@ -128,7 +241,7 @@ const DateTimePicker = ({
         label={t('selectDate', 'Select your preferred date')}
       />
 
-      {/* Time Selection - Only show when date is selected */}
+      {/* Time Selection */}
       {showTimePicker && selectedDate && (
         <TimeSlotSelector
           availableTimeSlots={availableTimeSlots}
@@ -191,8 +304,8 @@ const DateSelector = ({
         <div className="date-preview">
           <span className="preview-icon">📅</span>
           <span className="preview-text">
-                        Selected: {selectedDate.format('dddd, MMMM Do, YYYY')}
-                    </span>
+            Selected: {selectedDate.format('dddd, MMMM Do, YYYY')}
+          </span>
         </div>
       )}
     </div>
@@ -200,7 +313,7 @@ const DateSelector = ({
 };
 
 /**
- * Modern time slot selector component
+ * Time slot selector component
  */
 const TimeSlotSelector = ({
                             availableTimeSlots,
@@ -217,8 +330,8 @@ const TimeSlotSelector = ({
       <div className="time-selector-loading">
         <div className="loading-spinner"></div>
         <span className="loading-text">
-                    {t('loadingAvailableTimes', 'Finding available times...')}
-                </span>
+          {t('loadingAvailableTimes', 'Finding available times...')}
+        </span>
       </div>
     );
   }
@@ -269,7 +382,7 @@ const TimeSlotSelector = ({
 };
 
 /**
- * Individual time slot button with enhanced styling
+ * Individual time slot button
  */
 const TimeSlotButton = ({
                           startTime,

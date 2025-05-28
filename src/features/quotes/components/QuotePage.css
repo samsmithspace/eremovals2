@@ -1,10 +1,12 @@
-/* QuotePage.css - Styles for the quote page layout with DateTime fixes */
+/* QuotePage.css - Complete file with all fixes applied */
 
 .quote-page {
     min-height: 100vh;
     background: linear-gradient(135deg, #4c81b5 0%, #752d2d 100%);
     padding-top: 120px; /* Add space for fixed header */
     padding-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* Quote Header Styles */
@@ -49,7 +51,7 @@
 /* Move Options Section */
 .move-options-section {
     max-width: 1200px;
-    margin: 0 auto 2rem auto; /* Add bottom margin for spacing between sections */
+    margin: 0 auto 2rem auto;
     padding: 0 2rem;
 }
 
@@ -65,34 +67,113 @@
     background-clip: text;
 }
 
+/* FIXED: Inventory Section - Proper Border Radius */
+.inventory-section {
+    background: white;
+    border-radius: 20px; /* This ensures the entire section has rounded corners */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    overflow: hidden; /* This ensures content doesn't overflow rounded corners */
+    border: 1px solid rgba(250, 119, 49, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inventory-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(250, 119, 49, 0.2);
+}
+
+/* FIXED: Section Header - Rounded top corners */
+.section-header {
+    background: linear-gradient(135deg, #fa7731 0%, #ff9a66 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    /* CRITICAL FIX: Add top border radius to match parent container */
+    border-radius: 20px 20px 0 0; /* Top left, top right, bottom right, bottom left */
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='50' cy='50' r='4'/%3E%3Ccircle cx='10' cy='10' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    opacity: 0.3;
+}
+
+.section-header h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-icon {
+    font-size: 1.75rem;
+    opacity: 0.9;
+}
+
+.section-content {
+    padding: 2rem;
+    /* Ensure section content has proper spacing and overflow handling */
+    position: relative;
+    overflow: visible; /* Allow calendar dropdown to be visible */
+}
+
 /* DateTime Picker Wrapper - Special styling to fix spacing and overflow */
 .datetime-picker-wrapper {
     position: relative;
-    z-index: 10; /* Ensure it's above other content */
-    margin-top: 2rem; /* Add explicit top margin */
+    z-index: 10;
+    margin-top: 2rem;
 }
 
 .datetime-content {
     position: relative;
-    z-index: 100; /* High z-index for calendar dropdown */
-    overflow: visible; /* Allow overflow for calendar */
-    min-height: 400px; /* Provide space for calendar dropdown */
+    z-index: 100;
+    overflow: visible;
+    min-height: 400px;
+}
+
+/* CRITICAL FIX: Ensure calendar doesn't get clipped by parent containers */
+.datetime-picker-wrapper .inventory-section {
+    overflow: visible !important;
+    position: relative;
+    z-index: 100;
+}
+
+.datetime-picker-wrapper .section-content {
+    overflow: visible !important;
+    position: relative;
+    z-index: 100;
+    /* Add extra bottom padding to accommodate calendar dropdown */
+    padding-bottom: 3rem;
 }
 
 /* Fix for React DateTime Picker dropdown positioning */
 .datetime-content .rdtPicker {
     position: absolute !important;
-    z-index: 1050 !important;
+    z-index: 2000 !important; /* Higher than any other element */
     top: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     margin-top: 0.5rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35) !important;
     border: 2px solid #e2e8f0;
     border-radius: 16px;
     background: white;
-    max-width: none;
+    max-width: 400px;
     width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 /* Ensure calendar container has proper spacing */
@@ -104,7 +185,7 @@
 
 /* Additional spacing for the date picker input container */
 .datetime-content .date-selector-section {
-    margin-bottom: 3rem; /* Extra space for calendar dropdown */
+    margin-bottom: 4rem; /* Extra space for calendar dropdown */
 }
 
 /* Error States */
@@ -140,22 +221,34 @@
     line-height: 1.6;
 }
 
-/* Override any conflicting styles for the DateTime section */
-.datetime-picker-wrapper .inventory-section {
-    overflow: visible !important;
-    position: relative;
-    z-index: 100;
-}
-
-.datetime-picker-wrapper .section-content {
-    overflow: visible !important;
-    position: relative;
-    z-index: 100;
-}
-
 /* Ensure proper spacing between all sections */
 .move-options-section + .move-options-section {
     margin-top: 2rem;
+}
+
+/* Fix for any potential conflicts with other components */
+.move-options {
+    position: relative;
+    z-index: 5;
+}
+
+/* Ensure calendar is always visible above other content including footer */
+.rdtPicker {
+    z-index: 2000 !important;
+}
+
+/* Additional body overflow fix when calendar is open */
+body.rdt-open {
+    overflow: hidden;
+}
+
+/* Additional fixes for calendar positioning on larger screens */
+@media (min-width: 769px) {
+    .datetime-content .rdtPicker {
+        max-width: 380px;
+        left: 50% !important;
+        transform: translateX(-50%);
+    }
 }
 
 /* Responsive Design */
@@ -205,15 +298,47 @@
 
     .datetime-content .rdtPicker {
         position: fixed !important;
-        top: auto !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
         margin: 0;
-        border-radius: 16px 16px 0 0;
-        max-height: 60vh;
+        border-radius: 16px;
+        max-height: 70vh;
+        max-width: 95vw;
         overflow-y: auto;
         z-index: 9999 !important;
+    }
+
+    /* Ensure inventory sections maintain proper border radius on mobile */
+    .inventory-section {
+        border-radius: 16px;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .section-header {
+        border-radius: 16px 16px 0 0;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .section-header h4 {
+        font-size: 1.25rem;
+    }
+
+    .section-content {
+        padding: 1.5rem;
+    }
+
+    /* Backdrop for mobile calendar */
+    .rdtPicker::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1999;
+        pointer-events: auto;
     }
 }
 
@@ -237,35 +362,21 @@
     .datetime-content {
         min-height: 250px;
     }
-}
 
-/* Additional fixes for calendar positioning on larger screens */
-@media (min-width: 769px) {
-    .datetime-content .rdtPicker {
-        max-width: 350px;
-        left: 50% !important;
-        transform: translateX(-50%);
+    .inventory-section {
+        border-radius: 12px;
     }
-}
 
-/* Ensure z-index stacking context is correct */
-.quote-page {
-    position: relative;
-    z-index: 1;
-}
+    .section-header {
+        border-radius: 12px 12px 0 0;
+        padding: 1rem 1.25rem;
+    }
 
-.datetime-picker-wrapper {
-    position: relative;
-    z-index: 10;
-}
+    .section-header h4 {
+        font-size: 1.125rem;
+    }
 
-/* Fix for any potential conflicts with other components */
-.move-options {
-    position: relative;
-    z-index: 5;
-}
-
-/* Ensure calendar is always visible above other content */
-.rdtPicker {
-    z-index: 1050 !important;
+    .section-content {
+        padding: 1.25rem;
+    }
 }
