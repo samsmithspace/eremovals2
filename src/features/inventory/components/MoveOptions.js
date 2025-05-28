@@ -7,7 +7,6 @@ import BoxSelection from './BoxSelection';
 import FurnitureSelection from './FurnitureSelection';
 import ApplianceSelection from './ApplianceSelection';
 import SpecialItems from './SpecialItems';
-import DateTimePicker from '../../scheduling/components/DateTimePicker'; // Add this import
 import './MoveOptions.css';
 
 /**
@@ -221,26 +220,6 @@ const MoveOptions = ({
                           </div>
                       </div>
                   </div>
-              </div>
-          </div>
-
-          {/* Date and Time Selection Section - ADD THIS */}
-          <div className="inventory-section">
-              <div className="section-header">
-                  <h4>
-                      <span className="section-icon">📅</span>
-                      {t('scheduling.selectDateAndTime', 'Select Date & Time')}
-                  </h4>
-              </div>
-              <div className="section-content">
-                  <DateTimePicker
-                    onDateChange={onDateChange}
-                    onTimeChange={onTimeChange}
-                    restrictions={{
-                        maxDaysInAdvance: 90,
-                        excludeWeekends: false
-                    }}
-                  />
               </div>
           </div>
       </div>

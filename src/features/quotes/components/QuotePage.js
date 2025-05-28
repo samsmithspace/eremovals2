@@ -1,4 +1,4 @@
-// src/features/quotes/components/QuotePage.js - Updated Layout
+// src/features/quotes/components/QuotePage.js - Updated with proper DateTimePicker styling
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import LocationSummary from '../../locations/components/LocationSummary';
 import QuoteSummary from './QuoteSummary';
 import QuoteActions from './QuoteActions';
-import DateTimePicker from '../../scheduling/components/DateTimePicker'; // Add import
+import DateTimePicker from '../../scheduling/components/DateTimePicker';
 import { useQuoteCalculation } from '../hooks/useQuoteCalculation';
 import MoveOptions from '../../inventory/components/MoveOptions';
 import './QuotePage.css';
@@ -27,7 +27,7 @@ const QuotePage = () => {
     const [time, setTime] = useState('');
     const [showSummary, setShowSummary] = useState(false);
     const [showOptions, setShowOptions] = useState(true);
-    const [showDatePicker, setShowDatePicker] = useState(false); // Add this state
+    const [showDatePicker, setShowDatePicker] = useState(false);
     const [triggerUpdate, setTriggerUpdate] = useState(0);
 
     // Extract data from navigation state
@@ -113,7 +113,7 @@ const QuotePage = () => {
       <div className="quote-page">
           {/* Header Section - Simplified */}
           {showOptions && (
-            <div className="quote-header-simple">
+            <div className="quote-header">
                 <h2>{t('details', 'Move Details')}</h2>
                 <LocationSummary
                   startLocation={startLocation}
@@ -122,9 +122,9 @@ const QuotePage = () => {
             </div>
           )}
 
-          {/* Move Options Section - Remove extra card wrapper */}
+          {/* Move Options Section */}
           {showOptions && (
-            <div className="move-options-wrapper">
+            <div className="move-options-section">
                 <MoveOptions
                   locationType={locationType}
                   onDetailsChange={handleDetailsChange}
@@ -133,21 +133,27 @@ const QuotePage = () => {
             </div>
           )}
 
-          {/* Date Time Picker Section - Separate section */}
+          {/* Date Time Picker Section - Properly styled as inventory section */}
           {showDatePicker && showOptions && (
-            <div className="datetime-picker-section">
-                <h3 className="section-title">
-                    <span className="section-icon">📅</span>
-                    {t('scheduling.selectDateAndTime', 'Select Date & Time')}
-                </h3>
-                <DateTimePicker
-                  onDateChange={handleDateChange}
-                  onTimeChange={handleTimeChange}
-                  restrictions={{
-                      maxDaysInAdvance: 90,
-                      excludeWeekends: false
-                  }}
-                />
+            <div className="move-options-section datetime-picker-wrapper">
+                <div className="inventory-section">
+                    <div className="section-header">
+                        <h4>
+                            <span className="section-icon">📅</span>
+                            {t('scheduling.selectDateAndTime', 'Select Date & Time')}
+                        </h4>
+                    </div>
+                    <div className="section-content datetime-content">
+                        <DateTimePicker
+                          onDateChange={handleDateChange}
+                          onTimeChange={handleTimeChange}
+                          restrictions={{
+                              maxDaysInAdvance: 90,
+                              excludeWeekends: false
+                          }}
+                        />
+                    </div>
+                </div>
             </div>
           )}
 
