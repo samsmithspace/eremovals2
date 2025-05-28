@@ -75,6 +75,8 @@
   "other": "其他（请在下方说明）",
   "addSpecialItem": "添加特殊物品",
   "addAnotherSpecialItem": "添加另一个特殊物品",
+  "furnitureDescription": "在此添加您的家具",
+  "applianceDescription": "在此添加您的电器",
   "noSpecialItems": "未选择特殊物品",
   "addAppliance": "添加家电",
   "selectAppliance": "选择家电",

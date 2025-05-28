@@ -82,6 +82,8 @@
   "addFurniture": "Add Furniture",
   "selectFurniture": "Select Furniture",
   "noFurnitureSelected": "No furniture items selected",
+  "furnitureDescription": "Add your furniture here",
+  "applianceDescription": "Add your appliance here",
   "small": "Small",
   "medium": "Medium",
   "large": "Large",

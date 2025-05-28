@@ -47,75 +47,96 @@ const FurnitureSelection = ({ furnitureDetails, onFurnitureChange }) => {
         onFurnitureChange(newFurnitureDetails);
     };
 
+    const hasItems = furnitureDetails.length > 0;
+
     if (loading) {
         return (
-            <div className="furniture-selection loading">
-                <h4>{t('furniture', 'Furniture')}</h4>
-                <p>{t('loadingOptions', 'Loading options...')}</p>
-            </div>
+          <div className="furniture-selection loading">
+              <h4>{t('furniture', 'Furniture')}</h4>
+              <p>{t('loadingOptions', 'Loading options...')}</p>
+          </div>
         );
     }
 
     return (
-        <div className="furniture-selection">
-            <h4>{t('furniture', 'Furniture')}</h4>
+      <div className={`furniture-selection ${hasItems ? 'has-items' : 'empty'}`}>
+          <div className="furniture-header">
+              <h4>{t('furniture', 'Furniture')}</h4>
+              <p className="furniture-description">
+                  {t('furnitureDescription', 'Add furniture items that need to be moved.')}
+              </p>
+          </div>
 
-            {furnitureDetails.length === 0 ? (
-                <div className="no-items">
-                    <p>{t('noFurnitureSelected', 'No furniture items selected')}</p>
+          {!hasItems ? (
+            <div className="no-items-compact">
+                <div className="no-items-content">
+                    <span className="no-items-icon">🪑</span>
+                    <span className="no-items-text">{t('noFurnitureSelected', 'No furniture items selected')}</span>
                 </div>
-            ) : (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={addFurnitureItem}
+                  className="add-furniture-btn-compact"
+                  size="small"
+                >
+                    {t('addFurniture', 'Add Furniture')}
+                </Button>
+            </div>
+          ) : (
+            <>
                 <div className="furniture-items">
                     {furnitureDetails.map((furniture, index) => (
-                        <div key={index} className="furniture-item">
-                            <SelectInput
-                                value={furniture.item}
-                                onChange={(e) => handleFurnitureChange(index, 'item', e.target.value)}
-                                options={[
-                                    { value: '', label: t('selectFurniture', 'Select Furniture') },
-                                    ...furnitureOptions.map(option => ({
-                                        value: option,
-                                        label: option
-                                    }))
-                                ]}
-                                className="furniture-select"
-                            />
+                      <div key={index} className="furniture-item">
+                          <SelectInput
+                            value={furniture.item}
+                            onChange={(e) => handleFurnitureChange(index, 'item', e.target.value)}
+                            options={[
+                                { value: '', label: t('selectFurniture', 'Select Furniture') },
+                                ...furnitureOptions.map(option => ({
+                                    value: option,
+                                    label: option
+                                }))
+                            ]}
+                            className="furniture-select"
+                          />
 
-                            <div className="quantity-input-wrapper">
-                                <label>{t('quantity', 'Quantity')}:</label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="50"
-                                    value={furniture.quantity}
-                                    onChange={(e) => handleFurnitureChange(index, 'quantity', parseInt(e.target.value) || 1)}
-                                    className="quantity-input"
-                                />
-                            </div>
+                          <div className="quantity-input-wrapper">
+                              <label>{t('quantity', 'Quantity')}:</label>
+                              <input
+                                type="number"
+                                min="1"
+                                max="50"
+                                value={furniture.quantity}
+                                onChange={(e) => handleFurnitureChange(index, 'quantity', parseInt(e.target.value) || 1)}
+                                className="quantity-input"
+                              />
+                          </div>
 
-                            <Button
-                                type="button"
-                                variant="danger"
-                                size="small"
-                                onClick={() => removeFurnitureItem(index)}
-                                className="remove-btn"
-                            >
-                                {t('remove', 'Remove')}
-                            </Button>
-                        </div>
+                          <Button
+                            type="button"
+                            variant="danger"
+                            size="small"
+                            onClick={() => removeFurnitureItem(index)}
+                            className="remove-btn"
+                          >
+                              {t('remove', 'Remove')}
+                          </Button>
+                      </div>
                     ))}
                 </div>
-            )}
 
-            <Button
-                type="button"
-                variant="secondary"
-                onClick={addFurnitureItem}
-                className="add-furniture-btn"
-            >
-                {t('addFurniture', 'Add Furniture')}
-            </Button>
-        </div>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={addFurnitureItem}
+                  className="add-furniture-btn"
+                >
+                    {t('addFurniture', 'Add Furniture')}
+                </Button>
+            </>
+          )}
+      </div>
     );
 };
 

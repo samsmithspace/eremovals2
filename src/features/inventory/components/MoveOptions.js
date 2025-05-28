@@ -13,7 +13,6 @@ import './MoveOptions.css';
  * Modern inventory selection component with enhanced UX
  */
 const MoveOptions = ({
-                         moveType,
                          onDetailsChange,
                          initialDetails = {},
                          onValidationChange
@@ -36,6 +35,24 @@ const MoveOptions = ({
             onValidationChange(isValid);
         }
     }, [isValid, onValidationChange]);
+
+    // Helper function to get floor display name
+    const getFloorDisplayName = (floorNumber) => {
+        if (floorNumber === 0) return 'Ground';
+        return floorNumber.toString();
+    };
+
+    // Helper function to handle floor increment
+    const incrementFloor = (field, currentValue) => {
+        const newValue = Math.min(currentValue + 1, 20); // Max 20 floors
+        updateFloorDetails(field, newValue);
+    };
+
+    // Helper function to handle floor decrement
+    const decrementFloor = (field, currentValue) => {
+        const newValue = Math.max(currentValue - 1, 0); // Min 0 (Ground)
+        updateFloorDetails(field, newValue);
+    };
 
     return (
       <div className="move-options">
@@ -64,7 +81,7 @@ const MoveOptions = ({
           </div>
 
           {/* Furniture Selection Section - Only for student and house moves */}
-          {(moveType === 'student' || moveType === 'house') && (
+
             <div className="inventory-section">
                 <div className="section-header">
                     <h4>
@@ -79,10 +96,10 @@ const MoveOptions = ({
                     />
                 </div>
             </div>
-          )}
+
 
           {/* Appliance Selection Section - Only for student and house moves */}
-          {(moveType === 'student' || moveType === 'house') && (
+
             <div className="inventory-section">
                 <div className="section-header">
                     <h4>
@@ -97,7 +114,7 @@ const MoveOptions = ({
                     />
                 </div>
             </div>
-          )}
+
 
           {/* Special Items Section */}
           <div className="inventory-section">
@@ -135,16 +152,31 @@ const MoveOptions = ({
 
                       <div className="stairs-input">
                           <label>
-                              {t('numberOfFloors', 'Number of Floors')}:
+                              {t('floorLevel', 'Floor Level')}:
                           </label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="50"
-                            value={floorDetails.numberOfStairs || ''}
-                            onChange={(e) => updateFloorDetails('numberOfStairs', parseInt(e.target.value) || 0)}
-                            placeholder="0"
-                          />
+                          <div className="floor-input-group">
+                              <button
+                                type="button"
+                                className="floor-btn"
+                                onClick={() => decrementFloor('numberOfStairs', floorDetails.numberOfStairs || 0)}
+                                disabled={floorDetails.numberOfStairs <= 0}
+                                aria-label="Decrease floor"
+                              >
+                                  −
+                              </button>
+                              <div className="floor-display">
+                                  {getFloorDisplayName(floorDetails.numberOfStairs || 0)}
+                              </div>
+                              <button
+                                type="button"
+                                className="floor-btn"
+                                onClick={() => incrementFloor('numberOfStairs', floorDetails.numberOfStairs || 0)}
+                                disabled={floorDetails.numberOfStairs >= 20}
+                                aria-label="Increase floor"
+                              >
+                                  +
+                              </button>
+                          </div>
                       </div>
                   </div>
 
@@ -163,16 +195,31 @@ const MoveOptions = ({
 
                       <div className="stairs-input">
                           <label>
-                              {t('numberOfFloors', 'Number of Floors')}:
+                              {t('floorLevel', 'Floor Level')}:
                           </label>
-                          <input
-                            type="number"
-                            min="0"
-                            max="50"
-                            value={floorDetails.numberofstairsright || ''}
-                            onChange={(e) => updateFloorDetails('numberofstairsright', parseInt(e.target.value) || 0)}
-                            placeholder="0"
-                          />
+                          <div className="floor-input-group">
+                              <button
+                                type="button"
+                                className="floor-btn"
+                                onClick={() => decrementFloor('numberofstairsright', floorDetails.numberofstairsright || 0)}
+                                disabled={floorDetails.numberofstairsright <= 0}
+                                aria-label="Decrease floor"
+                              >
+                                  −
+                              </button>
+                              <div className="floor-display">
+                                  {getFloorDisplayName(floorDetails.numberofstairsright || 0)}
+                              </div>
+                              <button
+                                type="button"
+                                className="floor-btn"
+                                onClick={() => incrementFloor('numberofstairsright', floorDetails.numberofstairsright || 0)}
+                                disabled={floorDetails.numberofstairsright >= 20}
+                                aria-label="Increase floor"
+                              >
+                                  +
+                              </button>
+                          </div>
                       </div>
                   </div>
               </div>

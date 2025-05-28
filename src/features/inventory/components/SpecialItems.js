@@ -54,75 +54,90 @@ const SpecialItems = ({ specialItems, onSpecialItemsChange }) => {
         }
     };
 
+    const hasItems = specialItems.length > 0;
+
     return (
-        <div className="special-items">
-            <h4>{t('specialItems', 'Special Items')}</h4>
-            <p className="special-items-description">
-                {t('specialItemsDescription', 'Items that require special handling, extra care, or have unique characteristics.')}
-            </p>
+      <div className={`special-items ${hasItems ? 'has-items' : 'empty'}`}>
+          <div className="special-items-header">
+              <h4>{t('specialItems', 'Special Items')}</h4>
+              <p className="special-items-description">
+                  {t('specialItemsDescription', 'Items that require special handling, extra care, or have unique characteristics.')}
+              </p>
+          </div>
 
-            {!showSpecialItemFields && specialItems.length === 0 ? (
-                <div className="no-special-items">
-                    <p>{t('noSpecialItems', 'No special items selected')}</p>
+          {!showSpecialItemFields && specialItems.length === 0 ? (
+            <div className="no-special-items">
+                <div className="no-items-content">
+                    <span className="no-items-icon">⭐</span>
+                    <span className="no-items-text">{t('noSpecialItems', 'No special items selected')}</span>
                 </div>
-            ) : null}
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={addSpecialItem}
+                  className="add-special-item-btn-compact"
+                  size="small"
+                >
+                    {t('addSpecialItem', 'Add Special Item')}
+                </Button>
+            </div>
+          ) : null}
 
-            {showSpecialItemFields && (
-                <div className="special-items-list">
-                    {specialItems.map((item, index) => (
-                        <div key={index} className="special-item">
-                            <div className="special-item-fields">
-                                <SelectInput
-                                    value={item.type}
-                                    onChange={(e) => handleItemTypeChange(index, e.target.value)}
-                                    options={[
-                                        { value: '', label: t('selectItemType', 'Select Item Type') },
-                                        ...specialItemTypes
-                                    ]}
-                                    className="item-type-select"
-                                />
+          {showSpecialItemFields && (
+            <div className="special-items-list">
+                {specialItems.map((item, index) => (
+                  <div key={index} className="special-item">
+                      <div className="special-item-fields">
+                          <SelectInput
+                            value={item.type}
+                            onChange={(e) => handleItemTypeChange(index, e.target.value)}
+                            options={[
+                                { value: '', label: t('selectItemType', 'Select Item Type') },
+                                ...specialItemTypes
+                            ]}
+                            className="item-type-select"
+                          />
 
-                                <div className="description-wrapper">
-                                    <label htmlFor={`description-${index}`}>
-                                        {t('description', 'Description')}:
-                                    </label>
-                                    <textarea
-                                        id={`description-${index}`}
-                                        placeholder={t('describeItem', 'Describe the item in detail...')}
-                                        value={item.description}
-                                        onChange={(e) => handleItemDescriptionChange(index, e.target.value)}
-                                        rows="3"
-                                        className="description-textarea"
-                                    />
-                                </div>
-                            </div>
+                          <div className="description-wrapper">
+                              <label htmlFor={`description-${index}`}>
+                                  {t('description', 'Description')}:
+                              </label>
+                              <textarea
+                                id={`description-${index}`}
+                                placeholder={t('describeItem', 'Describe the item in detail...')}
+                                value={item.description}
+                                onChange={(e) => handleItemDescriptionChange(index, e.target.value)}
+                                rows="3"
+                                className="description-textarea"
+                              />
+                          </div>
+                      </div>
 
-                            <Button
-                                type="button"
-                                variant="danger"
-                                size="small"
-                                onClick={() => removeSpecialItem(index)}
-                                className="remove-special-item-btn"
-                            >
-                                {t('remove', 'Remove')}
-                            </Button>
-                        </div>
-                    ))}
-                </div>
-            )}
+                      <Button
+                        type="button"
+                        variant="danger"
+                        size="small"
+                        onClick={() => removeSpecialItem(index)}
+                        className="remove-special-item-btn"
+                      >
+                          {t('remove', 'Remove')}
+                      </Button>
+                  </div>
+                ))}
+            </div>
+          )}
 
+          {showSpecialItemFields && (
             <Button
-                type="button"
-                variant="secondary"
-                onClick={addSpecialItem}
-                className="add-special-item-btn"
+              type="button"
+              variant="secondary"
+              onClick={addSpecialItem}
+              className="add-special-item-btn"
             >
-                {showSpecialItemFields ?
-                    t('addAnotherSpecialItem', 'Add Another Special Item') :
-                    t('addSpecialItem', 'Add Special Item')
-                }
+                {t('addAnotherSpecialItem', 'Add Another Special Item')}
             </Button>
-        </div>
+          )}
+      </div>
     );
 };
 

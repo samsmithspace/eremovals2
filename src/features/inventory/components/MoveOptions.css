@@ -1,5 +1,9 @@
 /* MoveOptions.css - Modern Professional Design */
 
+/* ===========================================
+   BASE STYLES & LAYOUT
+   =========================================== */
+
 .move-options {
     max-width: 1200px;
     margin: 0 auto;
@@ -35,7 +39,10 @@
     line-height: 1.6;
 }
 
-/* Section Container */
+/* ===========================================
+   SECTION CONTAINERS
+   =========================================== */
+
 .inventory-section {
     background: white;
     border-radius: 20px;
@@ -91,7 +98,10 @@
     padding: 2rem;
 }
 
-/* Box Selection Redesign */
+/* ===========================================
+   BOX SELECTION STYLES
+   =========================================== */
+
 .box-selection {
     margin-bottom: 0;
 }
@@ -205,6 +215,14 @@
     text-align: center;
     color: #2d3748;
     outline: none;
+    /* Hide number input arrows/spinners */
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+    margin: 0;
 }
 
 .quantity-btn {
@@ -231,10 +249,64 @@
     transform: scale(0.95);
 }
 
-/* Furniture and Appliance Selection */
+/* ===========================================
+   FURNITURE & APPLIANCE SELECTION
+   =========================================== */
+
 .furniture-selection,
 .appliance-selection {
     margin-bottom: 0;
+    transition: all 0.3s ease;
+}
+
+.furniture-selection.has-items,
+.appliance-selection.has-items {
+    border-color: rgba(72, 187, 120, 0.3);
+}
+
+.furniture-selection.empty:hover,
+.appliance-selection.empty:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.furniture-selection.empty,
+.appliance-selection.empty {
+    min-height: auto;
+}
+
+.furniture-header,
+.appliance-header {
+    margin-bottom: 1rem;
+}
+
+.furniture-selection h4,
+.appliance-selection h4 {
+    color: #2d3748;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.furniture-selection h4::before {
+    content: '🛋️';
+    font-size: 1.125rem;
+}
+
+.appliance-selection h4::before {
+    content: '🔌';
+    font-size: 1.125rem;
+}
+
+.furniture-description,
+.appliance-description {
+    font-size: 0.9rem;
+    color: #718096;
+    margin: 0.5rem 0 0;
+    line-height: 1.4;
 }
 
 .furniture-items,
@@ -312,6 +384,14 @@
     text-align: center;
     font-weight: 600;
     transition: all 0.2s ease;
+    /* Hide number input arrows/spinners */
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.quantity-input-wrapper input::-webkit-outer-spin-button,
+.quantity-input-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+    margin: 0;
 }
 
 .quantity-input-wrapper input:focus {
@@ -319,6 +399,10 @@
     border-color: #fa7731;
     box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
 }
+
+/* ===========================================
+   BUTTON STYLES
+   =========================================== */
 
 .remove-btn,
 .add-furniture-btn,
@@ -362,19 +446,84 @@
     box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
 }
 
-/* Special Items Section */
+/* Compact Button Styles */
+.add-furniture-btn-compact,
+.add-appliance-btn-compact,
+.add-special-item-btn-compact {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    min-width: fit-content;
+    white-space: nowrap;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.add-special-item-btn-compact {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.add-furniture-btn-compact:hover,
+.add-appliance-btn-compact:hover {
+    background: linear-gradient(135deg, #38a169, #2f855a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.add-special-item-btn-compact:hover {
+    background: linear-gradient(135deg, #5a67d8, #553c9a);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ===========================================
+   SPECIAL ITEMS SECTION
+   =========================================== */
+
 .special-items {
     margin-bottom: 0;
 }
 
+.special-items.empty {
+    min-height: auto;
+}
+
+.special-items-header {
+    margin-bottom: 1rem;
+}
+
+.special-items h4 {
+    color: #2d3748;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.special-items h4::before {
+    content: '⭐';
+    font-size: 1.125rem;
+}
+
 .special-items-description {
     color: #718096;
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
     padding: 1rem;
     background: linear-gradient(135deg, #fef5e7, #fff7ed);
     border-radius: 12px;
     border-left: 4px solid #fa7731;
+    line-height: 1.4;
 }
 
 .special-items-list {
@@ -489,7 +638,10 @@
     box-shadow: 0 8px 20px rgba(245, 101, 101, 0.3);
 }
 
-/* Floor Access Section */
+/* ===========================================
+   FLOOR ACCESS SECTION
+   =========================================== */
+
 .floor-details-section {
     background: white;
     border-radius: 20px;
@@ -609,6 +761,14 @@
     font-size: 1rem;
     font-weight: 600;
     transition: all 0.2s ease;
+    /* Hide number input arrows/spinners */
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.stairs-input input::-webkit-outer-spin-button,
+.stairs-input input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+    margin: 0;
 }
 
 .stairs-input input:focus {
@@ -617,12 +777,93 @@
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
-/* No items selected states */
+/* ===========================================
+   EMPTY & LOADING STATES
+   =========================================== */
+
+/* Compact No Items State */
+.no-items-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc, #edf2f7);
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.no-items-compact:hover {
+    border-color: #fa7731;
+    background: linear-gradient(135deg, #fef5e7, #fed7cc);
+}
+
+.no-items-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.no-items-icon {
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+.no-items-text {
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* Special Items No Items State */
+.no-special-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc, #edf2f7);
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.no-special-items:hover {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+}
+
+.no-special-items .no-items-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.no-special-items .no-items-icon {
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+.no-special-items .no-items-text {
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* Traditional No Items State */
 .no-items {
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
     color: #a0aec0;
     font-style: italic;
+    background: linear-gradient(135deg, #f8fafc, #edf2f7);
+    border-radius: 12px;
+    border: 2px dashed #cbd5e0;
+    margin: 1rem 0;
 }
 
 .no-items::before {
@@ -633,7 +874,7 @@
     opacity: 0.5;
 }
 
-/* Loading states */
+/* Loading States */
 .loading {
     text-align: center;
     padding: 2rem;
@@ -641,7 +882,23 @@
     font-style: italic;
 }
 
-/* Responsive Design */
+.furniture-selection.loading,
+.appliance-selection.loading {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #718096;
+    font-style: italic;
+    background: linear-gradient(135deg, #f8fafc, #edf2f7);
+    border-radius: 12px;
+}
+
+/* ===========================================
+   RESPONSIVE DESIGN
+   =========================================== */
+
 @media (max-width: 768px) {
     .move-options {
         padding: 1rem;
@@ -676,6 +933,36 @@
     .special-item-fields {
         gap: 1rem;
     }
+
+    .no-items-compact,
+    .no-special-items {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1.25rem;
+        overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .no-items-content {
+        justify-content: center;
+    }
+
+    .add-furniture-btn-compact,
+    .add-appliance-btn-compact,
+    .add-special-item-btn-compact {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+    }
+
+    .furniture-description,
+    .appliance-description,
+    .special-items-description {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -696,10 +983,47 @@
         font-size: 1.25rem;
     }
 
+    .section-content {
+        padding: 1rem;
+        overflow: hidden;
+    }
+
+    .inventory-section {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+    }
+
     .box-option,
     .pickup-access,
     .destination-access,
     .special-item {
         padding: 1.25rem;
+    }
+
+    .no-items-compact,
+    .no-special-items {
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    .no-items-icon {
+        font-size: 1.25rem;
+    }
+
+    .no-items-text {
+        font-size: 0.9rem;
+    }
+
+    .add-furniture-btn-compact,
+    .add-appliance-btn-compact,
+    .add-special-item-btn-compact {
+        font-size: 0.85rem;
+        padding: 0.75rem 0.875rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        white-space: normal;
+        word-wrap: break-word;
     }
 }
