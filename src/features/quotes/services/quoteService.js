@@ -1,8 +1,6 @@
-// src/features/quotes/services/quoteService.js
+// src/features/quotes/services/quoteService.js - FIXED VERSION
 import { fetchApi } from '../../../common/utils/apiUtils';
 import config from '../../../config/config';
-
-const API_BASE_URL = config.api.baseUrl;
 
 /**
  * Service for quote-related API operations
@@ -15,11 +13,16 @@ export const quoteService = {
      */
     calculateQuote: async (quoteData) => {
         try {
-            const response = await fetchApi(`${API_BASE_URL}${config.api.endpoints.bookings}`, {
+            console.log('Calculating quote with data:', quoteData);
+            console.log('Using API endpoint:', config.api.endpoints.bookings);
+
+            const response = await fetchApi(config.api.endpoints.bookings, {
                 method: 'POST',
                 body: JSON.stringify(quoteData)
             });
-            console.log("hahaha-------------hahaha");
+
+            console.log('Quote calculation response:', response);
+
             return {
                 bookingId: response.booking._id,
                 price: response.booking.price,
@@ -29,7 +32,7 @@ export const quoteService = {
                 booking: response.booking
             };
         } catch (error) {
-            console.log('Error calculating quote:', error);
+            console.error('Error calculating quote:', error);
             throw new Error('Failed to calculate quote. Please try again.');
         }
     },
@@ -43,11 +46,11 @@ export const quoteService = {
     applyPromoCode: async (bookingId, promoCode) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${config.api.endpoints.promoCode}/${bookingId}/apply-promo`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({ promoCode })
-                }
+              `${config.api.endpoints.promoCode}/${bookingId}/apply-promo`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify({ promoCode })
+              }
             );
 
             return {
@@ -57,7 +60,7 @@ export const quoteService = {
                 discount: response.discount
             };
         } catch (error) {
-           // console.error('Error applying promo code:', error);
+            console.error('Error applying promo code:', error);
             throw new Error(error.message || 'Invalid promotion code. Please try again.');
         }
     },
@@ -70,7 +73,7 @@ export const quoteService = {
     getLatestPrices: async (bookingId) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${config.api.endpoints.promoCode}/${bookingId}/latest-price`
+              `${config.api.endpoints.promoCode}/${bookingId}/latest-price`
             );
 
             return {
@@ -78,7 +81,7 @@ export const quoteService = {
                 helperPrice: response.helperprice
             };
         } catch (error) {
-           // console.error('Error fetching latest prices:', error);
+            console.error('Error fetching latest prices:', error);
             throw new Error('Failed to fetch latest prices');
         }
     },
@@ -94,19 +97,19 @@ export const quoteService = {
     createCheckoutSession: async (bookingId, amount, language = 'en', withHelper = false) => {
         try {
             const endpoint = withHelper
-                ? `/create-checkout-session-helper`
-                : `/create-checkout-session`;
+              ? `/create-checkout-session-helper`
+              : `/create-checkout-session`;
 
             const response = await fetchApi(
-                `${API_BASE_URL}${config.api.endpoints.bookings}/${bookingId}${endpoint}`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        bookingId,
-                        amount,
-                        lang: language
-                    })
-                }
+              `${config.api.endpoints.bookings}/${bookingId}${endpoint}`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify({
+                      bookingId,
+                      amount,
+                      lang: language
+                  })
+              }
             );
 
             if (!response.sessionId) {
@@ -115,7 +118,7 @@ export const quoteService = {
 
             return response.sessionId;
         } catch (error) {
-          //  console.error('Error creating checkout session:', error);
+            console.error('Error creating checkout session:', error);
             throw new Error('Failed to create payment session. Please try again.');
         }
     },
@@ -129,16 +132,16 @@ export const quoteService = {
     updateBookingContact: async (bookingId, contactInfo) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${config.api.endpoints.bookings}/${bookingId}/contact`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify(contactInfo)
-                }
+              `${config.api.endpoints.bookings}/${bookingId}/contact`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify(contactInfo)
+              }
             );
 
             return response;
         } catch (error) {
-           // console.error('Error updating booking contact:', error);
+            console.error('Error updating booking contact:', error);
             throw new Error('Failed to update contact information');
         }
     },
@@ -151,12 +154,12 @@ export const quoteService = {
     getBookingById: async (bookingId) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${config.api.endpoints.bookings}/${bookingId}`
+              `${config.api.endpoints.bookings}/${bookingId}`
             );
 
             return response;
         } catch (error) {
-           // console.error('Error fetching booking:', error);
+            console.error('Error fetching booking:', error);
             throw new Error('Failed to fetch booking details');
         }
     },
