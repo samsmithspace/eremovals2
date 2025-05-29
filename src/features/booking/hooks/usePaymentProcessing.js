@@ -1,95 +1,84 @@
-// src/features/booking/hooks/usePaymentProcessing.js
+// src/features/booking/hooks/usePaymentProcessing.js - Fixed version
 import { useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { bookingService } from '../services/bookingService';
-import { useBookingContext } from '../context/BookingContext';
 import config from '../../../config/config';
 
 const stripePromise = loadStripe(config.apiKeys.stripe);
 
 /**
  * Custom hook for handling payment processing
+ * @param {string} bookingId - The booking ID (passed as parameter instead of from context)
  * @returns {Object} Payment processing state and handlers
  */
-export const usePaymentProcessing = () => {
-    const { bookingId, pricing, setError, clearError } = useBookingContext();
+export const usePaymentProcessing = (bookingId = null) => {
     const [isProcessing, setIsProcessing] = useState(false);
+    const [error, setError] = useState(null);
 
     /**
-     * Process payment for booking without helper
+     * Process payment for booking
+     * @param {string} targetBookingId - Booking ID to process payment for
+     * @param {number} amount - Payment amount
+     * @param {string} language - Language for checkout
+     * @param {boolean} withHelper - Whether to include helper service
      */
-    const processStandardPayment = useCallback(async () => {
-        if (!bookingId) {
-            setError('No booking ID found');
-            return;
+    const processPayment = useCallback(async (targetBookingId, amount, language = 'en', withHelper = false) => {
+        const finalBookingId = targetBookingId || bookingId;
+
+        if (!finalBookingId) {
+            const errorMessage = 'No booking ID provided for payment processing';
+            setError(errorMessage);
+            throw new Error(errorMessage);
         }
 
         setIsProcessing(true);
-        clearError();
+        setError(null);
 
         try {
-            const { sessionId } = await bookingService.createCheckoutSession(
-                bookingId,
-                pricing.finalPrice || pricing.basePrice
-            );
+            // Determine which endpoint to use based on helper inclusion
+            const endpoint = withHelper
+              ? 'createCheckoutSessionWithHelper'
+              : 'createCheckoutSession';
+
+            // Call the appropriate booking service method
+            const sessionId = withHelper
+              ? await bookingService.createCheckoutSessionWithHelper(finalBookingId, amount, language)
+              : await bookingService.createCheckoutSession(finalBookingId, amount, language);
 
             if (!sessionId) {
                 throw new Error('No session ID returned from payment service');
             }
 
+            // Redirect to Stripe checkout
             const stripe = await stripePromise;
-            const { error } = await stripe.redirectToCheckout({ sessionId });
+            const { error: stripeError } = await stripe.redirectToCheckout({ sessionId });
 
-            if (error) {
-                throw new Error(`Payment redirect error: ${error.message}`);
+            if (stripeError) {
+                throw new Error(`Payment redirect error: ${stripeError.message}`);
             }
+
+            return sessionId;
         } catch (error) {
-         //   console.error('Payment processing error:', error);
-            setError(error.message || 'Payment processing failed');
+            console.error('Payment processing error:', error);
+            const errorMessage = error.message || 'Payment processing failed';
+            setError(errorMessage);
+            throw error;
         } finally {
             setIsProcessing(false);
         }
-    }, [bookingId, pricing, setError, clearError]);
+    }, [bookingId]);
 
     /**
-     * Process payment for booking with helper
+     * Clear any existing errors
      */
-    const processHelperPayment = useCallback(async () => {
-        if (!bookingId) {
-            setError('No booking ID found');
-            return;
-        }
-
-        setIsProcessing(true);
-        clearError();
-
-        try {
-            const { sessionId } = await bookingService.createCheckoutSessionWithHelper(
-                bookingId,
-                pricing.helperPrice
-            );
-
-            if (!sessionId) {
-                throw new Error('No session ID returned from payment service');
-            }
-
-            const stripe = await stripePromise;
-            const { error } = await stripe.redirectToCheckout({ sessionId });
-
-            if (error) {
-                throw new Error(`Payment redirect error: ${error.message}`);
-            }
-        } catch (error) {
-          //  console.error('Helper payment processing error:', error);
-            setError(error.message || 'Payment processing failed');
-        } finally {
-            setIsProcessing(false);
-        }
-    }, [bookingId, pricing, setError, clearError]);
+    const clearError = useCallback(() => {
+        setError(null);
+    }, []);
 
     return {
         isProcessing,
-        processStandardPayment,
-        processHelperPayment
+        error,
+        processPayment,
+        clearError
     };
 };
