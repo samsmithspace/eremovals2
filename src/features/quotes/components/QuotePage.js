@@ -1,4 +1,4 @@
-// src/features/quotes/components/QuotePage.js - Fixed conditional rendering
+// src/features/quotes/components/QuotePage.js - Fixed moveType handling
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -32,6 +32,40 @@ const QuotePage = () => {
 
     // Extract data from navigation state
     const { startLocation, destinationLocation, locationType } = location.state || {};
+
+    // FIXED: Safely extract moveType from locationType object with more robust checking
+    const moveType = React.useMemo(() => {
+        console.log('locationType received:', locationType);
+
+        if (!locationType) {
+            console.log('No locationType, using default');
+            return 'house';
+        }
+
+        // Handle different possible structures
+        if (typeof locationType === 'string') {
+            console.log('locationType is string:', locationType);
+            return locationType;
+        }
+
+        if (typeof locationType === 'object') {
+            // Try different possible property names
+            const possibleKeys = ['locationType', 'type', 'moveType'];
+            for (const key of possibleKeys) {
+                if (locationType[key] && typeof locationType[key] === 'string') {
+                    console.log(`Found moveType in ${key}:`, locationType[key]);
+                    return locationType[key];
+                }
+            }
+
+            // If it's an object but no string value found, stringify for debugging
+            console.warn('locationType is object but no string found:', locationType);
+            return 'house'; // Safe fallback
+        }
+
+        console.log('Unexpected locationType type, using default');
+        return 'house';
+    }, [locationType]);
 
     // Custom hook for quote calculation
     const {
@@ -105,7 +139,7 @@ const QuotePage = () => {
             const quoteData = {
                 startLocation,
                 destinationLocation,
-                moveType: locationType.locationType,
+                moveType, // FIXED: Now using the extracted string value
                 details: moveDetails,
                 date,
                 time
@@ -120,8 +154,9 @@ const QuotePage = () => {
     };
 
     const hideOptions = () => {
-        console.log('Hiding options');
-        setShowOptions(false);
+        console.log('hideOptions called - but keeping sections visible');
+        // Don't actually hide the sections, just log for debugging
+        // setShowOptions(false); // Commented out to keep sections visible
     };
 
     const handleQuoteSubmitted = (bookingData) => {
@@ -138,8 +173,9 @@ const QuotePage = () => {
     }
 
     // Determine what to show based on current state
-    const shouldShowMoveOptions = showOptions && !showSummary;
-    const shouldShowDatePicker = showDatePicker && showOptions && !showSummary;
+    // FIXED: Don't hide previous sections when summary shows
+    const shouldShowMoveOptions = showOptions;
+    const shouldShowDatePicker = showDatePicker && showOptions;
     const shouldShowQuoteSummary = showSummary && !isDetailsConfirmed;
 
     console.log('Render state:', {
@@ -152,7 +188,8 @@ const QuotePage = () => {
         shouldShowQuoteSummary,
         hasDate: !!date,
         hasTime: !!time,
-        hasMoveDetails: Object.keys(moveDetails).length > 0
+        hasMoveDetails: Object.keys(moveDetails).length > 0,
+        moveType // FIXED: Log the actual moveType string
     });
 
     return (
@@ -203,21 +240,23 @@ const QuotePage = () => {
             </div>
           )}
 
-          {/* Quote Summary Section */}
+          {/* Quote Summary Section - Add some margin to separate from previous sections */}
           {shouldShowQuoteSummary && (
-            <QuoteSummary
-              ref={childRef}
-              hideOptions={hideOptions}
-              moveType={locationType.locationType}
-              details={moveDetails}
-              date={date}
-              time={time}
-              startLocation={startLocation}
-              destinationLocation={destinationLocation}
-              onConfirmDetails={handleConfirmDetails}
-              isCalculating={isCalculating}
-              calculationError={calculationError}
-            />
+            <div style={{ marginTop: '3rem' }}>
+                <QuoteSummary
+                  ref={childRef}
+                  hideOptions={hideOptions}
+                  moveType={moveType} // FIXED: Pass the string value, not the object
+                  details={moveDetails}
+                  date={date}
+                  time={time}
+                  startLocation={startLocation}
+                  destinationLocation={destinationLocation}
+                  onConfirmDetails={handleConfirmDetails}
+                  isCalculating={isCalculating}
+                  calculationError={calculationError}
+                />
+            </div>
           )}
 
           {/* Quote Actions Section */}

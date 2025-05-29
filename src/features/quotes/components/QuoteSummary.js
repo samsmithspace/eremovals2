@@ -1,9 +1,8 @@
-// src/features/quotes/components/QuoteSummary.js - Fixed translation usage
+// src/features/quotes/components/QuoteSummary.js - Fixed safe rendering
 import React, { forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import BookingSummary from '../../booking/components/BookingSummary';
-import { Button, Spinner, Alert } from '../../../common/components/ui';
+import { Alert } from '../../../common/components/ui';
 import './QuoteSummary.css';
 
 // Add inline styles for the simple booking details
@@ -66,13 +65,40 @@ const QuoteSummary = forwardRef(({
         }
     }));
 
+    // FIXED: Safely convert moveType to string to prevent object rendering errors
+    const safeMoveType = React.useMemo(() => {
+        console.log('QuoteSummary received moveType:', moveType, typeof moveType);
+
+        if (typeof moveType === 'string') {
+            return moveType;
+        }
+
+        if (typeof moveType === 'object' && moveType !== null) {
+            // If it's an object, try to extract a string value
+            if (moveType.locationType) return String(moveType.locationType);
+            if (moveType.type) return String(moveType.type);
+            if (moveType.moveType) return String(moveType.moveType);
+
+            console.warn('moveType is object but no string property found:', moveType);
+            return 'house'; // Safe fallback
+        }
+
+        return String(moveType || 'house'); // Ensure it's always a string
+    }, [moveType]);
+
+    // FIXED: Safely convert all string values to prevent object rendering
+    const safeStartLocation = String(startLocation || '');
+    const safeDestinationLocation = String(destinationLocation || '');
+    const safeDate = String(date || '');
+    const safeTime = String(time || '');
+
     // Prepare booking data for display
     const bookingData = {
-        startLocation,
-        destinationLocation,
-        moveType,
-        date,
-        time,
+        startLocation: safeStartLocation,
+        destinationLocation: safeDestinationLocation,
+        moveType: safeMoveType,
+        date: safeDate,
+        time: safeTime,
         details,
         // Add any additional fields needed for display
         boxDetails: details.boxDetails || [],
@@ -126,23 +152,23 @@ const QuoteSummary = forwardRef(({
                       <h3 style={styles.detailSectionH3}>Move Details</h3>
                       <div className="detail-item" style={styles.detailItem}>
                           <span className="label" style={styles.label}>From:</span>
-                          <span className="value" style={styles.value}>{startLocation}</span>
+                          <span className="value" style={styles.value}>{safeStartLocation}</span>
                       </div>
                       <div className="detail-item" style={styles.detailItem}>
                           <span className="label" style={styles.label}>To:</span>
-                          <span className="value" style={styles.value}>{destinationLocation}</span>
+                          <span className="value" style={styles.value}>{safeDestinationLocation}</span>
                       </div>
                       <div className="detail-item" style={styles.detailItem}>
                           <span className="label" style={styles.label}>Move Type:</span>
-                          <span className="value" style={styles.value}>{moveType}</span>
+                          <span className="value" style={styles.value}>{safeMoveType}</span>
                       </div>
                       <div className="detail-item" style={styles.detailItem}>
                           <span className="label" style={styles.label}>Date:</span>
-                          <span className="value" style={styles.value}>{date}</span>
+                          <span className="value" style={styles.value}>{safeDate}</span>
                       </div>
                       <div className="detail-item" style={styles.detailItem}>
                           <span className="label" style={styles.label}>Time:</span>
-                          <span className="value" style={styles.value}>{time}</span>
+                          <span className="value" style={styles.value}>{safeTime}</span>
                       </div>
                   </div>
 
@@ -153,7 +179,7 @@ const QuoteSummary = forwardRef(({
                         {details.boxDetails.map((box, index) =>
                             box.numberOfBoxes > 0 && (
                               <div key={index} className="detail-item" style={styles.detailItem}>
-                                  <span className="label" style={styles.label}>{box.boxSize}:</span>
+                                  <span className="label" style={styles.label}>{String(box.boxSize || '')}:</span>
                                   <span className="value" style={styles.value}>{box.numberOfBoxes} boxes</span>
                               </div>
                             )
@@ -166,7 +192,7 @@ const QuoteSummary = forwardRef(({
                         <h3 style={styles.detailSectionH3}>Furniture</h3>
                         {details.furnitureDetails.map((furniture, index) => (
                           <div key={index} className="detail-item" style={styles.detailItem}>
-                              <span className="label" style={styles.label}>{furniture.item}:</span>
+                              <span className="label" style={styles.label}>{String(furniture.item || '')}:</span>
                               <span className="value" style={styles.value}>{furniture.quantity}</span>
                           </div>
                         ))}
@@ -178,7 +204,7 @@ const QuoteSummary = forwardRef(({
                         <h3 style={styles.detailSectionH3}>Appliances</h3>
                         {details.applianceDetails.map((appliance, index) => (
                           <div key={index} className="detail-item" style={styles.detailItem}>
-                              <span className="label" style={styles.label}>{appliance.item}:</span>
+                              <span className="label" style={styles.label}>{String(appliance.item || '')}:</span>
                               <span className="value" style={styles.value}>{appliance.quantity}</span>
                           </div>
                         ))}
@@ -188,22 +214,21 @@ const QuoteSummary = forwardRef(({
 
               {/* Confirmation Section */}
               <div className="confirm-button-container">
-                  <Button
+                  <button
                     onClick={handleConfirm}
-                    variant="primary"
-                    size="lg"
                     disabled={isCalculating}
                     className="confirm-button"
+                    type="button"
                   >
                       {isCalculating ? (
                         <>
-                            <Spinner size="sm" />
+                            <div className="spinner"></div>
                             {t('calculating', 'Calculating...')}
                         </>
                       ) : (
                         t('confirmAndGetQuote', 'Confirm & Get Quote')
                       )}
-                  </Button>
+                  </button>
               </div>
 
               {/* Additional Information */}
@@ -221,12 +246,12 @@ QuoteSummary.displayName = 'QuoteSummary';
 
 QuoteSummary.propTypes = {
     hideOptions: PropTypes.func,
-    moveType: PropTypes.string.isRequired,
+    moveType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired, // Allow both for safety
     details: PropTypes.object.isRequired,
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    startLocation: PropTypes.string.isRequired,
-    destinationLocation: PropTypes.string.isRequired,
+    date: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired, // Allow both for safety
+    time: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired, // Allow both for safety
+    startLocation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired, // Allow both for safety
+    destinationLocation: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired, // Allow both for safety
     onConfirmDetails: PropTypes.func.isRequired,
     isCalculating: PropTypes.bool,
     calculationError: PropTypes.string

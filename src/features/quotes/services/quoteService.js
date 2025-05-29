@@ -19,7 +19,7 @@ export const quoteService = {
                 method: 'POST',
                 body: JSON.stringify(quoteData)
             });
-
+            console.log("hahaha-------------hahaha");
             return {
                 bookingId: response.booking._id,
                 price: response.booking.price,
@@ -29,7 +29,7 @@ export const quoteService = {
                 booking: response.booking
             };
         } catch (error) {
-           // console.error('Error calculating quote:', error);
+            console.log('Error calculating quote:', error);
             throw new Error('Failed to calculate quote. Please try again.');
         }
     },
