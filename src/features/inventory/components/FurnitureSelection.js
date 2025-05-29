@@ -1,4 +1,4 @@
-// src/features/inventory/components/FurnitureSelection.js
+// src/features/inventory/components/FurnitureSelection.js - Fixed Button size prop
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -78,7 +78,7 @@ const FurnitureSelection = ({ furnitureDetails, onFurnitureChange }) => {
                   variant="secondary"
                   onClick={addFurnitureItem}
                   className="add-furniture-btn-compact"
-                  size="small"
+                  size="sm"
                 >
                     {t('addFurniture', 'Add Furniture')}
                 </Button>
@@ -139,7 +139,7 @@ const FurnitureSelection = ({ furnitureDetails, onFurnitureChange }) => {
                           <Button
                             type="button"
                             variant="danger"
-                            size="small"
+                            size="sm"
                             onClick={() => removeFurnitureItem(index)}
                             className="remove-btn"
                           >

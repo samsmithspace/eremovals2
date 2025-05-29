@@ -84,6 +84,7 @@
   "noFurnitureSelected": "No furniture items selected",
   "furnitureDescription": "Add your furniture here",
   "applianceDescription": "Add your appliance here",
+  "floorLevel": "Floor level",
   "small": "Small",
   "medium": "Medium",
   "large": "Large",
@@ -95,6 +96,7 @@
   "increase": "Increase",
   "decrease": "Decrease",
   "loadingOptions": "Loading options...",
+  "schedulingSummary":"Scheduling Summary",
   "booking": {
     "title": "Booking",
     "bookingConfirmation": "Booking Confirmation",

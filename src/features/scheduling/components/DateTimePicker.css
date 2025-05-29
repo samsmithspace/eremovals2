@@ -1,7 +1,7 @@
-/* Updated DateTimePicker.css - Fixed styling issues */
+/* Updated DateTimePicker.css for custom inline calendar */
 
 .date-time-picker {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0;
     background: transparent;
@@ -12,21 +12,22 @@
     overflow: visible;
 }
 
-.date-time-picker::before {
-    display: none;
-}
-
 /* Section Headers */
 .date-selector-section,
 .time-selector-section {
     margin-bottom: 3rem;
     background: white;
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 2rem;
     border: 2px solid #e2e8f0;
     transition: all 0.3s ease;
     position: relative;
     overflow: visible;
+}
+
+.date-selector-section.custom-inline-calendar {
+    text-align: center;
+    padding: 2rem;
 }
 
 .date-selector-section:hover,
@@ -40,6 +41,7 @@
 .time-label {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
     font-weight: 700;
     color: #2d3748;
@@ -57,41 +59,235 @@
     font-size: 1.25rem;
 }
 
-/* Input Styling */
-.date-picker,
-.time-picker {
+/* Custom Calendar Container */
+.custom-calendar-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
     position: relative;
-    z-index: 100;
 }
 
-.date-picker input,
-.time-picker input {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-sizing: border-box;
-    color: #2d3748;
-    cursor: pointer;
-}
-
-.date-picker input:focus,
-.time-picker input:focus {
-    outline: none;
-    border-color: #fa7731;
-    box-shadow: 0 0 0 3px rgba(250, 119, 49, 0.1);
+/* Custom Calendar Styling */
+.custom-calendar {
     background: white;
-    transform: translateY(-1px);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 420px;
+    min-width: 320px;
+    transition: all 0.3s ease;
 }
 
-.date-picker input::placeholder,
-.time-picker input::placeholder {
-    color: #a0aec0;
+.custom-calendar:hover {
+    border-color: #fa7731;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Calendar Header */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f7fafc;
+}
+
+.nav-button {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a5568;
+    transition: all 0.2s ease;
+}
+
+.nav-button:hover:not(:disabled) {
+    border-color: #fa7731;
+    background: #fa7731;
+    color: white;
+    transform: scale(1.1);
+}
+
+.nav-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.month-year-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.month-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.year-name {
+    font-size: 0.875rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+/* Calendar Weekdays Header */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.weekday-header {
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+.calendar-day {
+    position: relative;
+    width: 100%;
+    height: 48px;
+    border: 2px solid transparent;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    color: #2d3748;
+    overflow: hidden;
+}
+
+.calendar-day:hover:not(.disabled) {
+    background: linear-gradient(135deg, #fed7cc, #feebc8);
+    color: #fa7731;
+    border-color: #fa7731;
+    transform: scale(1.05);
+}
+
+.calendar-day.selected {
+    background: linear-gradient(135deg, #fa7731, #ff9a66) !important;
+    color: white !important;
+    border-color: #fa7731;
+    box-shadow: 0 4px 12px rgba(250, 119, 49, 0.3);
+    transform: scale(1.05);
+}
+
+.calendar-day.today {
+    position: relative;
+    font-weight: 700;
+}
+
+.calendar-day.today .today-indicator {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: #fa7731;
+    border-radius: 50%;
+}
+
+.calendar-day.selected .today-indicator {
+    background: white;
+}
+
+.calendar-day.other-month {
+    color: #cbd5e0;
+    opacity: 0.5;
+}
+
+.calendar-day.disabled {
+    color: #cbd5e0;
+    cursor: not-allowed;
+    opacity: 0.4;
+    background: #f7fafc;
+}
+
+.calendar-day.disabled:hover {
+    background: #f7fafc;
+    transform: none;
+    border-color: transparent;
+}
+
+.day-number {
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Selected Date Display */
+.selected-date-display {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.date-preview {
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #e6fffa, #f0fff4);
+    border: 2px solid #81e6d9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    animation: fadeInUp 0.3s ease-out;
+    max-width: 400px;
+}
+
+.preview-icon {
+    font-size: 1.25rem;
+}
+
+.preview-text {
+    font-weight: 600;
+    color: #2c7a7b;
+    font-size: 1rem;
+}
+
+/* Calendar Helper Text */
+.calendar-helper-text {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.calendar-helper-text p {
+    color: #718096;
+    font-size: 0.95rem;
     font-style: italic;
+    margin: 0;
 }
 
 /* Available Time Slots */
@@ -265,185 +461,149 @@
     font-size: 1.25rem;
 }
 
-/* React DateTime Overrides - FIXED POSITIONING */
-.rdtPicker {
-    background: white;
-    border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
-    padding: 1.5rem;
-    position: absolute;
-    z-index: 2000; /* Increased z-index */
-    margin-top: 0.5rem;
-    min-width: 320px;
-    max-width: 400px;
-    width: 100%;
-    /* CRITICAL FIX: Ensure it doesn't overflow */
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-/* Ensure calendar is positioned correctly relative to input */
-.date-picker .rdtPicker {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 0.5rem;
-    z-index: 2000;
-}
-
-.rdtPicker table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0.25rem;
-}
-
-.rdtPicker td,
-.rdtPicker th {
-    text-align: center;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    position: relative;
-}
-
-.rdtPicker th {
-    color: #4a5568;
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.rdtPicker td.rdtDay,
-.rdtPicker td.rdtHour,
-.rdtPicker td.rdtMinute {
-    cursor: pointer;
-    color: #2d3748;
-}
-
-.rdtPicker td.rdtDay:hover,
-.rdtPicker td.rdtHour:hover,
-.rdtPicker td.rdtMinute:hover {
-    background: linear-gradient(135deg, #fed7cc, #feebc8);
-    color: #fa7731;
-    transform: scale(1.05);
-}
-
-.rdtPicker td.rdtActive,
-.rdtPicker td.rdtActive:hover {
-    background: linear-gradient(135deg, #fa7731, #ff9a66) !important;
-    color: white !important;
-    box-shadow: 0 4px 12px rgba(250, 119, 49, 0.3);
-    transform: scale(1.05);
-}
-
-.rdtPicker td.rdtToday:before {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: #fa7731;
-    border-radius: 50%;
-}
-
-.rdtPicker td.rdtDisabled {
-    color: #cbd5e0;
-    cursor: not-allowed;
-    opacity: 0.5;
-}
-
-.rdtPicker td.rdtDisabled:hover {
-    background: transparent;
-    transform: none;
-}
-
-/* Calendar Navigation */
-.rdtPicker .rdtPrev,
-.rdtPicker .rdtNext {
-    cursor: pointer;
-    user-select: none;
-    color: #4a5568;
-    font-weight: 600;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.rdtPicker .rdtPrev:hover,
-.rdtPicker .rdtNext:hover {
-    background: #f7fafc;
-    color: #fa7731;
-}
-
-.rdtPicker .rdtSwitch {
-    cursor: pointer;
-    color: #2d3748;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.rdtPicker .rdtSwitch:hover {
-    background: #f7fafc;
-    color: #fa7731;
-}
-
-/* Summary Card */
+/* Summary Card - Redesigned for better UX */
 .datetime-summary {
     background: linear-gradient(135deg, #e6fffa, #b2f5ea);
     border: 2px solid #4fd1c7;
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 2rem;
     margin-top: 2rem;
-    text-align: center;
+    animation: fadeInUp 0.5s ease-out;
 }
 
-.datetime-summary h4 {
-    color: #234e52;
-    font-weight: 700;
-    margin-bottom: 1rem;
+.summary-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(77, 209, 199, 0.3);
 }
 
-.datetime-summary h4::before {
-    content: '✅';
+.summary-check-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.summary-header h4 {
+    color: #234e52;
+    font-weight: 700;
+    margin: 0;
     font-size: 1.25rem;
 }
 
-.summary-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.summary-main-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
-    margin-top: 1rem;
 }
 
-.summary-item {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 1rem;
-    border-radius: 12px;
-    border: 1px solid rgba(77, 209, 199, 0.3);
+.date-time-display {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.summary-item-label {
-    font-size: 0.875rem;
+.date-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #234e52;
+    line-height: 1.2;
+}
+
+.time-display {
+    font-size: 1.25rem;
     color: #2c7a7b;
     font-weight: 600;
-    margin-bottom: 0.25rem;
 }
 
-.summary-item-value {
-    font-size: 1.125rem;
+.timing-badge {
+    display: flex;
+    justify-content: center;
+}
+
+.badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.today-badge {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
+}
+
+.today-badge::before {
+    content: '🔥';
+    font-size: 1rem;
+}
+
+.tomorrow-badge {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+}
+
+.tomorrow-badge::before {
+    content: '⚡';
+    font-size: 1rem;
+}
+
+.future-badge {
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    color: #2d3748;
+    border: 1px solid rgba(77, 209, 199, 0.5);
+}
+
+.future-badge::before {
+    content: '📅';
+    font-size: 1rem;
+}
+
+.past-badge {
+    background: linear-gradient(135deg, #ffd89b, #19547b);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 216, 155, 0.3);
+}
+
+.past-badge::before {
+    content: '⚠️';
+    font-size: 1rem;
+}
+
+.summary-confirmation {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(77, 209, 199, 0.3);
+    text-align: center;
+}
+
+.summary-confirmation p {
+    margin: 0;
     color: #234e52;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.summary-confirmation strong {
+    color: #2c7a7b;
     font-weight: 700;
 }
 
@@ -451,35 +611,12 @@
 .section-description {
     color: #718096;
     font-size: 0.95rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     line-height: 1.5;
     text-align: center;
 }
 
-/* Date Preview */
-.date-preview {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: linear-gradient(135deg, #e6fffa, #f0fff4);
-    border: 1px solid #81e6d9;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    animation: fadeInUp 0.3s ease-out;
-}
-
-.preview-icon {
-    font-size: 1.25rem;
-}
-
-.preview-text {
-    font-weight: 600;
-    color: #2c7a7b;
-}
-
-/* Enhanced Time Slot Button */
+/* Enhanced Time Slot Button Content */
 .slot-main-time {
     font-size: 1rem;
     font-weight: 700;
@@ -499,24 +636,17 @@
     font-style: italic;
 }
 
-/* Summary Note */
+/* Summary Note - Remove old styles as they're now integrated */
 .summary-note {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-    border: 1px solid rgba(77, 209, 199, 0.3);
+    display: none; /* This is now part of summary-confirmation */
 }
 
 .summary-note p {
-    margin: 0;
-    color: #234e52;
-    font-size: 1rem;
-    line-height: 1.5;
+    display: none;
 }
 
 .summary-note strong {
-    color: #2c7a7b;
+    display: none;
 }
 
 /* Responsive Design */
@@ -524,7 +654,39 @@
     .date-time-picker {
         padding: 0;
         margin: 0;
-        border-radius: 0;
+    }
+
+    .date-selector-section,
+    .time-selector-section,
+    .available-time-slots {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .custom-calendar {
+        max-width: 100%;
+        min-width: 280px;
+        padding: 1rem;
+    }
+
+    .calendar-day {
+        height: 42px;
+        font-size: 0.9rem;
+    }
+
+    .nav-button {
+        width: 36px;
+        height: 36px;
+        font-size: 1.25rem;
+    }
+
+    .month-name {
+        font-size: 1.125rem;
+    }
+
+    .weekday-header {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.75rem;
     }
 
     .time-slots-grid {
@@ -537,29 +699,66 @@
         font-size: 0.875rem;
     }
 
-    .rdtPicker {
-        left: 0 !important;
-        right: 0 !important;
-        margin: 0 1rem;
-        max-width: calc(100vw - 2rem);
-        max-height: 350px;
+    .summary-details {
+        display: none; /* Remove old grid layout */
     }
 
-    .summary-details {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
+    .date-time-display {
+        gap: 0.375rem;
+    }
+
+    .date-display {
+        font-size: 1.25rem;
+    }
+
+    .time-display {
+        font-size: 1.1rem;
+    }
+
+    .summary-confirmation {
+        padding: 1rem;
+    }
+
+    .summary-confirmation p {
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 480px) {
-    .date-time-picker {
-        padding: 0;
-    }
-
     .date-selector-section,
     .time-selector-section,
     .available-time-slots {
         padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .custom-calendar {
+        min-width: 260px;
+        padding: 0.75rem;
+    }
+
+    .calendar-day {
+        height: 36px;
+        font-size: 0.8rem;
+    }
+
+    .nav-button {
+        width: 32px;
+        height: 32px;
+        font-size: 1.125rem;
+    }
+
+    .month-name {
+        font-size: 1rem;
+    }
+
+    .year-name {
+        font-size: 0.75rem;
+    }
+
+    .weekday-header {
+        padding: 0.375rem 0.125rem;
+        font-size: 0.7rem;
     }
 
     .time-slots-grid {
@@ -572,32 +771,13 @@
         font-size: 0.8rem;
     }
 
-    /* MOBILE FIX: Calendar as modal */
-    .rdtPicker {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        right: auto !important;
-        margin: 0;
-        border-radius: 16px;
-        max-height: 70vh;
-        max-width: 95vw;
-        overflow-y: auto;
-        z-index: 9999 !important;
+    .date-preview {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
     }
 
-    /* Add backdrop for mobile */
-    .rdtPicker::backdrop,
-    .rdtPicker::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 9998;
+    .preview-text {
+        font-size: 0.9rem;
     }
 }
 
@@ -621,12 +801,15 @@
     animation: fadeInUp 0.5s ease-out;
 }
 
+.selected-date-display {
+    animation: fadeInUp 0.3s ease-out;
+}
+
 /* Accessibility Improvements */
 .date-time-picker [aria-label] {
     outline: none;
 }
 
-.date-time-picker input:focus,
 .time-slot-button:focus {
     outline: 2px solid #fa7731;
     outline-offset: 2px;
@@ -635,4 +818,74 @@
 .time-slot-button:focus-visible {
     outline: 2px solid #fa7731;
     outline-offset: 2px;
+}
+
+.calendar-day:focus {
+    outline: 2px solid #fa7731;
+    outline-offset: 2px;
+}
+
+.nav-button:focus {
+    outline: 2px solid #fa7731;
+    outline-offset: 2px;
+}
+
+/* Calendar Hover Effects */
+.custom-calendar-container:hover .custom-calendar {
+    transform: translateY(-1px);
+}
+
+/* Ensure proper spacing and alignment */
+.calendar-grid {
+    align-items: stretch;
+}
+
+.calendar-day {
+    min-height: 48px;
+}
+
+/* Enhanced visual feedback */
+.calendar-day.selected::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #fa7731, #ff9a66);
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+/* Loading state for calendar */
+.custom-calendar.loading {
+    position: relative;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.custom-calendar.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 3px solid #e2e8f0;
+    border-radius: 50%;
+    border-top-color: #fa7731;
+    animation: spin 1s linear infinite;
 }

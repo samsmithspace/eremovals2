@@ -36,14 +36,14 @@ const LocationSummary = ({
     return (
         <div className="location-summary">
             <LocationCard
-                label={t('from', 'From')}
+                label={t('locations.from', 'From')}
                 address={startLocation}
                 onEdit={() => handleEditLocation('start')}
                 icon="📍"
             />
 
             <LocationCard
-                label={t('to', 'To')}
+                label={t('locations.to', 'To')}
                 address={destinationLocation}
                 onEdit={() => handleEditLocation('destination')}
                 icon="🏠"

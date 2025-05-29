@@ -95,6 +95,8 @@
   "increase": "增加",
   "decrease": "减少",
   "loadingOptions": "加载选项中...",
+  "floorLevel": "楼层数",
+  "schedulingSummary":"搬家时间",
   "booking": {
     "title": "预订",
     "bookingConfirmation": "预订确认",

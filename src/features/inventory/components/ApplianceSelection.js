@@ -1,4 +1,4 @@
-// src/features/inventory/components/ApplianceSelection.js
+// src/features/inventory/components/ApplianceSelection.js - Fixed Button size prop
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -78,7 +78,7 @@ const ApplianceSelection = ({ applianceDetails, onApplianceChange }) => {
                   variant="secondary"
                   onClick={addApplianceItem}
                   className="add-appliance-btn-compact"
-                  size="small"
+                  size="sm"
                 >
                     {t('addAppliance', 'Add Appliance')}
                 </Button>
@@ -138,7 +138,7 @@ const ApplianceSelection = ({ applianceDetails, onApplianceChange }) => {
                           <Button
                             type="button"
                             variant="danger"
-                            size="small"
+                            size="sm"
                             onClick={() => removeApplianceItem(index)}
                             className="remove-btn"
                           >

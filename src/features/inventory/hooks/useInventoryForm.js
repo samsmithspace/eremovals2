@@ -1,5 +1,5 @@
-// src/features/inventory/hooks/useInventoryForm.js
-import { useState, useEffect, useCallback } from 'react';
+// src/features/inventory/hooks/useInventoryForm.js - Fixed infinite loop
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 /**
  * Custom hook for managing inventory form state and validation
@@ -34,17 +34,21 @@ export const useInventoryForm = (initialDetails = {}, onDetailsChange) => {
     // Validation state
     const [isValid, setIsValid] = useState(false);
 
+    // Use ref to track if this is the initial render to prevent calling onDetailsChange on mount
+    const isInitialMount = useRef(true);
+    const lastNotifiedData = useRef(null);
+
     // Validate inventory data
     const validateInventory = useCallback(() => {
         const hasBoxes = inventoryData.boxDetails.some(box => box.numberOfBoxes > 0);
         const hasFurniture = inventoryData.furnitureDetails.some(furniture =>
-            furniture.item && furniture.quantity > 0
+          furniture.item && furniture.quantity > 0
         );
         const hasAppliances = inventoryData.applianceDetails.some(appliance =>
-            appliance.item && appliance.quantity > 0
+          appliance.item && appliance.quantity > 0
         );
         const hasSpecialItems = inventoryData.specialItems.some(item =>
-            item.type && item.description.trim()
+          item.type && item.description.trim()
         );
 
         // At least one item must be selected
@@ -52,17 +56,17 @@ export const useInventoryForm = (initialDetails = {}, onDetailsChange) => {
 
         // All special items must have both type and description
         const validSpecialItems = inventoryData.specialItems.every(item =>
-            (item.type && item.description.trim()) || (!item.type && !item.description.trim())
+          (item.type && item.description.trim()) || (!item.type && !item.description.trim())
         );
 
         // All furniture items must have both item and quantity
         const validFurniture = inventoryData.furnitureDetails.every(furniture =>
-            (furniture.item && furniture.quantity > 0) || (!furniture.item && furniture.quantity === 1)
+          (furniture.item && furniture.quantity > 0) || (!furniture.item && furniture.quantity === 1)
         );
 
         // All appliance items must have both item and quantity
         const validAppliances = inventoryData.applianceDetails.every(appliance =>
-            (appliance.item && appliance.quantity > 0) || (!appliance.item && appliance.quantity === 1)
+          (appliance.item && appliance.quantity > 0) || (!appliance.item && appliance.quantity === 1)
         );
 
         return hasItems && validSpecialItems && validFurniture && validAppliances;
@@ -74,16 +78,28 @@ export const useInventoryForm = (initialDetails = {}, onDetailsChange) => {
         setIsValid(valid);
     }, [validateInventory]);
 
-    // Notify parent of changes
+    // Notify parent of changes - with proper dependency management to prevent infinite loops
     useEffect(() => {
+        // Skip the first render to avoid calling onDetailsChange during initialization
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+
         if (onDetailsChange) {
             const allDetails = {
                 ...inventoryData,
                 ...floorDetails
             };
-            onDetailsChange(allDetails);
+
+            // Only call onDetailsChange if the data has actually changed
+            const detailsString = JSON.stringify(allDetails);
+            if (lastNotifiedData.current !== detailsString) {
+                lastNotifiedData.current = detailsString;
+                onDetailsChange(allDetails);
+            }
         }
-    }, [inventoryData, floorDetails, onDetailsChange]);
+    }, [inventoryData, floorDetails]); // Remove onDetailsChange from dependencies to prevent infinite loop
 
     // Box details handlers
     const updateBoxDetails = useCallback((newBoxDetails) => {

@@ -1,4 +1,4 @@
-// src/features/inventory/components/SpecialItems.js
+// src/features/inventory/components/SpecialItems.js - Fixed Button size prop
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -76,7 +76,7 @@ const SpecialItems = ({ specialItems, onSpecialItemsChange }) => {
                   variant="secondary"
                   onClick={addSpecialItem}
                   className="add-special-item-btn-compact"
-                  size="small"
+                  size="sm"
                 >
                     {t('addSpecialItem', 'Add Special Item')}
                 </Button>
@@ -116,7 +116,7 @@ const SpecialItems = ({ specialItems, onSpecialItemsChange }) => {
                       <Button
                         type="button"
                         variant="danger"
-                        size="small"
+                        size="sm"
                         onClick={() => removeSpecialItem(index)}
                         className="remove-special-item-btn"
                       >

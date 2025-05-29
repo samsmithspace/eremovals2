@@ -1,126 +1,14 @@
-// Updated DateTimePicker.js with dynamic page extension
+// Updated DateTimePicker.js with custom inline calendar (no React DateTime)
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import DateTime from 'react-datetime';
 import moment from 'moment';
-import 'react-datetime/css/react-datetime.css';
 import { useAvailableTimeSlots } from '../hooks/useAvailableTimeSlots';
 import { Alert, Spinner } from '../../../common/components/ui';
 import './DateTimePicker.css';
 
 /**
- * Custom hook to dynamically extend page height when calendar is open
- */
-const useDynamicPageExtension = () => {
-  const originalHeights = React.useRef(null);
-
-  useEffect(() => {
-    const handleCalendarResize = () => {
-      const calendar = document.querySelector('.rdtPicker');
-      const quotePage = document.querySelector('.quote-page');
-
-      if (calendar && quotePage) {
-        const calendarRect = calendar.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const footerHeight = 100;
-
-        // Calculate overflow amount
-        const overflowAmount = calendarRect.bottom - (windowHeight - footerHeight);
-
-        if (overflowAmount > 0) {
-          // Store original heights
-          if (!originalHeights.current) {
-            originalHeights.current = {
-              pageHeight: quotePage.style.minHeight || '',
-              bodyHeight: document.body.style.minHeight || ''
-            };
-          }
-
-          // Calculate new heights
-          const currentPageHeight = quotePage.offsetHeight;
-          const extensionAmount = Math.max(overflowAmount + 100, 400); // Minimum 400px extension
-          const newMinHeight = currentPageHeight + extensionAmount;
-
-          // Apply new heights
-          quotePage.style.minHeight = `${newMinHeight}px`;
-          document.body.style.minHeight = `${newMinHeight}px`;
-          document.body.classList.add('calendar-extended');
-
-          console.log('Calendar extended page by:', extensionAmount, 'px');
-        }
-      } else {
-        // Calendar closed - restore original heights
-        if (originalHeights.current && quotePage) {
-          quotePage.style.minHeight = originalHeights.current.pageHeight;
-          document.body.style.minHeight = originalHeights.current.bodyHeight;
-          document.body.classList.remove('calendar-extended');
-          originalHeights.current = null;
-
-          console.log('Page height restored');
-        }
-      }
-    };
-
-    // Observer for calendar DOM changes
-    const observer = new MutationObserver((mutations) => {
-      let shouldCheck = false;
-
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-          const addedNodes = Array.from(mutation.addedNodes);
-          const removedNodes = Array.from(mutation.removedNodes);
-
-          const calendarChanged = [...addedNodes, ...removedNodes].some(node =>
-              node.nodeType === 1 && (
-                node.classList?.contains('rdtPicker') ||
-                node.querySelector?.('.rdtPicker')
-              )
-          );
-
-          if (calendarChanged) {
-            shouldCheck = true;
-          }
-        }
-      });
-
-      if (shouldCheck) {
-        // Small delay to ensure DOM is fully updated
-        setTimeout(handleCalendarResize, 100);
-      }
-    });
-
-    // Start observing
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-
-    // Handle window resize
-    const handleResize = () => {
-      setTimeout(handleCalendarResize, 100);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', handleResize);
-
-      // Restore heights on cleanup
-      const quotePage = document.querySelector('.quote-page');
-      if (originalHeights.current && quotePage) {
-        quotePage.style.minHeight = originalHeights.current.pageHeight;
-        document.body.style.minHeight = originalHeights.current.bodyHeight;
-        document.body.classList.remove('calendar-extended');
-      }
-    };
-  }, []);
-};
-
-/**
- * Enhanced DateTimePicker with dynamic page extension
+ * Enhanced DateTimePicker with custom inline calendar
  */
 const DateTimePicker = ({
                           onDateChange,
@@ -133,9 +21,6 @@ const DateTimePicker = ({
   const [selectedTime, setSelectedTime] = useState(null);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
-
-  // Use the dynamic page extension hook
-  useDynamicPageExtension();
 
   // Custom hook for available time slots
   const {
@@ -153,6 +38,7 @@ const DateTimePicker = ({
   }, [selectedDate, fetchTimeSlots]);
 
   useEffect(() => {
+    // Only show summary when both date AND time are selected
     setShowSummary(selectedDate && selectedTime);
   }, [selectedDate, selectedTime]);
 
@@ -162,14 +48,11 @@ const DateTimePicker = ({
     const momentDate = moment(newDate);
     setSelectedDate(momentDate);
     setSelectedTime(null);
-    setShowTimePicker(false);
+    setShowTimePicker(true);
 
     if (onDateChange) {
       onDateChange(momentDate.format('YYYY-MM-DD'));
     }
-
-    // Show time picker after date selection
-    setTimeout(() => setShowTimePicker(true), 500);
   };
 
   const handleTimeChange = (timeSlot) => {
@@ -188,13 +71,13 @@ const DateTimePicker = ({
     }
   };
 
-  const isDateUnavailable = (currentDate) => {
-    const dateString = moment(currentDate).format('YYYY-MM-DD');
+  const isDateUnavailable = (date) => {
+    const dateString = moment(date).format('YYYY-MM-DD');
     return unavailableDates.includes(dateString);
   };
 
-  const isValidDate = (currentDate) => {
-    const momentDate = moment(currentDate);
+  const isValidDate = (date) => {
+    const momentDate = moment(date);
 
     // Must be today or future
     if (!momentDate.isSameOrAfter(moment(), 'day')) {
@@ -202,7 +85,7 @@ const DateTimePicker = ({
     }
 
     // Check against unavailable dates
-    if (isDateUnavailable(currentDate)) {
+    if (isDateUnavailable(date)) {
       return false;
     }
 
@@ -216,7 +99,7 @@ const DateTimePicker = ({
 
     if (restrictions.excludeWeekends) {
       const dayOfWeek = momentDate.day();
-      if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday = 0, Saturday = 6
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
         return false;
       }
     }
@@ -232,34 +115,13 @@ const DateTimePicker = ({
         </Alert>
       )}
 
-      {/* Date Selection */}
-      <DateSelector
-        popperPlacement="bottom-start"
-        popperModifiers={[
-          /* auto-flip to the top when needed */
-          {
-            name: 'flip',
-            enabled: true,
-            options: { fallbackPlacements: ['top-start'] },
-          },
-          /* don’t let the popup leave the viewport (so it never
-             slides under the footer or outside the screen) */
-          {
-            name: 'preventOverflow',
-            enabled: true,
-            options: { rootBoundary: 'viewport' },
-          },
-          /* optional: push it 8 px away from the input for breathing room */
-          {
-            name: 'offset',
-            options: { offset: [0, 8] },
-          },
-        ]}
+      {/* Custom Inline Calendar */}
+      <CustomInlineCalendar
         selectedDate={selectedDate}
         onDateChange={handleDateChange}
         isValidDate={isValidDate}
         disabled={disabled}
-        label={t('selectDate', 'Select your preferred date')}
+        label={t('scheduling.selectDate', 'Select your preferred date')}
       />
 
       {/* Time Selection */}
@@ -286,49 +148,139 @@ const DateTimePicker = ({
 };
 
 /**
- * Enhanced date selector component
+ * Custom inline calendar component
  */
-const DateSelector = ({
-                        selectedDate,
-                        onDateChange,
-                        isValidDate,
-                        disabled,
-                        label
-                      }) => {
+const CustomInlineCalendar = ({
+                                selectedDate,
+                                onDateChange,
+                                isValidDate,
+                                disabled,
+                                label
+                              }) => {
   const { t } = useTranslation();
+  const [currentMonth, setCurrentMonth] = useState(moment());
+
+  const today = moment();
+  const startOfMonth = moment(currentMonth).startOf('month');
+  const endOfMonth = moment(currentMonth).endOf('month');
+  const startOfCalendar = moment(startOfMonth).startOf('week');
+  const endOfCalendar = moment(endOfMonth).endOf('week');
+
+  // Generate calendar days
+  const calendarDays = [];
+  const day = moment(startOfCalendar);
+
+  while (day.isSameOrBefore(endOfCalendar)) {
+    calendarDays.push(moment(day));
+    day.add(1, 'day');
+  }
+
+  const handlePreviousMonth = () => {
+    setCurrentMonth(prev => moment(prev).subtract(1, 'month'));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(prev => moment(prev).add(1, 'month'));
+  };
+
+  const handleDateClick = (date) => {
+    if (disabled || !isValidDate(date)) return;
+    onDateChange(date);
+  };
+
+  const isToday = (date) => date.isSame(today, 'day');
+  const isSelected = (date) => selectedDate && date.isSame(selectedDate, 'day');
+  const isCurrentMonth = (date) => date.isSame(currentMonth, 'month');
 
   return (
-    <div className="date-selector-section">
-      <label htmlFor="date-input" className="date-label">
+    <div className="date-selector-section custom-inline-calendar">
+      <label className="date-label">
         {label}
       </label>
       <p className="section-description">
         Choose any date from today onwards. We're available 7 days a week.
       </p>
-      <DateTime
-        id="date-input"
-        value={selectedDate}
-        onChange={onDateChange}
-        dateFormat="MMMM Do, YYYY"
-        timeFormat={false}
-        isValidDate={isValidDate}
-        closeOnSelect={true}
-        disabled={disabled}
-        inputProps={{
-          id: 'date-input',
-          placeholder: 'Click to select a date',
-          readOnly: true
-        }}
-        className="date-picker"
-      />
+
+      {/* Custom Calendar */}
+      <div className="custom-calendar-container">
+        <div className="custom-calendar">
+          {/* Calendar Header */}
+          <div className="calendar-header">
+            <button
+              type="button"
+              className="nav-button prev-button"
+              onClick={handlePreviousMonth}
+              disabled={disabled}
+            >
+              ‹
+            </button>
+
+            <div className="month-year-display">
+              <span className="month-name">{currentMonth.format('MMMM')}</span>
+              <span className="year-name">{currentMonth.format('YYYY')}</span>
+            </div>
+
+            <button
+              type="button"
+              className="nav-button next-button"
+              onClick={handleNextMonth}
+              disabled={disabled}
+            >
+              ›
+            </button>
+          </div>
+
+          {/* Day Headers */}
+          <div className="calendar-weekdays">
+            {moment.weekdaysShort().map(day => (
+              <div key={day} className="weekday-header">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          {/* Calendar Grid */}
+          <div className="calendar-grid">
+            {calendarDays.map((date, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`calendar-day ${
+                  !isCurrentMonth(date) ? 'other-month' : ''
+                } ${
+                  isToday(date) ? 'today' : ''
+                } ${
+                  isSelected(date) ? 'selected' : ''
+                } ${
+                  !isValidDate(date) ? 'disabled' : ''
+                }`}
+                onClick={() => handleDateClick(date)}
+                disabled={disabled || !isValidDate(date)}
+              >
+                <span className="day-number">{date.format('D')}</span>
+                {isToday(date) && <span className="today-indicator"></span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Selected Date Display */}
       {selectedDate && (
-        <div className="date-preview">
-          <span className="preview-icon">📅</span>
-          <span className="preview-text">
-            Selected: {selectedDate.format('dddd, MMMM Do, YYYY')}
-          </span>
+        <div className="selected-date-display">
+          <div className="date-preview">
+            <span className="preview-icon">📅</span>
+            <span className="preview-text">
+              Selected: {selectedDate.format('dddd, MMMM Do, YYYY')}
+            </span>
+          </div>
         </div>
       )}
+
+      {/* Helper Text */}
+      <div className="calendar-helper-text">
+        <p>Click on any available date above to continue</p>
+      </div>
     </div>
   );
 };
@@ -369,7 +321,7 @@ const TimeSlotSelector = ({
   return (
     <div className="available-time-slots">
       <h4 className="slots-title">
-        {t('availableTimeSlots', 'Available Time Slots')}
+        {t('scheduling.availableTimeSlots', 'Available Time Slots')}
       </h4>
       <p className="section-description">
         Choose the time that works best for you on {selectedDate.format('MMMM Do')}.
@@ -439,49 +391,71 @@ const TimeSlotButton = ({
 const DateTimeSummary = ({ selectedDate, selectedTime }) => {
   const { t } = useTranslation();
 
+  // Add null checks to prevent errors
+  if (!selectedDate || !selectedTime) {
+    return null;
+  }
+
+  // Calculate days from now more accurately by comparing start of days
+  const today = moment().startOf('day');
+  const selectedDay = moment(selectedDate).startOf('day');
+  const daysFromNow = selectedDay.diff(today, 'days');
+
+  const isToday = daysFromNow === 0;
+  const isTomorrow = daysFromNow === 1;
+
+  // Debug logging (remove in production)
+  console.log('Today:', today.format('YYYY-MM-DD'));
+  console.log('Selected:', selectedDay.format('YYYY-MM-DD'));
+  console.log('Days from now:', daysFromNow);
+  console.log('Is today:', isToday, 'Is tomorrow:', isTomorrow);
+
   return (
     <div className="datetime-summary">
-      <h4>{t('schedulingSummary', 'Your Scheduling Summary')}</h4>
-
-      <div className="summary-details">
-        <div className="summary-item">
-          <div className="summary-item-label">Date</div>
-          <div className="summary-item-value">
-            {selectedDate.format('dddd, MMM Do')}
-          </div>
-        </div>
-
-        <div className="summary-item">
-          <div className="summary-item-label">Time</div>
-          <div className="summary-item-value">
-            {selectedTime.format('h:mm A')}
-          </div>
-        </div>
-
-        <div className="summary-item">
-          <div className="summary-item-label">Days from now</div>
-          <div className="summary-item-value">
-            {selectedDate.diff(moment(), 'days') === 0
-              ? 'Today'
-              : `${selectedDate.diff(moment(), 'days')} days`
-            }
-          </div>
-        </div>
+      <div className="summary-header">
+        <span className="summary-check-icon">✅</span>
+        <h4>{t('schedulingSummary', 'Scheduling Confirmed')}</h4>
       </div>
 
-      <div className="summary-note">
-        <p>
-          ✅ Perfect! We'll be ready for your move on{' '}
-          <strong>{selectedDate.format('dddd, MMMM Do')}</strong> at{' '}
-          <strong>{selectedTime.format('h:mm A')}</strong>.
-        </p>
+      <div className="summary-content">
+        <div className="summary-main-info">
+          <div className="date-time-display">
+            <span className="date-display">
+              {selectedDate.format('dddd, MMMM Do, YYYY')}
+            </span>
+            <span className="time-display">
+              at {selectedTime.format('h:mm A')}
+            </span>
+          </div>
+
+          <div className="timing-badge">
+            {isToday && <span className="badge today-badge">Today</span>}
+            {isTomorrow && <span className="badge tomorrow-badge">Tomorrow</span>}
+            {!isToday && !isTomorrow && daysFromNow > 0 && (
+              <span className="badge future-badge">
+                In {daysFromNow} {daysFromNow === 1 ? 'day' : 'days'}
+              </span>
+            )}
+            {daysFromNow < 0 && (
+              <span className="badge past-badge">Past Date</span>
+            )}
+          </div>
+        </div>
+
+        <div className="summary-confirmation">
+          <p>
+            Perfect! We'll be ready for your move on{' '}
+            <strong>{selectedDate.format('dddd, MMMM Do')}</strong> at{' '}
+            <strong>{selectedTime.format('h:mm A')}</strong>.
+          </p>
+        </div>
       </div>
     </div>
   );
 };
 
 // PropTypes
-DateSelector.propTypes = {
+CustomInlineCalendar.propTypes = {
   selectedDate: PropTypes.object,
   onDateChange: PropTypes.func.isRequired,
   isValidDate: PropTypes.func.isRequired,

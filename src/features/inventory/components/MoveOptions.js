@@ -1,4 +1,4 @@
-// src/features/inventory/components/MoveOptions.js
+// src/features/inventory/components/MoveOptions.js - Fixed PropTypes
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -14,8 +14,6 @@ import './MoveOptions.css';
  */
 const MoveOptions = ({
                          onDetailsChange,
-                         onDateChange, // Add this prop
-                         onTimeChange, // Add this prop
                          initialDetails = {},
                          onValidationChange
                      }) => {
@@ -228,8 +226,6 @@ const MoveOptions = ({
 
 MoveOptions.propTypes = {
     onDetailsChange: PropTypes.func.isRequired,
-    onDateChange: PropTypes.func.isRequired, // Add this
-    onTimeChange: PropTypes.func.isRequired, // Add this
     initialDetails: PropTypes.object,
     onValidationChange: PropTypes.func
 };

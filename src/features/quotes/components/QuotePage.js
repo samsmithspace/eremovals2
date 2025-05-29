@@ -1,4 +1,4 @@
-// src/features/quotes/components/QuotePage.js - Updated with proper DateTimePicker styling
+// src/features/quotes/components/QuotePage.js - Fixed conditional rendering
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ import MoveOptions from '../../inventory/components/MoveOptions';
 import './QuotePage.css';
 
 /**
- * Main quote page component with optimized layout
+ * Main quote page component with optimized layout for fixed calendar
  */
 const QuotePage = () => {
     const { t } = useTranslation();
@@ -56,7 +56,32 @@ const QuotePage = () => {
         }
     }, [isDetailsConfirmed]);
 
+    // Check if we should show quote summary (when both date and time are selected)
+    useEffect(() => {
+        // Show summary when we have all required data AND user has completed scheduling
+        const hasAllData = date && time && moveDetails && Object.keys(moveDetails).length > 0;
+        console.log('Checking summary conditions:', {
+            hasDate: !!date,
+            hasTime: !!time,
+            hasMoveDetails: Object.keys(moveDetails).length > 0,
+            hasAllData
+        });
+
+        if (hasAllData) {
+            // Add a small delay to ensure the scheduling summary is shown first
+            const timer = setTimeout(() => {
+                console.log('Setting showSummary to true');
+                setShowSummary(true);
+            }, 2000); // 2 second delay to let user see the scheduling confirmation
+
+            return () => clearTimeout(timer);
+        } else {
+            setShowSummary(false);
+        }
+    }, [date, time, moveDetails]);
+
     const handleDetailsChange = (details) => {
+        console.log('Details changed:', details);
         setMoveDetails(details);
         // Show date picker after details are selected
         setShowDatePicker(true);
@@ -64,12 +89,13 @@ const QuotePage = () => {
     };
 
     const handleDateChange = (selectedDate) => {
+        console.log('Date changed:', selectedDate);
         setDate(selectedDate);
-        setShowSummary(true);
         setTriggerUpdate(prev => prev + 1);
     };
 
     const handleTimeChange = (selectedTime) => {
+        console.log('Time changed:', selectedTime);
         setTime(selectedTime);
         setTriggerUpdate(prev => prev + 1);
     };
@@ -85,6 +111,7 @@ const QuotePage = () => {
                 time
             };
 
+            console.log('Confirming details with data:', quoteData);
             await calculateQuote(quoteData);
             setIsDetailsConfirmed(true);
         } catch (error) {
@@ -93,6 +120,7 @@ const QuotePage = () => {
     };
 
     const hideOptions = () => {
+        console.log('Hiding options');
         setShowOptions(false);
     };
 
@@ -109,10 +137,28 @@ const QuotePage = () => {
         );
     }
 
+    // Determine what to show based on current state
+    const shouldShowMoveOptions = showOptions && !showSummary;
+    const shouldShowDatePicker = showDatePicker && showOptions && !showSummary;
+    const shouldShowQuoteSummary = showSummary && !isDetailsConfirmed;
+
+    console.log('Render state:', {
+        showOptions,
+        showSummary,
+        showDatePicker,
+        isDetailsConfirmed,
+        shouldShowMoveOptions,
+        shouldShowDatePicker,
+        shouldShowQuoteSummary,
+        hasDate: !!date,
+        hasTime: !!time,
+        hasMoveDetails: Object.keys(moveDetails).length > 0
+    });
+
     return (
       <div className="quote-page">
-          {/* Header Section - Simplified */}
-          {showOptions && (
+          {/* Header Section - Only show when options are visible */}
+          {shouldShowMoveOptions && (
             <div className="quote-header">
                 <h2>{t('details', 'Move Details')}</h2>
                 <LocationSummary
@@ -123,7 +169,7 @@ const QuotePage = () => {
           )}
 
           {/* Move Options Section */}
-          {showOptions && (
+          {shouldShowMoveOptions && (
             <div className="move-options-section">
                 <MoveOptions
                   locationType={locationType}
@@ -133,8 +179,8 @@ const QuotePage = () => {
             </div>
           )}
 
-          {/* Date Time Picker Section - Properly styled as inventory section */}
-          {showDatePicker && showOptions && (
+          {/* Date Time Picker Section - Styled as inventory section with fixed calendar */}
+          {shouldShowDatePicker && (
             <div className="move-options-section datetime-picker-wrapper">
                 <div className="inventory-section">
                     <div className="section-header">
@@ -145,7 +191,6 @@ const QuotePage = () => {
                     </div>
                     <div className="section-content datetime-content">
                         <DateTimePicker
-                          portalId="root-portal"  // ❶ renders the popup at <body>
                           onDateChange={handleDateChange}
                           onTimeChange={handleTimeChange}
                           restrictions={{
@@ -159,7 +204,7 @@ const QuotePage = () => {
           )}
 
           {/* Quote Summary Section */}
-          {showSummary && (
+          {shouldShowQuoteSummary && (
             <QuoteSummary
               ref={childRef}
               hideOptions={hideOptions}
