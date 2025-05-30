@@ -1,4 +1,4 @@
-// src/features/quotes/components/QuoteActions.js - Fixed version
+// Streamlined QuoteActions.js - Clean Implementation Without Redundancy
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -10,18 +10,12 @@ import { usePromoCode } from '../hooks/usePromoCode';
 import './QuoteActions.css';
 
 /**
- * Component to handle quote actions including contact form, promo codes, and payment
- * @param {Object} props
- * @param {string} props.bookingId - ID of the booking
- * @param {number} props.price - Base price for the service
- * @param {number} props.helperPrice - Price with helper included
- * @param {Function} props.onSubmitted - Callback when booking is submitted
+ * Clean QuoteActions component - no redundant wrappers
  */
 const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   const { t, i18n } = useTranslation();
   const [showPricing, setShowPricing] = useState(false);
 
-  // Custom hooks - pass bookingId as parameter to avoid context dependency
   const {
     processPayment,
     isProcessing,
@@ -49,63 +43,90 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
 
   const handlePayment = async (withHelper = false) => {
     try {
-      clearPaymentError(); // Clear any previous errors
-
+      clearPaymentError();
       const paymentPrice = withHelper ? currentHelperPrice : currentPrice;
       const sessionId = await processPayment(bookingId, paymentPrice, i18n.language, withHelper);
-
-      // The processPayment function handles the Stripe redirect
       console.log('Payment processing completed, sessionId:', sessionId);
     } catch (error) {
       console.error('Payment processing error:', error);
-      // Error is already set by the hook
     }
   };
 
   const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent) => {
-    // The usePromoCode hook handles the state updates
     console.log('Promo code applied:', { newPrice, newHelperPrice, discountPercent });
   };
 
   return (
-    <div className="quote-actions">
-      {/* Contact Form */}
-      <BookingForm
-        bookingId={bookingId}
-        onSubmit={handleContactSubmitted}
-        isVisible={!showPricing}
-      />
-
-      {/* Promotion Code */}
-      {showPricing && (
-        <PromotionCode
-          bookingId={bookingId}
-          onApplied={handlePromoCodeApplied}
-          isApplying={isApplyingPromo}
-          error={promoError}
-        />
+    <div className="quote-actions-clean">
+      {/* Contact Details Section */}
+      {!showPricing && (
+        <div className="inventory-section">
+          <div className="section-header">
+            <h4>
+              <span className="section-icon">👤</span>
+              {t('booking.contactDetails', 'Contact Details')}
+            </h4>
+          </div>
+          <div className="section-content">
+            <BookingForm
+              bookingId={bookingId}
+              onSubmit={handleContactSubmitted}
+              isVisible={true}
+            />
+          </div>
+        </div>
       )}
 
-      {/* Pricing and Payment Section */}
+      {/* Promotion Code Section */}
       {showPricing && (
-        <PricingSection
-          originalPrice={price}
-          originalHelperPrice={helperPrice}
-          currentPrice={currentPrice}
-          currentHelperPrice={currentHelperPrice}
-          discount={discount}
-          showHelperOption={showHelperOption}
-          onPayment={handlePayment}
-          isProcessing={isProcessing}
-          paymentError={paymentError}
-        />
+        <div className="inventory-section">
+          <div className="section-header">
+            <h4>
+              <span className="section-icon">🎫</span>
+              {t('promotionCode', 'Promotion Code')}
+            </h4>
+          </div>
+          <div className="section-content">
+            <PromotionCode
+              bookingId={bookingId}
+              onApplied={handlePromoCodeApplied}
+              isApplying={isApplyingPromo}
+              error={promoError}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Payment Section */}
+      {showPricing && (
+        <div className="inventory-section">
+          <div className="section-header">
+            <h4>
+              <span className="section-icon">💳</span>
+              {t('paymentAndBooking', 'Payment & Booking')}
+            </h4>
+          </div>
+          <div className="section-content">
+            <PricingSection
+              originalPrice={price}
+              originalHelperPrice={helperPrice}
+              currentPrice={currentPrice}
+              currentHelperPrice={currentHelperPrice}
+              discount={discount}
+              showHelperOption={showHelperOption}
+              onPayment={handlePayment}
+              isProcessing={isProcessing}
+              paymentError={paymentError}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
 /**
- * Pricing section component
+ * Clean pricing section without redundant styling
  */
 const PricingSection = ({
                           originalPrice,
@@ -122,7 +143,7 @@ const PricingSection = ({
   const hasDiscount = discount > 0;
 
   return (
-    <div className="pricing-section">
+    <>
       {paymentError && (
         <Alert variant="error" title={t('paymentError', 'Payment Error')}>
           {paymentError}
@@ -147,14 +168,14 @@ const PricingSection = ({
         )}
       </div>
 
-      <div className="payment-buttons">
+      <div className="payment-buttons-clean">
         {showHelperOption && (
           <Button
             onClick={() => onPayment(true)}
             variant="secondary"
             size="large"
             disabled={isProcessing}
-            className="payment-button helper-button"
+            className="payment-button-clean helper-button"
           >
             {isProcessing ? (
               <>
@@ -162,7 +183,10 @@ const PricingSection = ({
                 {t('processing', 'Processing...')}
               </>
             ) : (
-              t('payAndBookWithHelper', 'Pay and Book with Helper')
+              <>
+                <span>👥</span>
+                <span>{t('payAndBookWithHelper', 'Pay and Book with Helper')}</span>
+              </>
             )}
           </Button>
         )}
@@ -172,7 +196,7 @@ const PricingSection = ({
           variant="primary"
           size="large"
           disabled={isProcessing}
-          className="payment-button main-button"
+          className="payment-button-clean main-button"
         >
           {isProcessing ? (
             <>
@@ -180,31 +204,38 @@ const PricingSection = ({
               {t('processing', 'Processing...')}
             </>
           ) : (
-            t('payAndBook', 'Pay and Book without Helper')
+            <>
+              <span>🚀</span>
+              <span>{t('payAndBook', 'Pay and Book without Helper')}</span>
+            </>
           )}
         </Button>
       </div>
-    </div>
+
+      <div className="security-notice-clean">
+        <span className="notice-icon">🔒</span>
+        <p className="notice-text">
+          {t('paymentSecurity', 'Secure payment processing. Your card details are protected by industry-standard encryption.')}
+        </p>
+      </div>
+    </>
   );
 };
 
-/**
- * Individual price item component
- */
 const PriceItem = ({ label, originalPrice, currentPrice, hasDiscount }) => {
   return (
     <div className="price-item">
       <span className="price-label">{label}:</span>
       <span className="price-value">
-                {hasDiscount ? (
-                  <>
-                    <span className="original-price">£{originalPrice}</span>
-                    <span className="current-price">£{currentPrice}</span>
-                  </>
-                ) : (
-                  <span className="current-price">£{currentPrice}</span>
-                )}
-            </span>
+        {hasDiscount ? (
+          <>
+            <span className="original-price">£{originalPrice}</span>
+            <span className="current-price">£{currentPrice}</span>
+          </>
+        ) : (
+          <span className="current-price">£{currentPrice}</span>
+        )}
+      </span>
     </div>
   );
 };

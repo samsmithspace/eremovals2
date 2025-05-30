@@ -1,120 +1,231 @@
-// src/features/booking/components/BookingForm.js - Updated with enhanced styling
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { useBookingForm } from '../hooks/useBookingForm';
-import { FormInput, Button, Spinner } from '../../../common/components/ui';
-import './BookingForm.css'; // Import the enhanced CSS
+// Fixed useBookingForm.js - Proper validation and form state management
+import { useState, useCallback, useEffect } from 'react';
+import { bookingService } from '../services/bookingService';
+import { useBookingContext } from '../context/BookingContext';
 
 /**
- * Enhanced booking form component for collecting customer contact details
- * @param {Object} props
- * @param {Function} props.onSubmit - Callback when form is submitted successfully
- * @param {string} props.bookingId - ID of the booking
- * @param {boolean} props.isVisible - Whether the form should be visible
+ * Custom hook for managing booking form state and validation
+ * Fixed to properly enable submit button when form is valid
+ * @param {string} bookingId - ID of the booking
+ * @param {Function} onSubmitSuccess - Callback when form submission succeeds
+ * @returns {Object} Form state and handlers
  */
-const BookingForm = ({ onSubmit, bookingId, isVisible = true }) => {
-    const { t } = useTranslation();
-    const {
+export const useBookingForm = (bookingId, onSubmitSuccess) => {
+    // Try to use context, but don't fail if it's not available
+    let setContactInfo, setError, clearError;
+    try {
+        const context = useBookingContext();
+        setContactInfo = context.setContactInfo;
+        setError = context.setError;
+        clearError = context.clearError;
+    } catch (error) {
+        // Context not available, use local state management
+        console.warn('BookingContext not available, using local state');
+        setContactInfo = () => {};
+        setError = () => {};
+        clearError = () => {};
+    }
+
+    const [formValues, setFormValues] = useState({
+        name: '',
+        phone: '',
+        email: ''
+    });
+
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [touched, setTouched] = useState({});
+
+    // Validation rules
+    const validateField = useCallback((name, value) => {
+        switch (name) {
+            case 'name':
+                if (!value || !value.trim()) return 'Name is required';
+                if (value.trim().length < 2) return 'Name must be at least 2 characters';
+                return null;
+
+            case 'phone':
+                if (!value || !value.trim()) return 'Phone number is required';
+                // More flexible phone validation
+                const cleanPhone = value.replace(/\s/g, '').replace(/[^\d+]/g, '');
+                if (cleanPhone.length < 10) return 'Please enter a valid phone number';
+                return null;
+
+            case 'email':
+                if (!value || !value.trim()) return 'Email is required';
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value.trim())) return 'Please enter a valid email address';
+                return null;
+
+            default:
+                return null;
+        }
+    }, []);
+
+    // Validate all fields
+    const validateForm = useCallback(() => {
+        const newErrors = {};
+
+        Object.keys(formValues).forEach(field => {
+            const error = validateField(field, formValues[field]);
+            if (error) {
+                newErrors[field] = error;
+            }
+        });
+
+        return newErrors;
+    }, [formValues, validateField]);
+
+    // Calculate if form is valid
+    const isValid = useCallback(() => {
+        // Check if all required fields have values
+        const hasName = formValues.name && formValues.name.trim().length >= 2;
+        const hasPhone = formValues.phone && formValues.phone.trim().length >= 10;
+        const hasEmail = formValues.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email.trim());
+
+        // Check if there are any validation errors
+        const formErrors = validateForm();
+        const hasNoErrors = Object.keys(formErrors).length === 0;
+
+        const valid = hasName && hasPhone && hasEmail && hasNoErrors;
+
+        console.log('Form validation check:', {
+            hasName,
+            hasPhone,
+            hasEmail,
+            hasNoErrors,
+            valid,
+            formValues,
+            formErrors
+        });
+
+        return valid;
+    }, [formValues, validateForm]);
+
+    // Handle input change
+    const handleChange = useCallback((e) => {
+        const { name, value } = e.target;
+
+        console.log('Field changed:', { name, value });
+
+        setFormValues(prev => ({
+            ...prev,
+            [name]: value
+        }));
+
+        // Clear error for this field when user starts typing
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
+        }
+
+        // Mark field as touched
+        setTouched(prev => ({
+            ...prev,
+            [name]: true
+        }));
+
+        clearError();
+    }, [errors, clearError]);
+
+    // Handle field blur for validation
+    const handleBlur = useCallback((e) => {
+        const { name, value } = e.target;
+
+        setTouched(prev => ({
+            ...prev,
+            [name]: true
+        }));
+
+        // Validate field on blur
+        const error = validateField(name, value);
+        if (error) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: error
+            }));
+        }
+    }, [validateField]);
+
+    // Handle form submission
+    const handleSubmit = useCallback(async (e) => {
+        e.preventDefault();
+
+        console.log('Form submitted with values:', formValues);
+
+        // Validate all fields
+        const formErrors = validateForm();
+
+        if (Object.keys(formErrors).length > 0) {
+            console.log('Form has errors:', formErrors);
+            setErrors(formErrors);
+            setTouched({
+                name: true,
+                phone: true,
+                email: true
+            });
+            return;
+        }
+
+        if (!isValid()) {
+            console.log('Form is not valid');
+            return;
+        }
+
+        setIsSubmitting(true);
+        clearError();
+
+        try {
+            // Only call booking service if we have a valid bookingId
+            if (bookingId) {
+                console.log('Updating contact info for booking:', bookingId);
+                await bookingService.updateContactInfo(bookingId, formValues);
+            }
+
+            // Update context if available
+            setContactInfo(formValues);
+
+            console.log('Form submission successful');
+
+            if (onSubmitSuccess) {
+                onSubmitSuccess(formValues);
+            }
+        } catch (error) {
+            console.error('Error updating contact information:', error);
+            setError(error.message || 'Failed to update contact information');
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, [bookingId, formValues, validateForm, isValid, setContactInfo, onSubmitSuccess, clearError, setError]);
+
+    // Update errors when form values change
+    useEffect(() => {
+        // Only validate touched fields to avoid showing errors immediately
+        const newErrors = {};
+
+        Object.keys(touched).forEach(field => {
+            if (touched[field]) {
+                const error = validateField(field, formValues[field]);
+                if (error) {
+                    newErrors[field] = error;
+                }
+            }
+        });
+
+        setErrors(newErrors);
+    }, [formValues, touched, validateField]);
+
+    return {
         formValues,
         errors,
         isSubmitting,
+        isValid: isValid(),
         handleChange,
+        handleBlur,
         handleSubmit,
-        isValid
-    } = useBookingForm(bookingId, onSubmit);
-
-    if (!isVisible) return null;
-
-    return (
-      <div className="booking-form">
-          <div className="form-header">
-              <h3>{t('booking.contactDetails', 'Contact Details')}</h3>
-              <p className="form-description">
-                  {t('booking.contactDetailsDescription', 'Fill your contact details to confirm the booking, we may contact you for information if needed.')}
-              </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="contact-form">
-              <div className="form-group">
-                  <FormInput
-                    id="name"
-                    name="name"
-                    type="text"
-                    label={t('booking.name', 'Name')}
-                    value={formValues.name}
-                    onChange={handleChange}
-                    error={errors.name}
-                    required
-                    disabled={isSubmitting}
-                    placeholder={t('booking.enterFullName', 'Enter your full name')}
-                    className=""
-                    inputClassName="form-control"
-                    labelClassName="form-label"
-                  />
-              </div>
-
-              <div className="form-group">
-                  <FormInput
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    label={t('booking.phoneNumber', 'Phone Number')}
-                    value={formValues.phone}
-                    onChange={handleChange}
-                    error={errors.phone}
-                    required
-                    disabled={isSubmitting}
-                    placeholder={t('booking.enterPhoneNumber', 'Enter your phone number')}
-                    className=""
-                    inputClassName="form-control"
-                    labelClassName="form-label"
-                  />
-              </div>
-
-              <div className="form-group">
-                  <FormInput
-                    id="email"
-                    name="email"
-                    type="email"
-                    label={t('booking.email', 'Email Address')}
-                    value={formValues.email}
-                    onChange={handleChange}
-                    error={errors.email}
-                    required
-                    disabled={isSubmitting}
-                    placeholder={t('booking.enterEmailAddress', 'Enter your email address')}
-                    className=""
-                    inputClassName="form-control"
-                    labelClassName="form-label"
-                  />
-              </div>
-
-              <Button
-                type="submit"
-                variant="primary"
-                size="large"
-                disabled={!isValid || isSubmitting}
-                className="submit-button"
-              >
-                  {isSubmitting ? (
-                    <>
-                        <Spinner size="small" className="spinner" />
-                        {t('processing', 'Processing...')}
-                    </>
-                  ) : (
-                    t('confirm', 'Confirm')
-                  )}
-              </Button>
-          </form>
-      </div>
-    );
+        setFormValues
+    };
 };
-
-BookingForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    bookingId: PropTypes.string.isRequired,
-    isVisible: PropTypes.bool
-};
-
-export default BookingForm;
