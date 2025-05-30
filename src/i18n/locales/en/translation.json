@@ -118,6 +118,7 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "email": "Email Address",
+    "continueToPayment": "Check Price",
     "phone": "Phone Number",
     "phoneNumber": "Phone Number",
     "enterPhoneNumber": "Enter Phone Number",

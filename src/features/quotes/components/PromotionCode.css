@@ -1,0 +1,382 @@
+/* Improved Promotion Code Section Styling */
+
+/* Integrated Promotion Section - Enhanced Design */
+.promotion-section-integrated {
+    background: linear-gradient(135deg, #fffbf0, #fef3e2);
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.promotion-section-integrated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+    border-radius: 16px 16px 0 0;
+}
+
+.promotion-section-integrated:hover {
+    border-color: rgba(251, 191, 36, 0.5);
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Promo Header - Enhanced */
+.promo-header-inline {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.promo-title {
+    color: #92400e;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.promo-icon {
+    font-size: 1.5rem;
+    animation: bounce 2s infinite;
+}
+
+.promo-description {
+    color: #b45309;
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* Enhanced Promo Form Layout */
+.promotion-section-integrated .promo-form {
+    margin-top: 0;
+}
+
+.promotion-section-integrated .promo-input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 2px solid #fbbf24;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.1);
+    transition: all 0.3s ease;
+}
+
+.promotion-section-integrated .promo-input-group:focus-within {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2), 0 8px 20px rgba(251, 191, 36, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Enhanced Input Field */
+.promotion-section-integrated .promo-input {
+    flex: 1;
+}
+
+.promotion-section-integrated .promo-input input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #92400e;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Courier New', monospace;
+}
+
+.promotion-section-integrated .promo-input input::placeholder {
+    color: #d97706;
+    opacity: 0.6;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.promotion-section-integrated .promo-input label {
+    display: none; /* Hide label since we have placeholder and description */
+}
+
+/* Enhanced Apply Button */
+.promotion-section-integrated .apply-button {
+    flex-shrink: 0;
+    height: fit-content;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.promotion-section-integrated .apply-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.promotion-section-integrated .apply-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4);
+}
+
+.promotion-section-integrated .apply-button:hover::before {
+    left: 100%;
+}
+
+.promotion-section-integrated .apply-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    background: linear-gradient(135deg, #d1d5db, #9ca3af);
+    box-shadow: none;
+}
+
+/* Success and Error Messages - Enhanced */
+.promotion-section-integrated .promo-success {
+    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border: 2px solid #10b981;
+    border-radius: 12px;
+    color: #065f46;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideInUp 0.3s ease-out;
+}
+
+.promotion-section-integrated .promo-success::before {
+    content: '🎉';
+    font-size: 1.25rem;
+}
+
+.promotion-section-integrated .promo-error {
+    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border: 2px solid #ef4444;
+    border-radius: 12px;
+    color: #991b1b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: shake 0.5s ease-in-out;
+}
+
+.promotion-section-integrated .promo-error::before {
+    content: '⚠️';
+    font-size: 1.25rem;
+}
+
+/* Help Text - Enhanced */
+.promotion-section-integrated .promo-help {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.promotion-section-integrated .help-text {
+    color: #b45309;
+    font-size: 0.875rem;
+    font-style: italic;
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Loading State for Apply Button */
+.promotion-section-integrated .apply-button .loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+/* Decorative Elements */
+.promotion-section-integrated::after {
+    content: '💎✨🎫✨💎';
+    position: absolute;
+    top: -5px;
+    right: 1rem;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .promotion-section-integrated {
+        padding: 1.5rem;
+        margin: 0.75rem 0;
+    }
+
+    .promo-title {
+        font-size: 1.125rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .promo-description {
+        font-size: 0.9rem;
+    }
+
+    .promotion-section-integrated .promo-input-group {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        padding: 1rem;
+    }
+
+    .promotion-section-integrated .apply-button {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .promotion-section-integrated .promo-input input {
+        font-size: 1rem;
+        padding: 0.875rem 1rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .promotion-section-integrated {
+        padding: 1.25rem;
+    }
+
+    .promo-title {
+        font-size: 1rem;
+    }
+
+    .promo-description {
+        font-size: 0.85rem;
+    }
+
+    .promotion-section-integrated .promo-input input {
+        font-size: 0.95rem;
+        letter-spacing: 1px;
+    }
+
+    .promotion-section-integrated .apply-button {
+        font-size: 0.9rem;
+        padding: 0.875rem;
+    }
+
+    .promotion-section-integrated::after {
+        display: none; /* Hide decorative elements on small screens */
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .promotion-section-integrated {
+        border: 3px solid #92400e;
+        background: white;
+    }
+
+    .promotion-section-integrated .promo-input-group {
+        border: 2px solid #92400e;
+    }
+
+    .promotion-section-integrated .apply-button {
+        border: 2px solid white;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .promotion-section-integrated,
+    .promotion-section-integrated .apply-button,
+    .promo-icon {
+        animation: none;
+        transition: none;
+    }
+
+    .promotion-section-integrated:hover,
+    .promotion-section-integrated .apply-button:hover {
+        transform: none;
+    }
+
+    .promotion-section-integrated::after {
+        animation: none;
+    }
+}

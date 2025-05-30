@@ -19,7 +19,7 @@
     background: white;
     border-radius: 16px;
     padding: 2rem;
-    border: 2px solid #e2e8f0;
+
     transition: all 0.3s ease;
     position: relative;
     overflow: visible;
@@ -30,12 +30,6 @@
     padding: 2rem;
 }
 
-.date-selector-section:hover,
-.time-selector-section:hover {
-    border-color: #fa7731;
-    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.12);
-    transform: translateY(-2px);
-}
 
 .date-label,
 .time-label {
@@ -70,7 +64,7 @@
 /* Custom Calendar Styling */
 .custom-calendar {
     background: white;
-    border: 2px solid #e2e8f0;
+
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
@@ -296,14 +290,11 @@
     border-radius: 16px;
     padding: 2rem;
     margin-top: 2rem;
-    border: 2px solid #e2e8f0;
+
     transition: all 0.3s ease;
 }
 
-.available-time-slots:hover {
-    border-color: #fa7731;
-    box-shadow: 0 8px 20px rgba(250, 119, 49, 0.08);
-}
+
 
 .slots-title {
     font-size: 1.25rem;

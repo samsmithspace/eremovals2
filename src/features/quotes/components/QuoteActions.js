@@ -1,16 +1,16 @@
-// Streamlined QuoteActions.js - Clean Implementation Without Redundancy
+// Combined QuoteActions.js - Promotion and Payment in single card
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import BookingForm from '../../booking/components/BookingForm';
-import PromotionCode from './PromotionCode';
+import PromotionCode from './PromotionCode.css';
 import { Button, Spinner, Alert } from '../../../common/components/ui';
 import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
 import './QuoteActions.css';
 
 /**
- * Clean QuoteActions component - no redundant wrappers
+ * Combined QuoteActions with promotion and payment in single card
  */
 const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   const { t, i18n } = useTranslation();
@@ -57,10 +57,10 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   };
 
   return (
-    <div className="quote-actions-clean">
+    <div className="quote-actions-optimized">
       {/* Contact Details Section */}
       {!showPricing && (
-        <div className="inventory-section">
+        <div className="section-container contact-section">
           <div className="section-header">
             <h4>
               <span className="section-icon">👤</span>
@@ -77,29 +77,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         </div>
       )}
 
-      {/* Promotion Code Section */}
+      {/* Combined Payment & Booking Section */}
       {showPricing && (
-        <div className="inventory-section">
-          <div className="section-header">
-            <h4>
-              <span className="section-icon">🎫</span>
-              {t('promotionCode', 'Promotion Code')}
-            </h4>
-          </div>
-          <div className="section-content">
-            <PromotionCode
-              bookingId={bookingId}
-              onApplied={handlePromoCodeApplied}
-              isApplying={isApplyingPromo}
-              error={promoError}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Payment Section */}
-      {showPricing && (
-        <div className="inventory-section">
+        <div className="section-container payment-booking-section">
           <div className="section-header">
             <h4>
               <span className="section-icon">💳</span>
@@ -107,7 +87,7 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
             </h4>
           </div>
           <div className="section-content">
-            <PricingSection
+            <CombinedPricingSection
               originalPrice={price}
               originalHelperPrice={helperPrice}
               currentPrice={currentPrice}
@@ -117,6 +97,10 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
               onPayment={handlePayment}
               isProcessing={isProcessing}
               paymentError={paymentError}
+              bookingId={bookingId}
+              onPromoCodeApplied={handlePromoCodeApplied}
+              isApplyingPromo={isApplyingPromo}
+              promoError={promoError}
             />
           </div>
         </div>
@@ -126,30 +110,35 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
 };
 
 /**
- * Clean pricing section without redundant styling
+ * Combined pricing section with promotion code integrated
  */
-const PricingSection = ({
-                          originalPrice,
-                          originalHelperPrice,
-                          currentPrice,
-                          currentHelperPrice,
-                          discount,
-                          showHelperOption,
-                          onPayment,
-                          isProcessing,
-                          paymentError
-                        }) => {
+const CombinedPricingSection = ({
+                                  originalPrice,
+                                  originalHelperPrice,
+                                  currentPrice,
+                                  currentHelperPrice,
+                                  discount,
+                                  showHelperOption,
+                                  onPayment,
+                                  isProcessing,
+                                  paymentError,
+                                  bookingId,
+                                  onPromoCodeApplied,
+                                  isApplyingPromo,
+                                  promoError
+                                }) => {
   const { t } = useTranslation();
   const hasDiscount = discount > 0;
 
   return (
-    <>
+    <div className="combined-pricing-container">
       {paymentError && (
         <Alert variant="error" title={t('paymentError', 'Payment Error')}>
           {paymentError}
         </Alert>
       )}
 
+      {/* Price Display */}
       <div className="price-display">
         <PriceItem
           label={t('estimatedPrice', 'Your estimated price (VAT included)')}
@@ -168,14 +157,33 @@ const PricingSection = ({
         )}
       </div>
 
-      <div className="payment-buttons-clean">
+      {/* Promotion Code Section - Integrated after price */}
+      <div className="promotion-section-integrated">
+        <div className="promo-header-inline">
+          <h5 className="promo-title">
+            <span className="promo-icon">🎫</span>
+            {t('promotionCode', 'Promotion Code')}
+          </h5>
+          <p className="promo-description">
+            {t('promoCodeDescription', 'Have a promotion code? Enter it below to get a discount.')}
+          </p>
+        </div>
+
+        <PromotionCode
+          bookingId={bookingId}
+          onApplied={onPromoCodeApplied}
+          isApplying={isApplyingPromo}
+          error={promoError}
+        />
+      </div>
+
+      {/* Payment Buttons */}
+      <div className="payment-buttons">
         {showHelperOption && (
-          <Button
+          <button
             onClick={() => onPayment(true)}
-            variant="secondary"
-            size="large"
             disabled={isProcessing}
-            className="payment-button-clean helper-button"
+            className="payment-button helper-option"
           >
             {isProcessing ? (
               <>
@@ -188,15 +196,13 @@ const PricingSection = ({
                 <span>{t('payAndBookWithHelper', 'Pay and Book with Helper')}</span>
               </>
             )}
-          </Button>
+          </button>
         )}
 
-        <Button
+        <button
           onClick={() => onPayment(false)}
-          variant="primary"
-          size="large"
           disabled={isProcessing}
-          className="payment-button-clean main-button"
+          className="payment-button main-option"
         >
           {isProcessing ? (
             <>
@@ -209,19 +215,23 @@ const PricingSection = ({
               <span>{t('payAndBook', 'Pay and Book without Helper')}</span>
             </>
           )}
-        </Button>
+        </button>
       </div>
 
-      <div className="security-notice-clean">
+      {/* Security Notice */}
+      <div className="security-notice">
         <span className="notice-icon">🔒</span>
         <p className="notice-text">
           {t('paymentSecurity', 'Secure payment processing. Your card details are protected by industry-standard encryption.')}
         </p>
       </div>
-    </>
+    </div>
   );
 };
 
+/**
+ * Individual price item component
+ */
 const PriceItem = ({ label, originalPrice, currentPrice, hasDiscount }) => {
   return (
     <div className="price-item">
@@ -240,6 +250,7 @@ const PriceItem = ({ label, originalPrice, currentPrice, hasDiscount }) => {
   );
 };
 
+// PropTypes
 PriceItem.propTypes = {
   label: PropTypes.string.isRequired,
   originalPrice: PropTypes.number.isRequired,
@@ -247,7 +258,7 @@ PriceItem.propTypes = {
   hasDiscount: PropTypes.bool.isRequired
 };
 
-PricingSection.propTypes = {
+CombinedPricingSection.propTypes = {
   originalPrice: PropTypes.number.isRequired,
   originalHelperPrice: PropTypes.number.isRequired,
   currentPrice: PropTypes.number.isRequired,
@@ -256,7 +267,11 @@ PricingSection.propTypes = {
   showHelperOption: PropTypes.bool.isRequired,
   onPayment: PropTypes.func.isRequired,
   isProcessing: PropTypes.bool.isRequired,
-  paymentError: PropTypes.string
+  paymentError: PropTypes.string,
+  bookingId: PropTypes.string.isRequired,
+  onPromoCodeApplied: PropTypes.func.isRequired,
+  isApplyingPromo: PropTypes.bool.isRequired,
+  promoError: PropTypes.string
 };
 
 QuoteActions.propTypes = {
