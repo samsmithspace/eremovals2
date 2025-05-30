@@ -1,0 +1,498 @@
+/* BookingForm.css - Enhanced Contact Details Section Styling */
+
+/* Main booking form container */
+.booking-form {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    margin: 2rem auto;
+    max-width: 600px;
+    overflow: hidden;
+    border: 1px solid rgba(250, 119, 49, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.booking-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fa7731, #ff9a66);
+    border-radius: 20px 20px 0 0;
+}
+
+.booking-form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(250, 119, 49, 0.2);
+}
+
+/* Form header section */
+.form-header {
+    background: linear-gradient(135deg, rgba(250, 119, 49, 0.05), rgba(255, 154, 102, 0.05));
+    padding: 2.5rem 2.5rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(250, 119, 49, 0.1);
+    position: relative;
+}
+
+.form-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #fa7731, #ff9a66);
+    border-radius: 1px;
+}
+
+.form-header h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.form-header h3::before {
+    content: '👤';
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #fa7731, #ff9a66);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.form-description {
+    color: #718096;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 400;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* Contact form container */
+.contact-form {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background: white;
+}
+
+/* Form group styling */
+.contact-form .form-group {
+    position: relative;
+    margin-bottom: 0;
+}
+
+/* Enhanced form labels */
+.contact-form .form-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.75rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.contact-form .form-label.required::after {
+    content: '*';
+    color: #e53e3e;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-left: 0.25rem;
+}
+
+/* Enhanced form inputs */
+.contact-form .form-control {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #2d3748;
+    position: relative;
+}
+
+.contact-form .form-control::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+    transition: opacity 0.2s ease;
+}
+
+.contact-form .form-control:focus {
+    border-color: #fa7731;
+    background: #fff;
+    box-shadow:
+            0 0 0 3px rgba(250, 119, 49, 0.1),
+            0 4px 12px rgba(250, 119, 49, 0.15);
+    transform: translateY(-1px);
+}
+
+.contact-form .form-control:focus::placeholder {
+    opacity: 0.7;
+}
+
+.contact-form .form-control:hover:not(:focus) {
+    border-color: #cbd5e0;
+    background: #f9fafb;
+}
+
+/* Input icons */
+.contact-form .form-group::before {
+    position: absolute;
+    top: 2.75rem;
+    left: 1rem;
+    font-size: 1.125rem;
+    color: #a0aec0;
+    transition: color 0.2s ease;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.contact-form .form-group:has([name="name"])::before {
+    content: '👤';
+}
+
+.contact-form .form-group:has([name="phone"])::before {
+    content: '📞';
+}
+
+.contact-form .form-group:has([name="email"])::before {
+    content: '✉️';
+}
+
+.contact-form .form-group:has(.form-control:focus)::before {
+    color: #fa7731;
+}
+
+/* Adjust padding for inputs with icons */
+.contact-form .form-control {
+    padding-left: 3rem;
+}
+
+/* Error state styling */
+.contact-form .form-control.is-invalid {
+    border-color: #e53e3e;
+    background: #fef5e7;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.contact-form .form-control.is-invalid:focus {
+    border-color: #e53e3e;
+    box-shadow:
+            0 0 0 3px rgba(229, 62, 62, 0.1),
+            0 4px 12px rgba(229, 62, 62, 0.15);
+}
+
+.contact-form .invalid-feedback {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e53e3e;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(229, 62, 62, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #e53e3e;
+}
+
+.contact-form .invalid-feedback::before {
+    content: '⚠️';
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* Submit button styling */
+.contact-form .submit-button {
+    background: linear-gradient(135deg, #fa7731 0%, #ff9a66 100%);
+    color: white;
+    border: none;
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(250, 119, 49, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.contact-form .submit-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.contact-form .submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(250, 119, 49, 0.4);
+    background: linear-gradient(135deg, #e05f16 0%, #fa7731 100%);
+}
+
+.contact-form .submit-button:hover::before {
+    left: 100%;
+}
+
+.contact-form .submit-button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 20px rgba(250, 119, 49, 0.3);
+}
+
+.contact-form .submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 12px rgba(250, 119, 49, 0.2);
+}
+
+.contact-form .submit-button:disabled:hover {
+    transform: none;
+    background: linear-gradient(135deg, #fa7731 0%, #ff9a66 100%);
+}
+
+/* Loading spinner in button */
+.contact-form .submit-button .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+/* Success state */
+.contact-form .form-group.success .form-control {
+    border-color: #38a169;
+    background: #f0fff4;
+    box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
+}
+
+.contact-form .form-group.success .form-label {
+    color: #38a169;
+}
+
+.contact-form .form-group.success::before {
+    color: #38a169;
+}
+
+/* Floating label effect */
+.contact-form .form-group.floating .form-label {
+    position: absolute;
+    top: 1rem;
+    left: 3rem;
+    background: white;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+    color: #fa7731;
+    transform: translateY(-1.75rem);
+    transition: all 0.2s ease;
+    z-index: 3;
+}
+
+/* Form progress indicator */
+.form-progress {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.progress-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    transition: background 0.3s ease;
+}
+
+.progress-dot.active {
+    background: #fa7731;
+}
+
+.progress-dot.completed {
+    background: #38a169;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .booking-form {
+        margin: 1.5rem 1rem;
+        border-radius: 16px;
+    }
+
+    .form-header {
+        padding: 2rem 2rem 1.5rem;
+    }
+
+    .form-header h3 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-description {
+        font-size: 0.95rem;
+    }
+
+    .contact-form {
+        padding: 2rem;
+        gap: 1.5rem;
+    }
+
+    .contact-form .form-control {
+        padding: 0.875rem 1rem 0.875rem 2.75rem;
+        font-size: 0.95rem;
+    }
+
+    .contact-form .form-group::before {
+        top: 2.5rem;
+        left: 0.875rem;
+        font-size: 1rem;
+    }
+
+    .contact-form .submit-button {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-form {
+        margin: 1rem 0.5rem;
+        border-radius: 12px;
+    }
+
+    .form-header {
+        padding: 1.5rem 1.5rem 1.25rem;
+    }
+
+    .form-header h3 {
+        font-size: 1.375rem;
+    }
+
+    .contact-form {
+        padding: 1.5rem;
+        gap: 1.25rem;
+    }
+
+    .contact-form .form-control {
+        padding: 0.75rem 0.875rem 0.75rem 2.5rem;
+        border-radius: 10px;
+    }
+
+    .contact-form .form-group::before {
+        top: 2.25rem;
+        left: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .contact-form .submit-button {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        border-radius: 10px;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Focus visible improvements */
+.contact-form .form-control:focus-visible {
+    outline: 2px solid #fa7731;
+    outline-offset: 2px;
+}
+
+.contact-form .submit-button:focus-visible {
+    outline: 2px solid #fa7731;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .booking-form {
+        border: 2px solid #2d3748;
+    }
+
+    .contact-form .form-control {
+        border-width: 2px;
+    }
+
+    .contact-form .submit-button {
+        border: 2px solid #ffffff;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .booking-form,
+    .contact-form .form-control,
+    .contact-form .submit-button {
+        transition: none;
+    }
+
+    .booking-form:hover {
+        transform: none;
+    }
+
+    .contact-form .submit-button:hover {
+        transform: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .booking-form {
+        background: white;
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    .contact-form .submit-button {
+        background: black;
+        color: white;
+    }
+}
