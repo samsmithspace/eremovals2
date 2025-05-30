@@ -1,17 +1,15 @@
-// src/features/booking/hooks/useBookingForm.js
+// src/features/booking/hooks/useBookingForm.js - Fixed without any conditional hooks
 import { useState, useCallback, useEffect } from 'react';
 import { bookingService } from '../services/bookingService';
-import { useBookingContext } from '../context/BookingContext';
 
 /**
  * Custom hook for managing booking form state and validation
+ * Simplified to avoid conditional hook calls - context integration handled at component level
  * @param {string} bookingId - ID of the booking
  * @param {Function} onSubmitSuccess - Callback when form submission succeeds
  * @returns {Object} Form state and handlers
  */
 export const useBookingForm = (bookingId, onSubmitSuccess) => {
-    const { setContactInfo, setError, clearError } = useBookingContext();
-
     const [formValues, setFormValues] = useState({
         name: '',
         phone: '',
@@ -26,20 +24,21 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
     const validateField = useCallback((name, value) => {
         switch (name) {
             case 'name':
-                if (!value.trim()) return 'Name is required';
+                if (!value || !value.trim()) return 'Name is required';
                 if (value.trim().length < 2) return 'Name must be at least 2 characters';
                 return null;
 
             case 'phone':
-                if (!value.trim()) return 'Phone number is required';
-                const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-                if (!phoneRegex.test(value.replace(/\s/g, ''))) return 'Please enter a valid phone number';
+                if (!value || !value.trim()) return 'Phone number is required';
+                // More flexible phone validation
+                const cleanPhone = value.replace(/\s/g, '').replace(/[^\d+]/g, '');
+                if (cleanPhone.length < 10) return 'Please enter a valid phone number';
                 return null;
 
             case 'email':
-                if (!value.trim()) return 'Email is required';
+                if (!value || !value.trim()) return 'Email is required';
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) return 'Please enter a valid email address';
+                if (!emailRegex.test(value.trim())) return 'Please enter a valid email address';
                 return null;
 
             default:
@@ -50,43 +49,71 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
     // Validate all fields
     const validateForm = useCallback(() => {
         const newErrors = {};
+
         Object.keys(formValues).forEach(field => {
             const error = validateField(field, formValues[field]);
-            if (error) newErrors[field] = error;
+            if (error) {
+                newErrors[field] = error;
+            }
         });
+
         return newErrors;
     }, [formValues, validateField]);
+
+    // Calculate if form is valid
+    const isValid = useCallback(() => {
+        // Check if all required fields have values
+        const hasName = formValues.name && formValues.name.trim().length >= 2;
+        const hasPhone = formValues.phone && formValues.phone.trim().length >= 10;
+        const hasEmail = formValues.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email.trim());
+
+        // Check if there are any validation errors
+        const formErrors = validateForm();
+        const hasNoErrors = Object.keys(formErrors).length === 0;
+
+        const valid = hasName && hasPhone && hasEmail && hasNoErrors;
+
+        console.log('Form validation check:', {
+            hasName,
+            hasPhone,
+            hasEmail,
+            hasNoErrors,
+            valid,
+            formValues,
+            formErrors
+        });
+
+        return valid;
+    }, [formValues, validateForm]);
 
     // Handle input change
     const handleChange = useCallback((e) => {
         const { name, value } = e.target;
+
+        console.log('Field changed:', { name, value });
 
         setFormValues(prev => ({
             ...prev,
             [name]: value
         }));
 
-        // Clear error for this field
+        // Clear error for this field when user starts typing
         if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: null
-            }));
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
         }
 
-        // Validate field if it has been touched
-        if (touched[name]) {
-            const error = validateField(name, value);
-            setErrors(prev => ({
-                ...prev,
-                [name]: error
-            }));
-        }
+        // Mark field as touched
+        setTouched(prev => ({
+            ...prev,
+            [name]: true
+        }));
+    }, [errors]);
 
-        clearError();
-    }, [errors, touched, validateField, clearError]);
-
-    // Handle field blur
+    // Handle field blur for validation
     const handleBlur = useCallback((e) => {
         const { name, value } = e.target;
 
@@ -95,21 +122,28 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
             [name]: true
         }));
 
+        // Validate field on blur
         const error = validateField(name, value);
-        setErrors(prev => ({
-            ...prev,
-            [name]: error
-        }));
+        if (error) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: error
+            }));
+        }
     }, [validateField]);
 
     // Handle form submission
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
 
+        console.log('Form submitted with values:', formValues);
+
+        // Validate all fields
         const formErrors = validateForm();
-        setErrors(formErrors);
 
         if (Object.keys(formErrors).length > 0) {
+            console.log('Form has errors:', formErrors);
+            setErrors(formErrors);
             setTouched({
                 name: true,
                 phone: true,
@@ -118,38 +152,66 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
             return;
         }
 
+        if (!isValid()) {
+            console.log('Form is not valid');
+            return;
+        }
+
         setIsSubmitting(true);
-        clearError();
 
         try {
-            await bookingService.updateContactInfo(bookingId, formValues);
-            setContactInfo(formValues);
+            // Only call booking service if we have a valid bookingId
+            if (bookingId) {
+                console.log('Updating contact info for booking:', bookingId);
+                await bookingService.updateContactInfo(bookingId, formValues);
+            }
+
+            console.log('Form submission successful');
 
             if (onSubmitSuccess) {
                 onSubmitSuccess(formValues);
             }
         } catch (error) {
-          //  console.error('Error updating contact information:', error);
-            setError(error.message || 'Failed to update contact information');
+            console.error('Error updating contact information:', error);
+            const errorMessage = error.message || 'Failed to update contact information';
+
+            // Set the error in local state instead of context
+            setErrors(prev => ({
+                ...prev,
+                submit: errorMessage
+            }));
         } finally {
             setIsSubmitting(false);
         }
-    }, [bookingId, formValues, validateForm, setContactInfo, onSubmitSuccess, clearError, setError]);
+    }, [bookingId, formValues, validateForm, isValid, onSubmitSuccess]);
 
-    // Check if form is valid
-    const isValid = Object.keys(validateForm()).length === 0 &&
-        formValues.name.trim() &&
-        formValues.phone.trim() &&
-        formValues.email.trim();
+    // Update errors when form values change
+    useEffect(() => {
+        // Only validate touched fields to avoid showing errors immediately
+        const newErrors = {};
+
+        Object.keys(touched).forEach(field => {
+            if (touched[field]) {
+                const error = validateField(field, formValues[field]);
+                if (error) {
+                    newErrors[field] = error;
+                }
+            }
+        });
+
+        setErrors(newErrors);
+    }, [formValues, touched, validateField]);
 
     return {
         formValues,
         errors,
         isSubmitting,
-        isValid,
+        isValid: isValid(),
         handleChange,
         handleBlur,
         handleSubmit,
         setFormValues
     };
 };
+
+export default useBookingForm;

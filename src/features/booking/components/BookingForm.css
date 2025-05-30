@@ -4,20 +4,16 @@
 .booking-form {
     background: white;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    margin: 2rem auto;
+
+
     max-width: 1150px;
     overflow: hidden;
-    border: 1px solid rgba(250, 119, 49, 0.1);
+
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
 
-.booking-form:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    border-color: rgba(250, 119, 49, 0.2);
-}
+
 
 /* Form header section - matches section-header styling */
 .form-header {
