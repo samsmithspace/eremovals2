@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { FormInput, Button, Spinner, Alert } from '../../../common/components/ui';
 import { usePromoCode } from '../hooks/usePromoCode';
-
+import './PromotionCode.css';
 /**
  * Component for applying promotion codes to bookings
  * @param {Object} props

@@ -11,7 +11,7 @@
 
 /* Quote Header Styles */
 .quote-header {
-    max-width: 1150px;
+    max-width: 1050px;
     margin: 0 auto 3rem auto;
     padding: 2.5rem;
     background: linear-gradient(135deg, rgba(58, 175, 250, 0.37) 0%, #a27fec 100%);

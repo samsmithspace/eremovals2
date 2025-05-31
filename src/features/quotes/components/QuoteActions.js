@@ -1,9 +1,9 @@
-// Combined QuoteActions.js - Promotion and Payment in single card
+// Combined QuoteActions.js - Fixed import issue
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import BookingForm from '../../booking/components/BookingForm';
-import PromotionCode from './PromotionCode.css';
+import PromotionCode from './PromotionCode'; // ✅ Fixed: Import the JS file, not CSS
 import { Button, Spinner, Alert } from '../../../common/components/ui';
 import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
@@ -32,7 +32,8 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     error: promoError
   } = usePromoCode(bookingId, price, helperPrice);
 
-  const showHelperOption = price > 60 && price !== helperPrice;
+  // Always show helper option if helper price is different and higher than regular price
+  const showHelperOption = helperPrice && helperPrice > price;
 
   const handleContactSubmitted = () => {
     setShowPricing(true);
@@ -138,7 +139,10 @@ const CombinedPricingSection = ({
         </Alert>
       )}
 
-      {/* Price Display */}
+      {/* Helper Option Explanation */}
+      <HelperExplanation />
+
+      {/* Price Display - Keep Original Format */}
       <div className="price-display">
         <PriceItem
           label={t('estimatedPrice', 'Your estimated price (VAT included)')}
@@ -147,14 +151,13 @@ const CombinedPricingSection = ({
           hasDiscount={hasDiscount}
         />
 
-        {showHelperOption && (
-          <PriceItem
-            label={t('priceWithHelper', 'Your estimated price with a helper (VAT included)')}
-            originalPrice={originalHelperPrice}
-            currentPrice={currentHelperPrice}
-            hasDiscount={hasDiscount}
-          />
-        )}
+        {/* Always show helper option if helperPrice exists */}
+        <PriceItem
+          label={t('priceWithHelper', 'Your estimated price with a helper (VAT included)')}
+          originalPrice={originalHelperPrice}
+          currentPrice={currentHelperPrice}
+          hasDiscount={hasDiscount}
+        />
       </div>
 
       {/* Promotion Code Section - Integrated after price */}
@@ -179,26 +182,32 @@ const CombinedPricingSection = ({
 
       {/* Payment Buttons */}
       <div className="payment-buttons">
-        {showHelperOption && (
-          <button
-            onClick={() => onPayment(true)}
-            disabled={isProcessing}
-            className="payment-button helper-option"
-          >
-            {isProcessing ? (
-              <>
-                <Spinner size="small" />
-                {t('processing', 'Processing...')}
-              </>
-            ) : (
-              <>
-                <span>👥</span>
-                <span>{t('payAndBookWithHelper', 'Pay and Book with Helper')}</span>
-              </>
-            )}
-          </button>
-        )}
+        {/* Helper Option Button - Enhanced */}
+        <button
+          onClick={() => onPayment(true)}
+          disabled={isProcessing}
+          className="payment-button helper-option"
+        >
+          {isProcessing ? (
+            <>
+              <div className="loading-spinner"></div>
+              <span>{t('processing', 'Processing...')}</span>
+            </>
+          ) : (
+            <>
+              <div className="payment-button-content">
+                <span className="payment-button-icon">👥</span>
+                <div className="payment-button-text">
+                  <span className="payment-button-title">{t('payAndBookWithHelper', 'Pay and Book with Helper')}</span>
+                  <span className="payment-button-subtitle">{t('professionalAssistance', 'Professional assistance included')}</span>
+                </div>
+              </div>
+              <div className="payment-button-price">£{currentHelperPrice}</div>
+            </>
+          )}
+        </button>
 
+        {/* Main Option Button - Enhanced */}
         <button
           onClick={() => onPayment(false)}
           disabled={isProcessing}
@@ -206,13 +215,19 @@ const CombinedPricingSection = ({
         >
           {isProcessing ? (
             <>
-              <Spinner size="small" />
-              {t('processing', 'Processing...')}
+              <div className="loading-spinner"></div>
+              <span>{t('processing', 'Processing...')}</span>
             </>
           ) : (
             <>
-              <span>🚀</span>
-              <span>{t('payAndBook', 'Pay and Book without Helper')}</span>
+              <div className="payment-button-content">
+                <span className="payment-button-icon">🚀</span>
+                <div className="payment-button-text">
+                  <span className="payment-button-title">{t('payAndBook', 'Pay and Book without Helper')}</span>
+                  <span className="payment-button-subtitle">{t('standardService', 'Standard moving service')}</span>
+                </div>
+              </div>
+              <div className="payment-button-price">£{currentPrice}</div>
             </>
           )}
         </button>
@@ -246,6 +261,32 @@ const PriceItem = ({ label, originalPrice, currentPrice, hasDiscount }) => {
           <span className="current-price">£{currentPrice}</span>
         )}
       </span>
+    </div>
+  );
+};
+
+/**
+ * Helper explanation component for better UX
+ */
+const HelperExplanation = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="helper-explanation">
+      <div className="helper-header">
+        <span className="helper-icon">👥</span>
+        <h5 className="helper-title">
+          {t('helperOption', 'Need Extra Help?')}
+        </h5>
+      </div>
+      <p className="helper-description">
+        {t('helperDescription', 'Add a professional helper to assist with your move. They can help with packing, lifting, and ensuring everything goes smoothly.')}
+      </p>
+      <div className="helper-benefits">
+        <span className="benefit">✓ Professional assistance</span>
+        <span className="benefit">✓ Faster completion</span>
+        <span className="benefit">✓ Reduced stress</span>
+      </div>
     </div>
   );
 };
