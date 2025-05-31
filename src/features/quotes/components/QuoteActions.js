@@ -1,16 +1,16 @@
-// Combined QuoteActions.js - Fixed import issue
+// Updated QuoteActions.js with enhanced price strikethrough effects
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import BookingForm from '../../booking/components/BookingForm';
-import PromotionCode from './PromotionCode'; // ✅ Fixed: Import the JS file, not CSS
+import PromotionCode from './PromotionCode';
 import { Button, Spinner, Alert } from '../../../common/components/ui';
 import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
 import './QuoteActions.css';
 
 /**
- * Combined QuoteActions with promotion and payment in single card
+ * Enhanced QuoteActions with visual discount effects
  */
 const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   const { t, i18n } = useTranslation();
@@ -32,7 +32,6 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     error: promoError
   } = usePromoCode(bookingId, price, helperPrice);
 
-  // Always show helper option if helper price is different and higher than regular price
   const showHelperOption = helperPrice && helperPrice > price;
 
   const handleContactSubmitted = () => {
@@ -55,6 +54,19 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
 
   const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent) => {
     console.log('Promo code applied:', { newPrice, newHelperPrice, discountPercent });
+
+    // Trigger visual effects
+    setTimeout(() => {
+      const priceDisplay = document.querySelector('.price-display');
+      if (priceDisplay) {
+        priceDisplay.classList.add('has-discount');
+        priceDisplay.classList.add('promo-success-flash');
+
+        setTimeout(() => {
+          priceDisplay.classList.remove('promo-success-flash');
+        }, 1000);
+      }
+    }, 100);
   };
 
   return (
@@ -78,7 +90,7 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         </div>
       )}
 
-      {/* Combined Payment & Booking Section */}
+      {/* Enhanced Payment & Booking Section */}
       {showPricing && (
         <div className="section-container payment-booking-section">
           <div className="section-header">
@@ -88,7 +100,7 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
             </h4>
           </div>
           <div className="section-content">
-            <CombinedPricingSection
+            <EnhancedPricingSection
               originalPrice={price}
               originalHelperPrice={helperPrice}
               currentPrice={currentPrice}
@@ -111,9 +123,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
 };
 
 /**
- * Combined pricing section with promotion code integrated
+ * Enhanced pricing section with visual discount effects
  */
-const CombinedPricingSection = ({
+const EnhancedPricingSection = ({
                                   originalPrice,
                                   originalHelperPrice,
                                   currentPrice,
@@ -142,25 +154,26 @@ const CombinedPricingSection = ({
       {/* Helper Option Explanation */}
       <HelperExplanation />
 
-      {/* Price Display - Keep Original Format */}
-      <div className="price-display">
-        <PriceItem
+      {/* Enhanced Price Display with strikethrough effects */}
+      <div className={`price-display ${hasDiscount ? 'has-discount' : ''}`}>
+        <EnhancedPriceItem
           label={t('estimatedPrice', 'Your estimated price (VAT included)')}
           originalPrice={originalPrice}
           currentPrice={currentPrice}
           hasDiscount={hasDiscount}
+          discount={discount}
         />
 
-        {/* Always show helper option if helperPrice exists */}
-        <PriceItem
+        <EnhancedPriceItem
           label={t('priceWithHelper', 'Your estimated price with a helper (VAT included)')}
           originalPrice={originalHelperPrice}
           currentPrice={currentHelperPrice}
           hasDiscount={hasDiscount}
+          discount={discount}
         />
       </div>
 
-      {/* Promotion Code Section - Integrated after price */}
+      {/* Promotion Code Section */}
       <div className="promotion-section-integrated">
         <div className="promo-header-inline">
           <h5 className="promo-title">
@@ -180,9 +193,9 @@ const CombinedPricingSection = ({
         />
       </div>
 
-      {/* Payment Buttons */}
+      {/* Enhanced Payment Buttons */}
       <div className="payment-buttons">
-        {/* Helper Option Button - Enhanced */}
+        {/* Helper Option Button */}
         <button
           onClick={() => onPayment(true)}
           disabled={isProcessing}
@@ -198,16 +211,24 @@ const CombinedPricingSection = ({
               <div className="payment-button-content">
                 <span className="payment-button-icon">👥</span>
                 <div className="payment-button-text">
-                  <span className="payment-button-title">{t('payAndBookWithHelper', 'Pay and Book with Helper')}</span>
-                  <span className="payment-button-subtitle">{t('professionalAssistance', 'Professional assistance included')}</span>
+                  <span className="payment-button-title">
+                    {t('payAndBookWithHelper', 'Pay and Book with Helper')}
+                  </span>
+                  <span className="payment-button-subtitle">
+                    {t('professionalAssistance', 'Professional assistance included')}
+                  </span>
                 </div>
               </div>
-              <div className="payment-button-price">£{currentHelperPrice}</div>
+              <EnhancedPaymentButtonPrice
+                originalPrice={originalHelperPrice}
+                currentPrice={currentHelperPrice}
+                hasDiscount={hasDiscount}
+              />
             </>
           )}
         </button>
 
-        {/* Main Option Button - Enhanced */}
+        {/* Main Option Button */}
         <button
           onClick={() => onPayment(false)}
           disabled={isProcessing}
@@ -223,11 +244,19 @@ const CombinedPricingSection = ({
               <div className="payment-button-content">
                 <span className="payment-button-icon">🚀</span>
                 <div className="payment-button-text">
-                  <span className="payment-button-title">{t('payAndBook', 'Pay and Book without Helper')}</span>
-                  <span className="payment-button-subtitle">{t('standardService', 'Standard moving service')}</span>
+                  <span className="payment-button-title">
+                    {t('payAndBook', 'Pay and Book without Helper')}
+                  </span>
+                  <span className="payment-button-subtitle">
+                    {t('standardService', 'Standard moving service')}
+                  </span>
                 </div>
               </div>
-              <div className="payment-button-price">£{currentPrice}</div>
+              <EnhancedPaymentButtonPrice
+                originalPrice={originalPrice}
+                currentPrice={currentPrice}
+                hasDiscount={hasDiscount}
+              />
             </>
           )}
         </button>
@@ -245,28 +274,70 @@ const CombinedPricingSection = ({
 };
 
 /**
- * Individual price item component
+ * Enhanced price item component with strikethrough effect
  */
-const PriceItem = ({ label, originalPrice, currentPrice, hasDiscount }) => {
+const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, discount }) => {
+  const { t } = useTranslation();
+  const savings = originalPrice - currentPrice;
+  const savingsPercentage = discount || Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+
   return (
     <div className="price-item">
-      <span className="price-label">{label}:</span>
-      <span className="price-value">
-        {hasDiscount ? (
-          <>
-            <span className="original-price">£{originalPrice}</span>
-            <span className="current-price">£{currentPrice}</span>
-          </>
-        ) : (
-          <span className="current-price">£{currentPrice}</span>
+      <span className="price-label">
+        {label}
+        {hasDiscount && (
+          <span className="discount-badge">
+            {savingsPercentage}% OFF
+          </span>
         )}
       </span>
+
+      <div className="price-comparison">
+        {hasDiscount ? (
+          <>
+            {/* Original price with strikethrough */}
+            <div className="price-row original">
+              <span className="original-price">£{originalPrice}</span>
+            </div>
+
+            {/* Discounted price */}
+            <div className="price-row discounted">
+              <span className="current-price">£{currentPrice}</span>
+            </div>
+
+            {/* Savings indicator */}
+            <div className="savings-indicator">
+              {t('youSave', 'You save')} £{savings.toFixed(2)}!
+            </div>
+          </>
+        ) : (
+          <div className="price-row">
+            <span className="current-price">£{currentPrice}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 /**
- * Helper explanation component for better UX
+ * Enhanced payment button price with discount display
+ */
+const EnhancedPaymentButtonPrice = ({ originalPrice, currentPrice, hasDiscount }) => {
+  return (
+    <div className={`payment-button-price ${hasDiscount ? 'has-discount' : ''}`}>
+      {hasDiscount && (
+        <div className="original-button-price">£{originalPrice}</div>
+      )}
+      <div className={hasDiscount ? 'discounted-button-price' : ''}>
+        £{currentPrice}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Helper explanation component
  */
 const HelperExplanation = () => {
   const { t } = useTranslation();
@@ -292,14 +363,21 @@ const HelperExplanation = () => {
 };
 
 // PropTypes
-PriceItem.propTypes = {
+EnhancedPriceItem.propTypes = {
   label: PropTypes.string.isRequired,
+  originalPrice: PropTypes.number.isRequired,
+  currentPrice: PropTypes.number.isRequired,
+  hasDiscount: PropTypes.bool.isRequired,
+  discount: PropTypes.number
+};
+
+EnhancedPaymentButtonPrice.propTypes = {
   originalPrice: PropTypes.number.isRequired,
   currentPrice: PropTypes.number.isRequired,
   hasDiscount: PropTypes.bool.isRequired
 };
 
-CombinedPricingSection.propTypes = {
+EnhancedPricingSection.propTypes = {
   originalPrice: PropTypes.number.isRequired,
   originalHelperPrice: PropTypes.number.isRequired,
   currentPrice: PropTypes.number.isRequired,

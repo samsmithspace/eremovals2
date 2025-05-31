@@ -1,4 +1,4 @@
-// src/features/quotes/hooks/usePromoCode.js
+// src/features/quotes/hooks/usePromoCode.js - FIXED VERSION
 import { useState, useCallback } from 'react';
 import { quoteService } from '../services/quoteService';
 
@@ -17,15 +17,27 @@ export const usePromoCode = (bookingId, originalPrice = 0, originalHelperPrice =
     const [error, setError] = useState(null);
 
     const applyPromoCode = useCallback(async (promoCode) => {
+        console.log('usePromoCode: Starting promo code application', { bookingId, promoCode });
+
+        if (!bookingId) {
+            const errorMsg = 'No booking ID provided for promo code application';
+            console.error(errorMsg);
+            throw new Error(errorMsg);
+        }
+
         if (!promoCode || promoCode.length !== 6) {
-            throw new Error('Invalid promotion code format');
+            const errorMsg = 'Invalid promotion code format';
+            console.error(errorMsg);
+            throw new Error(errorMsg);
         }
 
         setIsApplying(true);
         setError(null);
 
         try {
+            console.log('usePromoCode: Calling quoteService.applyPromoCode');
             const result = await quoteService.applyPromoCode(bookingId, promoCode);
+            console.log('usePromoCode: Received result', result);
 
             if (result.success) {
                 setCurrentPrice(result.newPrice);
@@ -42,6 +54,7 @@ export const usePromoCode = (bookingId, originalPrice = 0, originalHelperPrice =
                 throw new Error(result.error || 'Invalid promotion code');
             }
         } catch (err) {
+            console.error('usePromoCode: Error occurred', err);
             const errorMessage = err.message || 'Failed to apply promotion code';
             setError(errorMessage);
             throw err;
@@ -65,7 +78,7 @@ export const usePromoCode = (bookingId, originalPrice = 0, originalHelperPrice =
             setCurrentPrice(latestPrices.price);
             setCurrentHelperPrice(latestPrices.helperPrice);
         } catch (err) {
-           // console.error('Error refreshing prices:', err);
+            console.error('Error refreshing prices:', err);
         }
     }, [bookingId]);
 

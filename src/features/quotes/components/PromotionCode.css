@@ -380,3 +380,400 @@
         animation: none;
     }
 }
+/* Enhanced Success Styles for Promotion Code - Add to PromotionCode.css */
+
+/* Enhanced Success Message */
+.promotion-section-integrated .promo-success {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border: 2px solid #10b981;
+    border-radius: 16px;
+    color: #065f46;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.4s ease-out;
+}
+
+.promotion-section-integrated .promo-success.success-animation {
+    animation: successCelebration 1s ease-out;
+}
+
+/* Success Content Layout */
+.success-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.success-icon {
+    font-size: 2rem;
+    animation: bounceSuccess 0.6s ease-out;
+}
+
+.success-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.success-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #047857;
+    margin: 0;
+}
+
+.success-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Savings Breakdown */
+.savings-breakdown {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.discount-percentage {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+    animation: pulseDiscount 2s infinite;
+}
+
+.savings-amount {
+    color: #047857;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.savings-amount::before {
+    content: '💰';
+    font-size: 1.125rem;
+}
+
+/* Success Background Effect */
+.promotion-section-integrated .promo-success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: successSweep 0.8s ease-out;
+    z-index: 1;
+}
+
+/* Success Confetti Effect */
+.promotion-section-integrated .promo-success::after {
+    content: '🎉 ✨ 🎊 ✨ 🎉';
+    position: absolute;
+    top: -10px;
+    right: 1rem;
+    font-size: 0.875rem;
+    opacity: 0.8;
+    animation: confettiFloat 2s ease-in-out infinite;
+    z-index: 1;
+}
+
+/* Enhanced Error Message */
+.promotion-section-integrated .promo-error {
+    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    border: 2px solid #ef4444;
+    border-radius: 12px;
+    color: #991b1b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: shakeError 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.promotion-section-integrated .promo-error::before {
+    content: '⚠️';
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.promotion-section-integrated .promo-error::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ef4444, #dc2626, #ef4444);
+    animation: errorPulse 1.5s ease-in-out infinite;
+}
+
+/* Enhanced Animations */
+@keyframes successCelebration {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    25% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+        transform: scale(1.01);
+        box-shadow: 0 0 0 20px rgba(16, 185, 129, 0.1);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes bounceSuccess {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px) rotate(10deg);
+    }
+    60% {
+        transform: translateY(-4px) rotate(-5deg);
+    }
+}
+
+@keyframes pulseDiscount {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+}
+
+@keyframes successSweep {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes confettiFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.8;
+    }
+    25% {
+        transform: translateY(-3px) rotate(2deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-6px) rotate(-2deg);
+        opacity: 0.9;
+    }
+    75% {
+        transform: translateY(-3px) rotate(1deg);
+        opacity: 1;
+    }
+}
+
+@keyframes shakeError {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-3px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes errorPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Interactive Success Message */
+.promotion-section-integrated .promo-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+    cursor: default;
+}
+
+.promotion-section-integrated .promo-success:hover .success-icon {
+    animation: bounceSuccess 0.6s ease-out;
+}
+
+/* Success Message Variants */
+.promo-success.mega-savings {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-color: #f59e0b;
+    color: #92400e;
+}
+
+.promo-success.mega-savings .success-icon {
+    filter: hue-rotate(30deg);
+}
+
+.promo-success.mega-savings .discount-percentage {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    animation: megaPulse 1s ease-in-out infinite;
+}
+
+@keyframes megaPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .success-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .savings-breakdown {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .success-title {
+        font-size: 1rem;
+    }
+
+    .savings-amount {
+        font-size: 0.95rem;
+    }
+
+    .discount-percentage {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .promotion-section-integrated .promo-success::after {
+        font-size: 0.75rem;
+        top: -5px;
+        right: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .promotion-section-integrated .promo-success {
+        padding: 1.25rem;
+    }
+
+    .success-icon {
+        font-size: 1.5rem;
+    }
+
+    .success-title {
+        font-size: 0.95rem;
+    }
+
+    .savings-amount {
+        font-size: 0.9rem;
+    }
+
+    .promotion-section-integrated .promo-success::after {
+        display: none; /* Hide confetti on very small screens */
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .promotion-section-integrated .promo-success {
+        border: 3px solid #047857;
+        background: #f0fdf4;
+        color: #000000;
+    }
+
+    .discount-percentage {
+        background: #dc2626;
+        border: 1px solid #000000;
+    }
+
+    .savings-amount {
+        color: #000000;
+        font-weight: 800;
+    }
+
+    .promotion-section-integrated .promo-error {
+        border: 3px solid #dc2626;
+        background: #fef2f2;
+        color: #000000;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .promotion-section-integrated .promo-success,
+    .success-icon,
+    .discount-percentage,
+    .promotion-section-integrated .promo-error {
+        animation: none !important;
+    }
+
+    .promotion-section-integrated .promo-success::before,
+    .promotion-section-integrated .promo-success::after {
+        animation: none !important;
+    }
+
+    .promotion-section-integrated .promo-success:hover {
+        transform: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .promotion-section-integrated .promo-success {
+        background: #f0fdf4 !important;
+        color: #000000 !important;
+        border: 2px solid #047857 !important;
+        box-shadow: none !important;
+    }
+
+    .discount-percentage {
+        background: #dc2626 !important;
+        color: #ffffff !important;
+    }
+
+    .promotion-section-integrated .promo-success::before,
+    .promotion-section-integrated .promo-success::after {
+        display: none !important;
+    }
+}
