@@ -1,4 +1,4 @@
-// src/features/booking/services/bookingService.js
+// src/features/booking/services/bookingService.js - FIXED PAYMENT METHODS
 import { fetchApi } from '../../../common/utils/apiUtils';
 import config from '../../../config/config';
 
@@ -22,7 +22,7 @@ export const bookingService = {
             });
             return response;
         } catch (error) {
-           // console.error('Error creating booking:', error);
+            // console.error('Error creating booking:', error);
             throw new Error(error.message || 'Failed to create booking');
         }
     },
@@ -37,7 +37,7 @@ export const bookingService = {
             const response = await fetchApi(`${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}`);
             return response;
         } catch (error) {
-        //    console.error('Error fetching booking:', error);
+            //    console.error('Error fetching booking:', error);
             throw new Error(error.message || 'Failed to fetch booking details');
         }
     },
@@ -56,30 +56,49 @@ export const bookingService = {
             });
             return response;
         } catch (error) {
-           // console.error('Error updating contact info:', error);
+            // console.error('Error updating contact info:', error);
             throw new Error(error.message || 'Failed to update contact information');
         }
     },
 
     /**
-     * Create Stripe checkout session
+     * Create Stripe checkout session (without helper)
      * @param {string} bookingId - ID of the booking
      * @param {number} amount - Payment amount
      * @param {string} lang - Language for checkout page
-     * @returns {Promise<Object>} Checkout session data
+     * @returns {Promise<string>} Checkout session ID
      */
     createCheckoutSession: async (bookingId, amount, lang = 'en') => {
         try {
+            console.log('BookingService: Creating checkout session:', { bookingId, amount, lang });
+
             const response = await fetchApi(
-                `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/create-checkout-session`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({ bookingId, amount, lang })
-                }
+              `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/create-checkout-session`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify({ bookingId, amount, lang })
+              }
             );
-            return response;
+
+            console.log('BookingService: Checkout session response:', response);
+
+            // FIXED: Extract and return sessionId as string
+            let sessionId;
+            if (typeof response === 'string') {
+                sessionId = response;
+            } else if (response && typeof response === 'object') {
+                sessionId = response.sessionId || response.id || response.session_id;
+            }
+
+            if (!sessionId || typeof sessionId !== 'string') {
+                console.error('BookingService: Invalid sessionId in response:', response);
+                throw new Error('No session ID returned from payment service');
+            }
+
+            console.log('BookingService: Returning sessionId:', sessionId);
+            return sessionId; // Return only the string
         } catch (error) {
-          //  console.error('Error creating checkout session:', error);
+            //  console.error('Error creating checkout session:', error);
             throw new Error(error.message || 'Failed to create payment session');
         }
     },
@@ -89,20 +108,39 @@ export const bookingService = {
      * @param {string} bookingId - ID of the booking
      * @param {number} amount - Payment amount including helper
      * @param {string} lang - Language for checkout page
-     * @returns {Promise<Object>} Checkout session data
+     * @returns {Promise<string>} Checkout session ID
      */
     createCheckoutSessionWithHelper: async (bookingId, amount, lang = 'en') => {
         try {
+            console.log('BookingService: Creating checkout session with helper:', { bookingId, amount, lang });
+
             const response = await fetchApi(
-                `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/create-checkout-session-helper`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({ bookingId, amount, lang })
-                }
+              `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/create-checkout-session-helper`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify({ bookingId, amount, lang })
+              }
             );
-            return response;
+
+            console.log('BookingService: Helper checkout session response:', response);
+
+            // FIXED: Extract and return sessionId as string
+            let sessionId;
+            if (typeof response === 'string') {
+                sessionId = response;
+            } else if (response && typeof response === 'object') {
+                sessionId = response.sessionId || response.id || response.session_id;
+            }
+
+            if (!sessionId || typeof sessionId !== 'string') {
+                console.error('BookingService: Invalid sessionId in helper response:', response);
+                throw new Error('No session ID returned from payment service');
+            }
+
+            console.log('BookingService: Returning helper sessionId:', sessionId);
+            return sessionId; // Return only the string
         } catch (error) {
-          //  console.error('Error creating helper checkout session:', error);
+            //  console.error('Error creating helper checkout session:', error);
             throw new Error(error.message || 'Failed to create payment session with helper');
         }
     },
@@ -115,15 +153,15 @@ export const bookingService = {
     sendBookingConfirmation: async (bookingId) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/send`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({ bookingId })
-                }
+              `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/send`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify({ bookingId })
+              }
             );
             return response;
         } catch (error) {
-           // console.error('Error sending booking confirmation:', error);
+            // console.error('Error sending booking confirmation:', error);
             throw new Error(error.message || 'Failed to send booking confirmation');
         }
     },
@@ -137,15 +175,15 @@ export const bookingService = {
     cancelBooking: async (bookingId, reason = '') => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/cancel`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({ reason })
-                }
+              `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/cancel`,
+              {
+                  method: 'POST',
+                  body: JSON.stringify({ reason })
+              }
             );
             return response;
         } catch (error) {
-           // console.error('Error cancelling booking:', error);
+            // console.error('Error cancelling booking:', error);
             throw new Error(error.message || 'Failed to cancel booking');
         }
     },
@@ -158,11 +196,11 @@ export const bookingService = {
     getBookingHistory: async (email) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${ENDPOINTS.bookings}/history?email=${encodeURIComponent(email)}`
+              `${API_BASE_URL}${ENDPOINTS.bookings}/history?email=${encodeURIComponent(email)}`
             );
             return response;
         } catch (error) {
-           // console.error('Error fetching booking history:', error);
+            // console.error('Error fetching booking history:', error);
             throw new Error(error.message || 'Failed to fetch booking history');
         }
     },
@@ -176,15 +214,15 @@ export const bookingService = {
     updateBookingStatus: async (bookingId, status) => {
         try {
             const response = await fetchApi(
-                `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/status`,
-                {
-                    method: 'PATCH',
-                    body: JSON.stringify({ status })
-                }
+              `${API_BASE_URL}${ENDPOINTS.bookings}/${bookingId}/status`,
+              {
+                  method: 'PATCH',
+                  body: JSON.stringify({ status })
+              }
             );
             return response;
         } catch (error) {
-          //  console.error('Error updating booking status:', error);
+            //  console.error('Error updating booking status:', error);
             throw new Error(error.message || 'Failed to update booking status');
         }
     }

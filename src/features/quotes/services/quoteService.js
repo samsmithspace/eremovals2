@@ -1,4 +1,4 @@
-// src/features/quotes/services/quoteService.js - COMPLETE UPDATED VERSION
+// src/features/quotes/services/quoteService.js - FIXED API ENDPOINT VERSION
 import { fetchApi } from '../../../common/utils/apiUtils';
 import config from '../../../config/config';
 
@@ -47,10 +47,9 @@ export const quoteService = {
         try {
             console.log('Applying promo code:', { bookingId, promoCode });
             console.log('API base URL:', config.api.baseUrl);
-            console.log('Bookings endpoint:', config.api.endpoints.bookings);
 
-            // Build the exact URL
-            const url = `${config.api.endpoints.promoCode}/${bookingId}/apply-promo`;
+            // FIXED: Use correct promocode endpoint - /api/promocode/{id}/apply-promo
+            const url = `${config.api.baseUrl}/api/promocode/${bookingId}/apply-promo`;
             console.log('Constructed URL:', url);
 
             const response = await fetchApi(url, {
@@ -116,6 +115,14 @@ export const quoteService = {
               ? `/create-checkout-session-helper`
               : `/create-checkout-session`;
 
+            console.log('Creating checkout session:', {
+                bookingId,
+                amount,
+                language,
+                withHelper,
+                endpoint
+            });
+
             const response = await fetchApi(
               `${config.api.endpoints.bookings}/${bookingId}${endpoint}`,
               {
@@ -128,11 +135,23 @@ export const quoteService = {
               }
             );
 
-            if (!response.sessionId) {
+            console.log('Checkout session response:', response);
+
+            // FIXED: Extract sessionId from response and return as string
+            let sessionId;
+            if (typeof response === 'string') {
+                sessionId = response;
+            } else if (response && typeof response === 'object') {
+                sessionId = response.sessionId || response.id || response.session_id;
+            }
+
+            if (!sessionId || typeof sessionId !== 'string') {
+                console.error('No valid session ID in response:', response);
                 throw new Error('No session ID returned from payment service');
             }
 
-            return response.sessionId;
+            console.log('Returning sessionId:', sessionId);
+            return sessionId; // FIXED: Return only the string sessionId
         } catch (error) {
             console.error('Error creating checkout session:', error);
             throw new Error('Failed to create payment session. Please try again.');

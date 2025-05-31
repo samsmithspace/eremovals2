@@ -1,4 +1,4 @@
-// src/features/booking/hooks/usePaymentProcessing.js - Fixed version
+// src/features/booking/hooks/usePaymentProcessing.js - FIXED VERSION
 import { useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { bookingService } from '../services/bookingService';
@@ -35,25 +35,55 @@ export const usePaymentProcessing = (bookingId = null) => {
         setError(null);
 
         try {
+            console.log('Payment processing started:', {
+                bookingId: finalBookingId,
+                amount,
+                language,
+                withHelper
+            });
+
             // Determine which endpoint to use based on helper inclusion
             const endpoint = withHelper
               ? 'createCheckoutSessionWithHelper'
               : 'createCheckoutSession';
 
             // Call the appropriate booking service method
-            const sessionId = withHelper
-              ? await bookingService.createCheckoutSessionWithHelper(finalBookingId, amount, language)
-              : await bookingService.createCheckoutSession(finalBookingId, amount, language);
-
-            if (!sessionId) {
-                throw new Error('No session ID returned from payment service');
+            let sessionResponse;
+            if (withHelper) {
+                sessionResponse = await bookingService.createCheckoutSessionWithHelper(finalBookingId, amount, language);
+            } else {
+                sessionResponse = await bookingService.createCheckoutSession(finalBookingId, amount, language);
             }
 
-            // Redirect to Stripe checkout
+            console.log('Session response from service:', sessionResponse);
+
+            // FIXED: Extract sessionId correctly from response
+            let sessionId;
+            if (typeof sessionResponse === 'string') {
+                // If response is already a string, use it directly
+                sessionId = sessionResponse;
+            } else if (sessionResponse && typeof sessionResponse === 'object') {
+                // If response is an object, extract sessionId
+                sessionId = sessionResponse.sessionId || sessionResponse.id || sessionResponse.session_id;
+            }
+
+            console.log('Extracted sessionId:', sessionId);
+
+            if (!sessionId || typeof sessionId !== 'string') {
+                console.error('Invalid sessionId received:', sessionResponse);
+                throw new Error('Invalid session ID returned from payment service');
+            }
+
+            // Redirect to Stripe checkout with the correct sessionId string
             const stripe = await stripePromise;
-            const { error: stripeError } = await stripe.redirectToCheckout({ sessionId });
+            console.log('Redirecting to Stripe with sessionId:', sessionId);
+
+            const { error: stripeError } = await stripe.redirectToCheckout({
+                sessionId: sessionId  // FIXED: Pass only the string, not the object
+            });
 
             if (stripeError) {
+                console.error('Stripe redirect error:', stripeError);
                 throw new Error(`Payment redirect error: ${stripeError.message}`);
             }
 
