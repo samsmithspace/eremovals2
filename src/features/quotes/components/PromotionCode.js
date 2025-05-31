@@ -1,24 +1,21 @@
-// Enhanced PromotionCode component with better success feedback - Update PromotionCode.js
+// Enhanced PromotionCode component with better state management - Update PromotionCode.js
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { FormInput, Button, Spinner, Alert } from '../../../common/components/ui';
-import { usePromoCode } from '../hooks/usePromoCode';
 import './PromotionCode.css';
 
 /**
  * Enhanced promotion code component with visual discount effects
  */
-const PromotionCode = ({ bookingId, onApplied, isApplying, error }) => {
+const PromotionCode = ({ bookingId, onApplied, isApplying, error, applyPromoCodeFunc }) => {
     const { t } = useTranslation();
     const [promoCode, setPromoCode] = useState('');
     const [validationError, setValidationError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [appliedDiscount, setAppliedDiscount] = useState(null);
     const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
-
-    const { applyPromoCode } = usePromoCode(bookingId);
 
     const handleChange = (e) => {
         const value = e.target.value.toUpperCase().slice(0, 6);
@@ -37,16 +34,33 @@ const PromotionCode = ({ bookingId, onApplied, isApplying, error }) => {
         }
 
         try {
-            const result = await applyPromoCode(promoCode);
+            console.log('PromotionCode: Submitting promo code', promoCode);
+
+            // Use the prop function if provided, otherwise use the default API call
+            let result;
+            if (applyPromoCodeFunc) {
+                result = await applyPromoCodeFunc(promoCode);
+            } else {
+                // Fallback to default implementation
+                const { quoteService } = await import('../services/quoteService');
+                result = await quoteService.applyPromoCode(bookingId, promoCode);
+            }
+
+            console.log('PromotionCode: Received result', result);
 
             if (result.success) {
-                // Store discount information
-                setAppliedDiscount({
+                // Store discount information for display
+                const discountInfo = {
                     discount: result.discount,
                     originalPrice: result.originalPrice,
                     newPrice: result.newPrice,
-                    savings: result.originalPrice - result.newPrice
-                });
+                    savings: result.savings || (result.originalPrice - result.newPrice),
+                    originalHelperPrice: result.originalHelperPrice,
+                    newHelperPrice: result.newHelperPrice,
+                    helperSavings: result.helperSavings || (result.originalHelperPrice - result.newHelperPrice)
+                };
+
+                setAppliedDiscount(discountInfo);
 
                 // Show success animation
                 setShowSuccessAnimation(true);
@@ -57,13 +71,19 @@ const PromotionCode = ({ bookingId, onApplied, isApplying, error }) => {
                   t('promoCodeAppliedWithSavings',
                     'Promotion code applied! You get {{discount}}% off - You saved £{{savings}}!', {
                         discount: result.discount,
-                        savings: (result.originalPrice - result.newPrice).toFixed(2)
+                        savings: discountInfo.savings.toFixed(2)
                     })
                 );
 
-                // Notify parent component
+                // FIXED: Call onApplied with all the necessary information
                 if (onApplied) {
-                    onApplied(result.newPrice, result.newHelperPrice, result.discount);
+                    console.log('PromotionCode: Calling onApplied with', {
+                        newPrice: result.newPrice,
+                        newHelperPrice: result.newHelperPrice,
+                        discount: result.discount
+                    });
+
+                    onApplied(result.newPrice, result.newHelperPrice, result.discount, result);
                 }
 
                 // Clear the input after successful application
@@ -73,7 +93,9 @@ const PromotionCode = ({ bookingId, onApplied, isApplying, error }) => {
                 triggerPriceDisplayEffects(result.discount);
             }
         } catch (err) {
-            console.error('Error applying promotion code:', err);
+            console.error('PromotionCode: Error applying promotion code:', err);
+            const errorMessage = err.message || 'Failed to apply promotion code';
+            setValidationError(errorMessage);
         }
     };
 
@@ -90,15 +112,10 @@ const PromotionCode = ({ bookingId, onApplied, isApplying, error }) => {
             }, 1000);
         }
 
-        // Add success sound effect (optional)
-        try {
-            // You can add a subtle success sound here
-            // const audio = new Audio('/sounds/success.mp3');
-            // audio.volume = 0.3;
-            // audio.play();
-        } catch (error) {
-            // Ignore audio errors
-        }
+        // Trigger re-render of parent components
+        window.dispatchEvent(new CustomEvent('promoCodeApplied', {
+            detail: { discount }
+        }));
     };
 
     const displayError = validationError || error;
@@ -191,7 +208,8 @@ PromotionCode.propTypes = {
     bookingId: PropTypes.string.isRequired,
     onApplied: PropTypes.func,
     isApplying: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    applyPromoCodeFunc: PropTypes.func // New prop to pass the apply function
 };
 
 export default PromotionCode;

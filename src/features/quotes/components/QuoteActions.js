@@ -1,5 +1,5 @@
-// Updated QuoteActions.js with enhanced price strikethrough effects
-import React, { useState } from 'react';
+// Fixed QuoteActions.js with proper discount display
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import BookingForm from '../../booking/components/BookingForm';
@@ -52,10 +52,10 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     }
   };
 
-  const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent) => {
-    console.log('Promo code applied:', { newPrice, newHelperPrice, discountPercent });
+  const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent, fullResult) => {
+    console.log('Promo code applied in QuoteActions:', { newPrice, newHelperPrice, discountPercent, fullResult });
 
-    // Trigger visual effects
+    // Force a re-render by updating component state
     setTimeout(() => {
       const priceDisplay = document.querySelector('.price-display');
       if (priceDisplay) {
@@ -67,6 +67,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         }, 1000);
       }
     }, 100);
+
+    // Force component to re-render with new prices
+    // The usePromoCode hook should automatically update the currentPrice values
   };
 
   return (
@@ -141,7 +144,22 @@ const EnhancedPricingSection = ({
                                   promoError
                                 }) => {
   const { t } = useTranslation();
-  const hasDiscount = discount > 0;
+
+  // FIXED: Calculate hasDiscount based on price difference, not just discount percentage
+  const hasRegularDiscount = currentPrice < originalPrice;
+  const hasHelperDiscount = currentHelperPrice < originalHelperPrice;
+  const hasAnyDiscount = hasRegularDiscount || hasHelperDiscount || discount > 0;
+
+  console.log('EnhancedPricingSection render:', {
+    originalPrice,
+    currentPrice,
+    originalHelperPrice,
+    currentHelperPrice,
+    discount,
+    hasRegularDiscount,
+    hasHelperDiscount,
+    hasAnyDiscount
+  });
 
   return (
     <div className="combined-pricing-container">
@@ -155,21 +173,23 @@ const EnhancedPricingSection = ({
       <HelperExplanation />
 
       {/* Enhanced Price Display with strikethrough effects */}
-      <div className={`price-display ${hasDiscount ? 'has-discount' : ''}`}>
+      <div className={`price-display ${hasAnyDiscount ? 'has-discount' : ''}`}>
         <EnhancedPriceItem
           label={t('estimatedPrice', 'Your estimated price (VAT included)')}
           originalPrice={originalPrice}
           currentPrice={currentPrice}
-          hasDiscount={hasDiscount}
+          hasDiscount={hasRegularDiscount}
           discount={discount}
+          isMainPrice={true}
         />
 
         <EnhancedPriceItem
           label={t('priceWithHelper', 'Your estimated price with a helper (VAT included)')}
           originalPrice={originalHelperPrice}
           currentPrice={currentHelperPrice}
-          hasDiscount={hasDiscount}
+          hasDiscount={hasHelperDiscount}
           discount={discount}
+          isMainPrice={false}
         />
       </div>
 
@@ -190,6 +210,7 @@ const EnhancedPricingSection = ({
           onApplied={onPromoCodeApplied}
           isApplying={isApplyingPromo}
           error={promoError}
+          applyPromoCodeFunc={applyPromoCode}
         />
       </div>
 
@@ -222,7 +243,7 @@ const EnhancedPricingSection = ({
               <EnhancedPaymentButtonPrice
                 originalPrice={originalHelperPrice}
                 currentPrice={currentHelperPrice}
-                hasDiscount={hasDiscount}
+                hasDiscount={hasHelperDiscount}
               />
             </>
           )}
@@ -255,7 +276,7 @@ const EnhancedPricingSection = ({
               <EnhancedPaymentButtonPrice
                 originalPrice={originalPrice}
                 currentPrice={currentPrice}
-                hasDiscount={hasDiscount}
+                hasDiscount={hasRegularDiscount}
               />
             </>
           )}
@@ -274,45 +295,64 @@ const EnhancedPricingSection = ({
 };
 
 /**
- * Enhanced price item component with strikethrough effect
+ * FIXED: Enhanced price item component with proper discount detection
  */
-const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, discount }) => {
+const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, discount, isMainPrice = true }) => {
   const { t } = useTranslation();
-  const savings = originalPrice - currentPrice;
-  const savingsPercentage = discount || Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+
+  // Calculate actual savings and percentage
+  const actualSavings = originalPrice - currentPrice;
+  const actualDiscountPercentage = originalPrice > 0 ? Math.round((actualSavings / originalPrice) * 100) : 0;
+
+  // Use actual discount percentage if available, otherwise use passed discount
+  const displayDiscountPercentage = actualDiscountPercentage > 0 ? actualDiscountPercentage : discount;
+
+  // Only show discount if there's an actual price difference
+  const shouldShowDiscount = actualSavings > 0 && hasDiscount;
+
+  console.log('EnhancedPriceItem render:', {
+    label,
+    originalPrice,
+    currentPrice,
+    hasDiscount,
+    shouldShowDiscount,
+    actualSavings,
+    actualDiscountPercentage,
+    displayDiscountPercentage
+  });
 
   return (
     <div className="price-item">
       <span className="price-label">
         {label}
-        {hasDiscount && (
+        {shouldShowDiscount && (
           <span className="discount-badge">
-            {savingsPercentage}% OFF
+            {displayDiscountPercentage}% OFF
           </span>
         )}
       </span>
 
       <div className="price-comparison">
-        {hasDiscount ? (
+        {shouldShowDiscount ? (
           <>
             {/* Original price with strikethrough */}
             <div className="price-row original">
-              <span className="original-price">£{originalPrice}</span>
+              <span className="original-price">£{originalPrice.toFixed(2)}</span>
             </div>
 
             {/* Discounted price */}
             <div className="price-row discounted">
-              <span className="current-price">£{currentPrice}</span>
+              <span className="current-price">£{currentPrice.toFixed(2)}</span>
             </div>
 
             {/* Savings indicator */}
             <div className="savings-indicator">
-              {t('youSave', 'You save')} £{savings.toFixed(2)}!
+              {t('youSave', 'You save')} £{actualSavings.toFixed(2)}!
             </div>
           </>
         ) : (
           <div className="price-row">
-            <span className="current-price">£{currentPrice}</span>
+            <span className="current-price">£{currentPrice.toFixed(2)}</span>
           </div>
         )}
       </div>
@@ -324,13 +364,15 @@ const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, di
  * Enhanced payment button price with discount display
  */
 const EnhancedPaymentButtonPrice = ({ originalPrice, currentPrice, hasDiscount }) => {
+  const shouldShowDiscount = hasDiscount && (originalPrice > currentPrice);
+
   return (
-    <div className={`payment-button-price ${hasDiscount ? 'has-discount' : ''}`}>
-      {hasDiscount && (
-        <div className="original-button-price">£{originalPrice}</div>
+    <div className={`payment-button-price ${shouldShowDiscount ? 'has-discount' : ''}`}>
+      {shouldShowDiscount && (
+        <div className="original-button-price">£{originalPrice.toFixed(2)}</div>
       )}
-      <div className={hasDiscount ? 'discounted-button-price' : ''}>
-        £{currentPrice}
+      <div className={shouldShowDiscount ? 'discounted-button-price' : ''}>
+        £{currentPrice.toFixed(2)}
       </div>
     </div>
   );
@@ -368,7 +410,8 @@ EnhancedPriceItem.propTypes = {
   originalPrice: PropTypes.number.isRequired,
   currentPrice: PropTypes.number.isRequired,
   hasDiscount: PropTypes.bool.isRequired,
-  discount: PropTypes.number
+  discount: PropTypes.number,
+  isMainPrice: PropTypes.bool
 };
 
 EnhancedPaymentButtonPrice.propTypes = {
