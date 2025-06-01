@@ -126,10 +126,43 @@
   "quoteInfoText": "After confirmation, you'll receive a detailed quote with pricing information.",
   "calculating": "Calculating...",
   "calculationError": "Calculation Error",
-  "booking": {
 
+  "bookingConfirmation": "Booking Confirmation",
+  "loadingBookingDetails": "Loading booking details...",
+  "error": "Error",
+  "noBookingFound": "No Booking Found",
+  "noBookingDetailsAvailable": "No booking details available.",
+  "bookingId": "Booking ID",
+  "customerName": "Name",
+  "email": "Email",
+  "scheduledTime": "Scheduled Time",
+  "destination": "Destination",
+  "paidAmount": "Amount Paid",
+  "paymentStatus": "Payment Status",
+  "paymentSuccessful": "Payment Successful",
+  "thankYouMessage": "Thank you for choosing our service! We truly appreciate your trust in us for your removal needs.",
+  "teamDedicatedMessage": "Our team is dedicated to providing you with a seamless experience, and we are excited to assist you on the day of your move.",
+  "questionsMessage": "If you have any questions or need to make changes to your booking, please do not hesitate to reach out.",
+  "smoothExperienceMessage": "We're here to make sure everything goes smoothly for you.",
+  "needAssistance": "If you need assistance, feel free to",
+  "contactUsWhatsApp": "contact us on WhatsApp",
+
+  "discountApplied": "Discount Applied!",
+  "youSave": "You save",
+
+  "promoCodeAppliedWithSavings": "Promotion code applied! You get {{discount}}% off - You saved £{{savings}}!",
+
+  "schedulingError": "Scheduling Error",
+  "loadingAvailableTimes": "Finding available times...",
+  "noAvailableTimesForDate": "No available time slots for this date.",
+
+
+  "booking": {
+    "submitting": "Processing...",
     "securityNotice": "Your information is secure and protected",
     "orContact": "Alternative Contact Methods",
+    "callUs": "Call Us",
+    "whatsapp": "WhatsApp",
     "title": "Booking",
     "bookingConfirmation": "Booking Confirmation",
     "bookingDetails": "Booking Details",
