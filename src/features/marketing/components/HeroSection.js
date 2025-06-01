@@ -2,21 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaPhone } from 'react-icons/fa';
+import { FaPhone, FaCalculator, FaShieldAlt, FaStar, FaHeart } from 'react-icons/fa';
 import { useScrollPosition } from '../../../common/hooks/useScrollPosition';
 import './HeroSection.css';
-
-// Import hero images
-import studentMoveImg from '../../../assets/images/bt21.png';
-import homeMoveImg from '../../../assets/images/btn3.png';
-import courierImg from '../../../assets/images/courier.png';
-import slidingImage from '../../../assets/images/vanb.png';
-import shelfImage from '../../../assets/images/shelf.png';
-
-// Service images
-import binImg from '../../../assets/images/disp.png';
-import cleanImg from '../../../assets/images/clean.png';
-import storageImg from '../../../assets/images/shelfwithbox.png';
 
 const HeroSection = () => {
   const { lang } = useParams();
@@ -47,161 +35,179 @@ const HeroSection = () => {
     }
   };
 
-  const handleLanguageChange = (newLang) => {
-    i18n.changeLanguage(newLang);
-    // Update URL to reflect language change
-    const currentPath = window.location.pathname;
-    const newPath = currentPath.replace(`/${lang}`, `/${newLang}`);
-    navigate(newPath);
+  const handleGetQuote = () => {
+    navigate(`/${lang}/contact`);
   };
 
   return (
     <div className="hero-container">
+      {/* Fun floating shapes */}
+      <div className="floating-shapes">
+        <div className="shape"></div>
+        <div className="shape"></div>
+        <div className="shape"></div>
+        <div className="shape"></div>
+      </div>
 
+      <div className="hero-section">
+        <div className="hero-content">
+          {/* Hero Header */}
+          <h1 className="main-heading">
+            {t('marketing.heroTitle', 'Moving Made Easy & Fun! 🚚')}
+          </h1>
 
-      {/* Hero Section */}
-      <div className="hero-section d-flex align-items-center justify-content-center">
-        <div className="content-card">
-          <div className="hero-content text-white">
-            <h2 className="main-heading">
-              {t('marketing.heroHeading', 'Move at Ease, Move with Confidence')}
-            </h2>
+          <p className="hero-subtitle">
+            {t('marketing.heroSubtitle', 'From student digs to dream homes - we\'ve got your back with affordable, reliable moving services across Scotland!')}
+          </p>
 
-            <div className="services-container">
-              {/* Moving Services */}
-              <div className="service-group">
-                <h3 className="service-heading">
-                  {t('common.movingServices', 'Moving Services')}
-                </h3>
-                <div className="move-buttons-container">
-                  <button
-                    className="btn2 st"
-                    onClick={() => handleServiceNavigation('move', 'student')}
-                  >
-                    <span className="btn-text">
-                      {t('common.studentMove', 'Student Move')}
-                    </span>
-                    <img
-                      src={studentMoveImg}
-                      alt="Student move"
-                      className="btn2-img"
-                      width="420"
-                      height="auto"
-                      loading="lazy"
-                    />
-                  </button>
+          <div className="services-container">
+            {/* Main Moving Services */}
+            <div className="service-group">
+              <h2 className="service-heading">
+                {t('common.movingServices', '🚛 Moving Services')}
+              </h2>
+              <div className="move-buttons-container">
+                <button
+                  className="btn2 st"
+                  onClick={() => handleServiceNavigation('move', 'student')}
+                >
+                  <span className="service-emoji">🎓</span>
+                  <div className="btn-text">
+                    {t('common.studentMove', 'Student Moves')}
+                  </div>
+                  <div className="service-description">
+                    {t('services.student.shortDesc', 'Quick, affordable moves for students and young professionals')}
+                  </div>
+                  <span className="service-price">
+                    {t('services.student.price', 'From £50')}
+                  </span>
+                </button>
 
-                  <button
-                    className="btn2 hm"
-                    onClick={() => handleServiceNavigation('move', 'house')}
-                  >
-                    <span className="btn-text">
-                      {t('common.homeMove', 'Home Move')}
-                    </span>
-                    <img
-                      src={homeMoveImg}
-                      alt="Home move"
-                      className="btn3-img"
-                      width="340"
-                      height="auto"
-                      loading="lazy"
-                    />
-                  </button>
+                <button
+                  className="btn2 hm"
+                  onClick={() => handleServiceNavigation('move', 'house')}
+                >
+                  <span className="service-emoji">🏠</span>
+                  <div className="btn-text">
+                    {t('common.homeMove', 'Home Moves')}
+                  </div>
+                  <div className="service-description">
+                    {t('services.home.shortDesc', 'Full house relocations with care and professionalism')}
+                  </div>
+                  <span className="service-price">
+                    {t('services.home.price', 'From £200')}
+                  </span>
+                </button>
 
-                  <button
-                    className="btn2 sd"
-                    onClick={() => handleServiceNavigation('courier')}
-                  >
-                    <span className="btn-text-cur">
-                      {t('common.sameDayMove', 'Same Day Move')}
-                    </span>
-                    <img
-                      src={courierImg}
-                      alt="Same day move"
-                      className="btn4-img"
-                      width="220"
-                      height="auto"
-                      loading="lazy"
-                    />
-                  </button>
-                </div>
+                <button
+                  className="btn2 sd"
+                  onClick={() => handleServiceNavigation('courier')}
+                >
+                  <span className="service-emoji">⚡</span>
+                  <div className="btn-text-cur">
+                    {t('common.sameDayMove', 'Same Day')}
+                  </div>
+                  <div className="service-description">
+                    {t('services.courier.shortDesc', 'Urgent delivery and small moves - fast & reliable')}
+                  </div>
+                  <span className="service-price">
+                    {t('services.courier.price', 'From £60')}
+                  </span>
+                </button>
               </div>
+            </div>
 
-              {/* Additional Services */}
-              <div className="service-group additional">
-                <h3 className="service-heading">
-                  {t('common.additionalServices', 'Additional Services')}
-                </h3>
-                <div className="additional-services-container">
-                  <button
-                    className="service-btn storage"
-                    onClick={() => handleServiceNavigation('storage')}
-                  >
-                    <img
-                      src={storageImg}
-                      alt="Storage"
-                      className="button-bg-image-store"
-                    />
-                    <span className="service-name">
-                      {t('common.storage', 'Storage')}
-                    </span>
-                  </button>
+            {/* Additional Services */}
+            <div className="service-group additional">
+              <h2 className="service-heading">
+                {t('common.additionalServices', '✨ Extra Services')}
+              </h2>
+              <div className="additional-services-container">
+                <button
+                  className="service-btn storage"
+                  onClick={() => handleServiceNavigation('storage')}
+                >
+                  <span className="additional-emoji">📦</span>
+                  <div className="service-name">
+                    {t('common.storage', 'Storage')}
+                  </div>
+                  <div className="additional-service-desc">
+                    {t('services.storage.shortDesc', 'Safe keeping for your stuff')}
+                  </div>
+                </button>
 
-                  <button
-                    className="service-btn clearance"
-                    onClick={() => handleServiceNavigation('clearance')}
-                  >
-                    <img
-                      src={binImg}
-                      alt="Clearance"
-                      className="button-bg-image-width"
-                    />
-                    <span className="service-name">
-                      {t('common.clearanceDisposal', 'Clearance & Disposal')}
-                    </span>
-                  </button>
+                <button
+                  className="service-btn clearance"
+                  onClick={() => handleServiceNavigation('clearance')}
+                >
+                  <span className="additional-emoji">♻️</span>
+                  <div className="service-name">
+                    {t('common.clearanceDisposal', 'Clearance')}
+                  </div>
+                  <div className="additional-service-desc">
+                    {t('services.clearance.shortDesc', 'Eco-friendly disposal')}
+                  </div>
+                </button>
 
-                  <button
-                    className="service-btn cleaning"
-                    onClick={() => handleServiceNavigation('cleaning')}
-                  >
-                    <img
-                      src={cleanImg}
-                      alt="Cleaning"
-                      className="button-bg-image"
-                    />
-                    <span className="service-name">
-                      {t('common.cleaningService', 'Cleaning Service')}
-                    </span>
-                  </button>
-                </div>
+                <button
+                  className="service-btn cleaning"
+                  onClick={() => handleServiceNavigation('cleaning')}
+                >
+                  <span className="additional-emoji">✨</span>
+                  <div className="service-name">
+                    {t('common.cleaningService', 'Cleaning')}
+                  </div>
+                  <div className="additional-service-desc">
+                    {t('services.cleaning.shortDesc', 'Sparkling clean spaces')}
+                  </div>
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Animated Background Images */}
-      <div className="static-images-container">
-        <div className="static-image left-image">
-          <img
-            src={shelfImage}
-            alt="Storage shelf"
-            className={`animate-image from-left ${slideIn ? 'visible' : ''}`}
-            width="600"
-            height="auto"
-            loading="lazy"
-          />
-        </div>
-        <div className="static-image right-image">
-          <img
-            src={slidingImage}
-            alt="Moving van"
-            className={`animate-image from-right ${slideIn ? 'visible' : ''}`}
-            width="600"
-            height="auto"
-            loading="lazy"
-          />
+          {/* Call to Action */}
+          <div className="cta-section">
+            <h2 className="cta-title">
+              {t('marketing.ctaTitle', 'Ready to Move? Let\'s Go! 🚀')}
+            </h2>
+            <p className="cta-subtitle">
+              {t('marketing.ctaSubtitle', 'Get your free quote in seconds - no hidden fees, just honest pricing!')}
+            </p>
+
+            <div className="cta-buttons">
+              <a
+                href="tel:+447404228217"
+                className="cta-btn cta-btn-primary"
+                aria-label={t('common.callUs', 'Call us now')}
+              >
+                <FaPhone />
+                {t('marketing.callNowCTA', 'Call Now!')}
+              </a>
+              <button
+                onClick={handleGetQuote}
+                className="cta-btn cta-btn-secondary"
+                aria-label={t('marketing.getFreeQuote', 'Get free quote')}
+              >
+                <FaCalculator />
+                {t('marketing.getQuoteCTA', 'Quick Quote')}
+              </button>
+            </div>
+
+            <div className="trust-indicators">
+              <div className="trust-item">
+                <FaShieldAlt className="trust-icon" />
+                <span>{t('footer.fullyInsured', 'Fully Insured')}</span>
+              </div>
+              <div className="trust-item">
+                <FaStar className="trust-icon" />
+                <span>{t('footer.ratedService', '5★ Rated')}</span>
+              </div>
+              <div className="trust-item">
+                <FaHeart className="trust-icon" />
+                <span>{t('marketing.happyMoves', '1000+ Happy Moves')}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

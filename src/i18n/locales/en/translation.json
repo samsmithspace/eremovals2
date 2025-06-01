@@ -357,6 +357,16 @@
     "getStarted": "Get Started",
     "requestQuote": "Request Quote",
     "whyChooseUs": "Why Choose Us?",
+    "heroTitle": "Moving Made Easy & Fun! 🚚",
+    "heroSubtitle": "From student digs to dream homes - we've got your back with affordable, reliable moving services across Scotland!",
+    "ctaTitle": "Ready to Move? Let's Go! 🚀",
+    "ctaSubtitle": "Get your free quote in seconds - no hidden fees, just honest pricing!",
+    "callNowCTA": "Call Now!",
+    "getQuoteCTA": "Quick Quote",
+    "getFreeQuote": "Get free quote",
+    "happyMoves": "1000+ Happy Moves",
+    "support24x7": "24/7 Support",
+    "scotlandWide": "Scotland Wide",
     "whyChooseUsPoints": [
       "✅ Affordable Rates – Perfect for student budgets",
       "✅ Quick & Reliable Service – We work around your schedule",
@@ -533,6 +543,51 @@
     "testimonials": "Testimonials"
   },
   "services": {
+    "student": {
+      "title": "Student Moves",
+      "shortDesc": "Quick, affordable moves for students and young professionals",
+      "description": "Affordable moving solutions designed for students and young professionals.",
+      "price": "From £50",
+      "feature1": "Same-day service available",
+      "feature2": "Competitive student rates",
+      "feature3": "Flexible scheduling"
+    },
+    "home": {
+      "title": "Home Moves",
+      "shortDesc": "Full house relocations with care and professionalism",
+      "description": "Complete household relocations with professional packing and care.",
+      "price": "From £200",
+      "feature1": "Full packing service",
+      "feature2": "Furniture protection",
+      "feature3": "Local & long distance"
+    },
+    "courier": {
+      "title": "Express Delivery",
+      "shortDesc": "Urgent delivery and small moves - fast & reliable",
+      "description": "Urgent same-day delivery and small item transportation services.",
+      "price": "From £60",
+      "feature1": "Same-day delivery",
+      "feature2": "Real-time tracking",
+      "feature3": "Secure handling"
+    },
+    "storage": {
+      "title": "Secure Storage",
+      "shortDesc": "Safe keeping for your stuff",
+      "description": "Climate-controlled storage facilities for your belongings during transition periods.",
+      "features": ["Climate-controlled", "24/7 Security", "Flexible terms"]
+    },
+    "clearance": {
+      "title": "House Clearance",
+      "shortDesc": "Eco-friendly disposal",
+      "description": "Responsible clearance and eco-friendly disposal of unwanted items.",
+      "features": ["Eco-friendly", "Recycling service", "Donation coordination"]
+    },
+    "cleaning": {
+      "title": "Deep Cleaning",
+      "shortDesc": "Sparkling clean spaces",
+      "description": "Professional cleaning services for your old and new properties.",
+      "features": ["Deep cleaning", "End of tenancy", "Move-in ready"]
+    },
     "title": "Our Services",
     "subtitle": "Professional removal solutions for all your needs",
     "domesticRemovals": {
@@ -547,10 +602,7 @@
       "title": "Packing Services",
       "description": "Professional packing and unpacking services"
     },
-    "storage": {
-      "title": "Storage Solutions",
-      "description": "Secure storage facilities for short and long-term needs"
-    },
+
     "internationalRemovals": {
       "title": "International Removals",
       "description": "Worldwide moving services with full documentation support"
