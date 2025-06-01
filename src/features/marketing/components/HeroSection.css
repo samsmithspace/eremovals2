@@ -181,8 +181,8 @@ body {
             bottom 50px right 20px,
             bottom 80px left 20px;
     background-size:
-            300px auto,
-            250px auto;
+            500px auto,
+            450px auto;
     background-repeat: no-repeat, no-repeat;
     opacity: 0.15;
     z-index: 1;
@@ -630,19 +630,7 @@ body {
     flex-wrap: wrap;
 }
 
-.trust-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 12px 20px;
-    border-radius: 25px;
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
+
 
 .trust-icon {
     font-size: 1.1rem;

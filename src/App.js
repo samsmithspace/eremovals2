@@ -1,4 +1,4 @@
-// src/App.js - Fixed version with BookingProvider
+// src/App.js - Fixed version with BookingProvider and SEO Route
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
@@ -13,6 +13,7 @@ import BookingResult from './features/booking/components/BookingResult';
 import PaymentCancellation from './features/booking/components/PaymentCancellation';
 import ContactPage from './features/booking/components/ContactPage';
 import TermsAndConditions from './pages/TermsAndConditions';
+import SEOPage from './pages/SEOPage'; // Add this import
 import AppLayout from './common/components/layout/AppLayout';
 
 // Import styles
@@ -87,6 +88,7 @@ function App() {
                         <Route path="/booking-result" element={<BookingResult />} />
                         <Route path="/booking-cancel" element={<PaymentCancellation />} />
                         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                        <Route path="/services" element={<SEOPage />} /> {/* Add this line */}
                       </Routes>
                     </AppLayout>
                   </LanguageWrapper>

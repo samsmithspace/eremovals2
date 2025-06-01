@@ -400,33 +400,77 @@
       }
     ]
   },
+  "testimonials": {
+    "title": "What Our Customers Say",
+    "subtitle": "Real reviews from real customers on Trustpilot",
+    "cta": {
+      "title": "Ready to Join Our Happy Customers?",
+      "subtitle": "Get your free quote today and experience our award-winning service",
+      "button": "Get Your Free Quote"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our moving services"
+  },
   "faqs": {
     "items": [
       {
-        "question": "How much does your service cost?",
-        "answer": "Our pricing depends on the type and size of the move, distance, and additional services required. We provide free, no-obligation quotes tailored to your specific needs. Contact us for a detailed estimate."
+        "question": "How much do your moving services cost?",
+        "answer": "Our pricing is transparent and competitive, starting from £50 for student moves and £200 for full house relocations. The final cost depends on factors like distance, volume of items, and additional services required. We provide free, detailed quotes with no hidden fees - what we quote is what you pay."
       },
       {
-        "question": "What areas do you serve?",
-        "answer": "We are based in Edinburgh and provide services throughout Scotland. We also offer nationwide moving services for long-distance relocations. Contact us to confirm service availability in your area."
+        "question": "What areas do you cover in Scotland?",
+        "answer": "We're based in Edinburgh and provide comprehensive moving services throughout Scotland, including Glasgow, Aberdeen, Dundee, Stirling, and the Highlands. We also offer UK-wide moving services for long-distance relocations. Contact us to confirm availability in your specific area."
       },
       {
-        "question": "Can I change my moving date after booking?",
-        "answer": "Yes, you can reschedule your move as long as you provide at least 72 hours advance notice. Changes made with less notice may incur additional fees. We'll do our best to accommodate your new preferred date."
-      },
-      {
-        "question": "Do you provide packing materials?",
-        "answer": "Yes, we offer a full range of packing materials including boxes, bubble wrap, packing paper, and tape. We can also provide professional packing services to ensure your items are properly protected."
+        "question": "How far in advance should I book my move?",
+        "answer": "We recommend booking 2-3 weeks in advance, especially during peak periods (summer months, weekends, and end-of-month dates). However, we understand that sometimes moves need to happen quickly, so we often accommodate last-minute bookings based on availability."
       },
       {
         "question": "Are my belongings insured during the move?",
-        "answer": "Yes, we carry comprehensive insurance coverage for your belongings during the move. We also offer additional insurance options for high-value items. Details will be provided in your booking confirmation."
+        "answer": "Yes, all our moves are covered by comprehensive insurance. We carry full public liability insurance and goods-in-transit coverage. For high-value items or additional peace of mind, we can arrange enhanced insurance coverage. Full details are included in your booking confirmation."
       },
       {
-        "question": "How far in advance should I book?",
-        "answer": "We recommend booking at least 2-3 weeks in advance, especially during peak moving seasons (summer months and weekends). However, we can often accommodate last-minute bookings based on availability."
+        "question": "Do you provide packing services and materials?",
+        "answer": "Absolutely! We offer professional packing services and supply all necessary materials including sturdy boxes, bubble wrap, packing paper, and tape. Our team can pack your entire home or just fragile items - whatever you need. We also offer unpacking services at your new location."
+      },
+      {
+        "question": "Can I reschedule my move if something changes?",
+        "answer": "Yes, we understand that plans can change. You can reschedule your move with at least 48 hours notice at no additional charge. Changes with less notice may incur a small rescheduling fee. We'll work with you to find a new date that suits your needs."
+      },
+      {
+        "question": "What happens if there are delays on moving day?",
+        "answer": "While we pride ourselves on punctuality, we understand that unexpected delays can occur. We maintain constant communication and will notify you immediately of any issues. If delays are on our end, we'll work extra hours at no additional cost to complete your move as scheduled."
+      },
+      {
+        "question": "Do you move specialty items like pianos or artwork?",
+        "answer": "Yes, we have experience moving specialty items including pianos, artwork, antiques, and fragile electronics. These items receive special attention with appropriate protective materials and handling techniques. Please mention any specialty items when booking so we can prepare accordingly."
+      },
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept various payment methods including cash, bank transfer, and all major credit/debit cards. Payment is typically due upon completion of the move, though we can arrange alternative payment schedules for large moves. All quotes are provided in writing with clear payment terms."
+      },
+      {
+        "question": "Do you offer storage solutions?",
+        "answer": "Yes, we provide secure storage solutions for both short-term and long-term needs. Our storage facilities are clean, dry, and monitored 24/7. This is perfect for situations where there's a gap between moving out and moving in, or when you need to declutter before a move."
       }
     ]
+  },
+  "trustpilot": {
+    "verifiedReviews": "Verified Reviews",
+    "basedOn": "Based on",
+    "reviews": "reviews",
+    "excellent": "Excellent",
+    "customerSatisfaction": "Customer Satisfaction",
+    "successfulMoves": "Successful Moves",
+    "yearsExperience": "Years Experience",
+    "verifiedReview": "Verified Review",
+    "loadingReviews": "Loading customer reviews...",
+    "loadingData": "Loading Trustpilot data...",
+    "errorTitle": "Unable to load reviews",
+    "errorMessage": "We're having trouble connecting to Trustpilot. Please try again.",
+    "retryButton": "Try Again"
   },
   "navigation": {
     "home": "Home",
