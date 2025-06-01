@@ -177,9 +177,7 @@ const PromotionCode = ({ bookingId, onApplied, isApplying, error, applyPromoCode
                                             <span className="discount-percentage">
                                                 {appliedDiscount.discount}% OFF
                                             </span>
-                                      <span className="savings-amount">
-                                                You saved £{appliedDiscount.savings.toFixed(2)}
-                                            </span>
+
                                   </div>
                                 )}
                             </div>

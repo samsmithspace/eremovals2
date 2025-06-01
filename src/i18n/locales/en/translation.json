@@ -1,5 +1,17 @@
 {
   "common": {
+
+    "tagline": "Professional Removal Services",
+
+    "callNow": "Call Now",
+    "selectLanguage": "Select language",
+
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "getQuote": "Get Quote",
+    "bookNow": "Book Now",
     "siteTitle": "Eremovals",
     "loading": "Loading...",
     "error": "Error",
@@ -333,6 +345,12 @@
     "endTime": "End Time",
     "schedulingError": "Scheduling Error"
   },
+  "header": {
+    "callButtonText": "Call Now",
+    "phoneNumber": "07404 228217",
+    "languageToggle": "Language",
+    "selectLanguage": "Select your preferred language"
+  },
   "marketing": {
     "heroHeading": "Move at Ease, Move with Confidence",
     "heroSubheading": "Professional moving services tailored to your needs",
@@ -425,6 +443,216 @@
     "breadcrumb": "Breadcrumb",
     "youAreHere": "You are here:",
     "currentPage": "Current Page"
+  },
+  "footer": {
+    "emailUs": "Email Us",
+    "callUs": "Call Us",
+    "termsAndConditions": "Terms and Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "followUs": "Follow Us",
+    "contactInfo": "Contact Information",
+    "quickLinks": "Quick Links",
+    "services": "Our Services",
+    "company": "Company",
+    "about": "About Us",
+    "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "careers": "Careers",
+    "copyright": "All rights reserved.",
+    "companyDescription": "Your trusted removal partner in Scotland. We provide professional, reliable, and affordable moving services for homes and businesses across the UK.",
+    "fullyInsured": "Fully Insured",
+    "ratedService": "5-Star Rated",
+    "professionalTeam": "Professional Team",
+    "serviceArea": "Scotland & UK Wide",
+    "emergencyService": "24/7 Emergency Available",
+    "trustIndicators": {
+      "insured": "Fully Insured & Licensed",
+      "rated": "5-Star Customer Rating",
+      "professional": "Professional Team",
+      "experience": "Years of Experience"
+    },
+    "socialMedia": {
+      "facebook": "Follow us on Facebook",
+      "instagram": "Follow us on Instagram",
+      "twitter": "Follow us on Twitter",
+      "linkedin": "Connect on LinkedIn",
+      "whatsapp": "Message us on WhatsApp"
+    },
+    "newsletter": {
+      "title": "Stay Updated",
+      "description": "Get moving tips, special offers, and company updates delivered to your inbox.",
+      "placeholder": "Enter your email address",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "success": "Thank you for subscribing!",
+      "error": "Please enter a valid email address",
+      "privacyNote": "We respect your privacy and never share your email."
+    },
+    "contactDetails": {
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "serviceArea": "Service Area",
+      "hours": "Opening Hours",
+      "emergency": "Emergency Service"
+    },
+    "businessHours": {
+      "mondayFriday": "Monday - Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "times": {
+        "weekday": "8:00 AM - 6:00 PM",
+        "saturday": "9:00 AM - 4:00 PM",
+        "sunday": "Closed",
+        "emergency": "24/7 Emergency Service Available"
+      }
+    },
+    "legal": {
+      "terms": "Terms & Conditions",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy",
+      "sitemap": "Sitemap"
+    },
+    "certifications": {
+      "baf": "BAF Member",
+      "checkatrade": "Checkatrade Approved",
+      "which": "Which? Trusted Trader",
+      "insurance": "£2M Public Liability"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "services": "Our Services",
+    "about": "About Us",
+    "contact": "Contact",
+    "quote": "Get Quote",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "testimonials": "Testimonials"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional removal solutions for all your needs",
+    "domesticRemovals": {
+      "title": "Domestic Removals",
+      "description": "Complete home moving services with care and professionalism"
+    },
+    "officeRemovals": {
+      "title": "Office Removals",
+      "description": "Efficient business relocation with minimal downtime"
+    },
+    "packingServices": {
+      "title": "Packing Services",
+      "description": "Professional packing and unpacking services"
+    },
+    "storage": {
+      "title": "Storage Solutions",
+      "description": "Secure storage facilities for short and long-term needs"
+    },
+    "internationalRemovals": {
+      "title": "International Removals",
+      "description": "Worldwide moving services with full documentation support"
+    },
+    "specialistRemovals": {
+      "title": "Specialist Removals",
+      "description": "Piano, antique, and fragile item removal services"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch for a free quote",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "hours": "Opening Hours",
+    "mondayToFriday": "Monday - Friday: 8:00 AM - 6:00 PM",
+    "saturday": "Saturday: 9:00 AM - 4:00 PM",
+    "sunday": "Sunday: Closed",
+    "emergencyService": "24/7 Emergency Service Available",
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Message",
+      "serviceType": "Service Type",
+      "movingDate": "Moving Date",
+      "fromAddress": "Moving From",
+      "toAddress": "Moving To",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Thank you! We'll get back to you within 24 hours.",
+      "error": "Sorry, there was an error sending your message. Please try again or call us directly."
+    }
+  },
+  "quote": {
+    "title": "Get Your Free Quote",
+    "subtitle": "Fill out the form below for an instant estimate",
+    "step1": "Moving Details",
+    "step2": "Contact Information",
+    "step3": "Additional Services",
+    "step4": "Quote Summary",
+    "movingFrom": "Moving From",
+    "movingTo": "Moving To",
+    "propertyType": "Property Type",
+    "bedrooms": "Number of Bedrooms",
+    "movingDate": "Preferred Moving Date",
+    "timeSlot": "Time Slot",
+    "morning": "Morning (8AM - 12PM)",
+    "afternoon": "Afternoon (12PM - 5PM)",
+    "evening": "Evening (5PM - 8PM)",
+    "flexible": "Flexible",
+    "additionalServices": {
+      "packing": "Professional Packing",
+      "storage": "Storage Service",
+      "insurance": "Moving Insurance",
+      "dismantling": "Furniture Dismantling",
+      "cleaning": "End of Tenancy Cleaning"
+    },
+    "specialItems": "Special Items",
+    "specialItemsDescription": "Piano, antiques, artwork, etc.",
+    "accessIssues": "Access Issues",
+    "accessIssuesDescription": "Stairs, narrow doorways, parking restrictions",
+    "calculate": "Calculate Quote",
+    "calculating": "Calculating...",
+    "estimatedCost": "Estimated Cost",
+    "bookService": "Book This Service",
+    "modifyQuote": "Modify Quote"
+  },
+  "about": {
+    "title": "About Eremovals",
+    "subtitle": "Your trusted moving partner in Scotland",
+    "description": "With years of experience in the removal industry, Eremovals has built a reputation for reliable, efficient, and affordable moving services across Scotland and beyond.",
+    "whyChooseUs": "Why Choose Us",
+    "experienced": {
+      "title": "Experienced Team",
+      "description": "Our skilled professionals handle every move with care and expertise"
+    },
+    "insured": {
+      "title": "Fully Insured",
+      "description": "Complete protection for your belongings during the entire moving process"
+    },
+    "competitive": {
+      "title": "Competitive Prices",
+      "description": "Fair, transparent pricing with no hidden fees or surprises"
+    },
+    "reliable": {
+      "title": "Reliable Service",
+      "description": "On-time arrival and efficient completion of every job"
+    },
+    "customerFocused": {
+      "title": "Customer Focused",
+      "description": "Your satisfaction is our top priority from start to finish"
+    },
+    "coverage": {
+      "title": "Service Coverage",
+      "description": "We provide removal services throughout Scotland and the UK",
+      "local": "Local Moves",
+      "national": "National Moves",
+      "international": "International Moves"
+    }
   },
   "errors": {
     "general": "An error occurred. Please try again.",
