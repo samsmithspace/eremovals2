@@ -81,7 +81,7 @@ export const useAvailableTimeSlots = () => {
 
     const getNextAvailableDate = useCallback(() => {
         const today = new Date();
-        let checkDate = new Date(today);
+        const checkDate = new Date(today); // Changed from 'let' to 'const'
 
         // Look ahead up to 30 days for next available date
         for (let i = 0; i < 30; i++) {
