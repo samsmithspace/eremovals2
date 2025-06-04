@@ -1,4 +1,4 @@
-// src/features/locations/hooks/useAddressLookup.js
+
 import { useState, useEffect } from 'react';
 import { locationService } from '../services/locationService';
 

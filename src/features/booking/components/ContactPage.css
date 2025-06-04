@@ -1,0 +1,275 @@
+/* Scoped styles for ContactPage component only */
+.contact-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 4rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.contact-page .contact-container {
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+.contact-page .contact-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    padding: 3rem 2rem;
+    transition: all 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .contact-page .contact-card {
+        padding: 3rem;
+    }
+}
+
+/* Header Styles */
+.contact-page .contact-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.contact-page .contact-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 1rem 0;
+}
+
+.contact-page .header-line {
+    width: 6rem;
+    height: 0.25rem;
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* Message Styles */
+.contact-page .contact-message {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.contact-page .contact-message p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Contact Options */
+.contact-page .contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.contact-page .contact-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: left;
+}
+
+.contact-page .contact-option:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Phone Option */
+.contact-page .phone-option {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-color: #93c5fd;
+}
+
+.contact-page .phone-option:hover {
+    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+}
+
+.contact-page .phone-option .contact-icon {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* WhatsApp Option */
+.contact-page .whatsapp-option {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    border-color: #86efac;
+}
+
+.contact-page .whatsapp-option:hover {
+    background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+}
+
+.contact-page .whatsapp-option .contact-icon {
+    background: rgba(34, 197, 94, 0.1);
+}
+
+/* Email Option */
+.contact-page .email-option {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-color: #cbd5e1;
+}
+
+.contact-page .email-option:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+}
+
+.contact-page .email-option .contact-icon {
+    background: rgba(71, 85, 105, 0.1);
+}
+
+/* Contact Icon */
+.contact-page .contact-icon {
+    font-size: 2rem;
+    margin-right: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3rem;
+    height: 3rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+}
+
+/* Contact Details */
+.contact-page .contact-details {
+    text-align: left;
+    flex: 1;
+}
+
+.contact-page .contact-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.contact-page .contact-link {
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.contact-page .phone-link {
+    width: 200px;
+    color: #2563eb;
+}
+
+.contact-page .phone-link:hover {
+    color: #1d4ed8;
+}
+
+.contact-page .whatsapp-link {
+    color: #16a34a;
+}
+
+.contact-page .whatsapp-link:hover {
+    color: #15803d;
+}
+
+.contact-page .email-link {
+    color: #475569;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.contact-page .email-link:hover {
+    color: #334155;
+}
+
+/* Call to Action */
+.contact-page .contact-cta {
+    text-align: center;
+}
+
+.contact-page .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-weight: 500;
+    border-radius: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+}
+
+.contact-page .cta-icon {
+    margin-right: 0.5rem;
+    font-size: 1.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-page {
+        padding: 2rem 1rem;
+    }
+
+    .contact-page .contact-header h1 {
+        font-size: 2rem;
+    }
+
+    .contact-page .contact-message p {
+        font-size: 1.125rem;
+    }
+
+    .contact-page .contact-option {
+        padding: 1.25rem;
+    }
+
+    .contact-page .contact-link {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-page .contact-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .contact-page .contact-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .contact-page .contact-option {
+        flex-direction: row;
+        text-align: left;
+        gap: 0;
+        justify-content: flex-start;
+        padding: 1rem;
+    }
+
+    .contact-page .contact-icon {
+        margin-right: 1rem;
+        margin-bottom: 0;
+        font-size: 1.25rem;
+        min-width: 2rem;
+        height: 2rem;
+    }
+
+    .contact-page .contact-details {
+        text-align: left;
+    }
+
+    .contact-page .contact-link {
+        font-size: 1rem;
+    }
+
+    .contact-page .contact-label {
+        font-size: 0.75rem;
+    }
+}
