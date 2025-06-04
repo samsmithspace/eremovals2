@@ -3,7 +3,7 @@ import { fetchApi } from '../../../common/utils/apiUtils';
 import config from '../../../config/config';
 
 /**
- * Service for location-related API operations
+ * Enhanced service for location-related API operations
  */
 export const locationService = {
     /**
@@ -12,23 +12,58 @@ export const locationService = {
      * @returns {Promise<string[]>} Array of formatted addresses
      */
     getAddressesByPostcode: async (postcode) => {
+        console.log('locationService.getAddressesByPostcode - Called with:', postcode);
+
         if (!postcode) {
+            console.error('locationService.getAddressesByPostcode - No postcode provided');
             throw new Error('Postcode is required');
         }
 
-        const url = `https://api.getAddress.io/autocomplete/${postcode}?api-key=${config.apiKeys.getAddress}`;
+        // Clean and validate postcode
+        const cleanPostcode = postcode.trim().replace(/\s+/g, '');
+        console.log('locationService.getAddressesByPostcode - Cleaned postcode:', cleanPostcode);
+
+        // Check if we have the API key
+        if (!config.apiKeys.getAddress) {
+            console.error('locationService.getAddressesByPostcode - GetAddress API key not configured');
+            throw new Error('GetAddress API key not configured');
+        }
+
+        const url = `https://api.getAddress.io/autocomplete/${cleanPostcode}?api-key=${config.apiKeys.getAddress}`;
+        console.log('locationService.getAddressesByPostcode - Making request to:', url.replace(config.apiKeys.getAddress, '[API_KEY]'));
 
         try {
             const data = await fetchApi(url);
+            console.log('locationService.getAddressesByPostcode - API response:', data);
 
             if (data.suggestions && Array.isArray(data.suggestions)) {
-                return data.suggestions.map(suggestion => suggestion.address);
+                const addresses = data.suggestions.map(suggestion => suggestion.address);
+                console.log(`locationService.getAddressesByPostcode - Extracted ${addresses.length} addresses:`, addresses.slice(0, 3));
+                return addresses;
+            } else {
+                console.log('locationService.getAddressesByPostcode - No suggestions in response or suggestions is not an array');
+                console.log('locationService.getAddressesByPostcode - Response structure:', Object.keys(data));
+                return [];
             }
-
-            return [];
         } catch (error) {
-         //   console.error('Error fetching addresses from GetAddress.io:', error);
-            throw new Error('Failed to fetch addresses');
+            console.error('locationService.getAddressesByPostcode - API call failed:', error);
+            console.error('locationService.getAddressesByPostcode - Error details:', {
+                message: error.message,
+                postcode: cleanPostcode,
+                url: url.replace(config.apiKeys.getAddress, '[API_KEY]'),
+                timestamp: new Date().toISOString()
+            });
+
+            // Provide more specific error messages
+            if (error.message.includes('404')) {
+                throw new Error(`No addresses found for postcode: ${cleanPostcode}`);
+            } else if (error.message.includes('401') || error.message.includes('403')) {
+                throw new Error('Invalid API key or access denied');
+            } else if (error.message.includes('429')) {
+                throw new Error('API rate limit exceeded');
+            } else {
+                throw new Error('Failed to fetch addresses');
+            }
         }
     },
 
@@ -45,9 +80,9 @@ export const locationService = {
         // Basic validation - check if it contains some address-like elements
         const trimmed = location.trim();
         return trimmed.length > 5 &&
-            (trimmed.includes(',') ||
-                /\d/.test(trimmed) || // Contains numbers
-                /\b(street|road|lane|avenue|drive|close|way|place)\b/i.test(trimmed));
+          (trimmed.includes(',') ||
+            /\d/.test(trimmed) || // Contains numbers
+            /\b(street|road|lane|avenue|drive|close|way|place)\b/i.test(trimmed));
     },
 
     /**
@@ -59,9 +94,9 @@ export const locationService = {
         if (!address) return '';
 
         return address
-            .replace(/,/g, ', ') // Add spaces after commas
-            .replace(/\s+/g, ' ') // Remove extra spaces
-            .trim();
+          .replace(/,/g, ', ') // Add spaces after commas
+          .replace(/\s+/g, ' ') // Remove extra spaces
+          .trim();
     },
 
     /**

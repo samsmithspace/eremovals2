@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import GoogleMapComponent from './GoogleMapComponent';
 import { Button } from '../../../common/components/ui';
 import routes from '../../../config/routes';
+import config from '../../../config/config';
 import './LocationSelection.css';
 import './GoogleMapComponent.css';
 import { locationService } from '../services/locationService';
+
 /**
- * Modern Location Selection Component with enhanced UX
+ * Fixed Location Selection Component with proper flow control
  */
 const LocationSelection = () => {
   const location = useLocation();
@@ -24,6 +26,9 @@ const LocationSelection = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
+  // Add state to track if we're waiting for detailed address selection
+  const [waitingForDetailedAddress, setWaitingForDetailedAddress] = useState(false);
+
   // Get location type from navigation state
   const locationType = location.state || {};
 
@@ -35,29 +40,34 @@ const LocationSelection = () => {
   }, []);
 
   useEffect(() => {
-    // Show destination section when start location is selected
-    if (startLocation) {
+    // Show destination section when start location is FULLY selected
+    if (startLocation && !waitingForDetailedAddress) {
       const timer = setTimeout(() => {
+        setShowDestinationSection(true);
         const destinationSection = document.querySelector('.destination-location-section');
         if (destinationSection) {
           destinationSection.classList.add('slide-up');
         }
       }, 300);
       return () => clearTimeout(timer);
+    } else {
+      // Hide destination section if we're waiting for detailed address
+      setShowDestinationSection(false);
     }
-  }, [startLocation]); // Remove destinationLocation dependency
+  }, [startLocation, waitingForDetailedAddress]);
 
   useEffect(() => {
     // Show confirmation when both locations are selected
-    if (startLocation && destinationLocation) {
+    if (startLocation && destinationLocation && !waitingForDetailedAddress) {
       setShowConfirmation(true);
     } else {
       setShowConfirmation(false);
     }
-  }, [startLocation, destinationLocation]);
+  }, [startLocation, destinationLocation, waitingForDetailedAddress]);
 
   const handleEditStart = () => {
     setStartLocation(null);
+    setWaitingForDetailedAddress(false);
     setValidationErrors(prev => ({ ...prev, startLocation: null, sameLocation: null }));
 
     // Scroll back to start location section
@@ -71,6 +81,7 @@ const LocationSelection = () => {
       }
     }, 100);
   };
+
   const handleEditDestination = () => {
     setDestinationLocation(null);
     setValidationErrors(prev => ({ ...prev, destinationLocation: null, sameLocation: null }));
@@ -109,22 +120,30 @@ const LocationSelection = () => {
   };
 
   const handleStartLocationSelected = (place) => {
+    console.log('handleStartLocationSelected called with:', place);
+
     if (place === null) {
       setStartLocation(null);
-      // DON'T hide destination section when editing start location
-      // setShowDestinationSection(false); // Remove this line
+      setWaitingForDetailedAddress(false);
       return;
     }
 
     const locationString = typeof place === 'string' ? place : place.formatted_address || place.name;
-    setStartLocation(locationString);
-    setValidationErrors(prev => ({ ...prev, startLocation: null, sameLocation: null }));
 
-
-    if (!showDestinationSection) {
-      setShowDestinationSection(true);
+    // In production mode, if this is just the initial Google Maps selection,
+    // don't set as final location yet - wait for detailed address
+    if (!config.isDevelopment && typeof place === 'object') {
+      console.log('Production mode: Waiting for detailed address selection');
+      setWaitingForDetailedAddress(true);
+      setStartLocation(null); // Don't set location yet
+      return;
     }
 
+    // This is either development mode OR a detailed address selection
+    console.log('Setting start location:', locationString);
+    setStartLocation(locationString);
+    setWaitingForDetailedAddress(false);
+    setValidationErrors(prev => ({ ...prev, startLocation: null, sameLocation: null }));
 
     // Smooth scroll to destination section after a delay
     setTimeout(() => {
@@ -139,12 +158,23 @@ const LocationSelection = () => {
   };
 
   const handleDestinationLocationSelected = (place) => {
+    console.log('handleDestinationLocationSelected called with:', place);
+
     if (place === null) {
       setDestinationLocation(null);
       return;
     }
 
     const locationString = typeof place === 'string' ? place : place.formatted_address || place.name;
+
+    // In production mode, if this is just the initial Google Maps selection,
+    // don't set as final location yet - wait for detailed address
+    if (!config.isDevelopment && typeof place === 'object') {
+      console.log('Production mode: Waiting for detailed address selection');
+      return; // Don't set destination yet
+    }
+
+    console.log('Setting destination location:', locationString);
     setDestinationLocation(locationString);
     setValidationErrors(prev => ({ ...prev, destinationLocation: null, sameLocation: null }));
 
@@ -198,7 +228,7 @@ const LocationSelection = () => {
 
   const getProgressSteps = () => {
     const steps = [];
-    steps.push(startLocation ? 'completed' : 'inactive');
+    steps.push(startLocation ? 'completed' : waitingForDetailedAddress ? 'active' : 'inactive');
     steps.push(destinationLocation ? 'completed' : startLocation ? 'active' : 'inactive');
     steps.push(startLocation && destinationLocation ? 'active' : 'inactive');
     return steps;
@@ -209,6 +239,22 @@ const LocationSelection = () => {
       {/* Progress Indicator */}
       <ProgressIndicator steps={getProgressSteps()} />
 
+      {/* Debug Info */}
+      {config.isDevelopment && (
+        <div style={{
+          padding: '10px',
+          background: '#f0f0f0',
+          margin: '10px auto',
+          borderRadius: '4px',
+          fontSize: '12px',
+          maxWidth: '600px'
+        }}>
+          <div>Start Location: {startLocation || 'None'}</div>
+          <div>Waiting for detailed: {waitingForDetailedAddress ? 'Yes' : 'No'}</div>
+          <div>Show destination: {showDestinationSection ? 'Yes' : 'No'}</div>
+        </div>
+      )}
+
       {/* Start Location Section */}
       <LocationCard
         title={t('locations.moveFrom', 'Where are you moving from?')}
@@ -218,9 +264,10 @@ const LocationSelection = () => {
         className="start-location-section"
         isActive={true}
         error={validationErrors.startLocation}
+        isWaitingForDetails={waitingForDetailedAddress}
       />
 
-      {/* Destination Location Section - Show once start location was selected at least once */}
+      {/* Destination Location Section - Show only when start is fully completed */}
       {showDestinationSection && (
         <LocationCard
           title={t('locations.moveTo', 'Where are you moving to?')}
@@ -247,8 +294,8 @@ const LocationSelection = () => {
           destinationLocation={destinationLocation}
           onConfirm={handleConfirm}
           isVisible={showConfirmation}
-          onEditStart={handleEditStart}          // Add this prop
-          onEditDestination={handleEditDestination}  // Add this prop
+          onEditStart={handleEditStart}
+          onEditDestination={handleEditDestination}
         />
       )}
     </div>
@@ -285,16 +332,15 @@ const LocationCard = ({
                         selectedLocation,
                         className,
                         isActive,
-                        error
+                        error,
+                        isWaitingForDetails = false
                       }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleLocationSelected = async (place) => {
     setIsLoading(true);
-
-    // Add a slight delay for better UX
     await new Promise(resolve => setTimeout(resolve, 300));
-
     onLocationSelected(place);
     setIsLoading(false);
   };
@@ -302,16 +348,22 @@ const LocationCard = ({
   if (!isActive) return null;
 
   return (
-    <div className={`location-section ${className} ${selectedLocation ? 'has-selection' : ''}`}>
+    <div className={`location-section ${className} ${selectedLocation ? 'has-selection' : ''} ${isWaitingForDetails ? 'waiting-details' : ''}`}>
       <h2 className="section-title">
         <span className="location-icon">{icon}</span>
         {title}
       </h2>
 
+      {isWaitingForDetails && (
+        <div className="waiting-message">
+          <p>📍 Please select a detailed address from the dropdown below</p>
+        </div>
+      )}
+
       {selectedLocation ? (
         <LocationPreview
           location={selectedLocation}
-          onEdit={() => onLocationSelected(null)} // Pass null to clear selection
+          onEdit={() => onLocationSelected(null)}
         />
       ) : (
         <>
@@ -367,8 +419,8 @@ const ConfirmationSection = ({
                                destinationLocation,
                                onConfirm,
                                isVisible,
-                               onEditStart,    // Add this prop
-                               onEditDestination  // Add this prop
+                               onEditStart,
+                               onEditDestination
                              }) => {
   const { t } = useTranslation();
   const [showSection, setShowSection] = useState(false);
@@ -389,14 +441,14 @@ const ConfirmationSection = ({
           label={t('locations.from', 'From')}
           location={startLocation}
           type="pickup"
-          onEdit={onEditStart}  // Pass the edit handler
+          onEdit={onEditStart}
         />
         <SummaryCard
           icon="📍"
           label={t('locations.to', 'To')}
           location={destinationLocation}
           type="destination"
-          onEdit={onEditDestination}  // Pass the edit handler
+          onEdit={onEditDestination}
         />
       </div>
 
@@ -422,9 +474,9 @@ const ConfirmationSection = ({
 /**
  * Summary Card Component
  */
-// Update the SummaryCard component to be clickable
 const SummaryCard = ({ icon, label, location, type, onEdit }) => {
-  const { t } = useTranslation(); // Add this line
+  const { t } = useTranslation();
+
   return (
     <div
       className={`location-card summary-card ${type} clickable`}
@@ -454,7 +506,6 @@ const SummaryCard = ({ icon, label, location, type, onEdit }) => {
     </div>
   );
 };
-
 
 /**
  * Route Information Component - Uses real distance calculation
@@ -538,7 +589,8 @@ LocationCard.propTypes = {
   selectedLocation: PropTypes.string,
   className: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
+  isWaitingForDetails: PropTypes.bool
 };
 
 LocationPreview.propTypes = {
@@ -551,8 +603,8 @@ ConfirmationSection.propTypes = {
   destinationLocation: PropTypes.string.isRequired,
   onConfirm: PropTypes.func.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  onEditStart: PropTypes.func.isRequired,      // Add this
-  onEditDestination: PropTypes.func.isRequired  // Add this
+  onEditStart: PropTypes.func.isRequired,
+  onEditDestination: PropTypes.func.isRequired
 };
 
 SummaryCard.propTypes = {
@@ -560,7 +612,7 @@ SummaryCard.propTypes = {
   label: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['pickup', 'destination']).isRequired,
-  onEdit: PropTypes.func.isRequired  // Add this
+  onEdit: PropTypes.func.isRequired
 };
 
 RouteInformation.propTypes = {

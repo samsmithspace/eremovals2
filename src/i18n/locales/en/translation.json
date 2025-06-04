@@ -48,6 +48,14 @@
     "emailUs": "Email Us",
     "callUs": "Call Us"
   },
+  "loadingAddresses": "Loading addresses...",
+  "noAddressesFound": "No detailed addresses found for this postcode",
+
+  "mapLoadError": "Error loading Google Maps",
+  "locationRequired": "Location is required",
+  "sameLocationError": "Pickup and destination cannot be the same",
+
+
   "contactDescription": "Please provide your contact information for a personalized quote",
   "paymentAndBooking": "Payment & Booking",
   "estimatedPrice": "Your estimated price (VAT included)",
@@ -70,7 +78,7 @@
   "processing": "Processing...",
   "paymentError": "Payment Error",
   "paymentSecurity": "Secure payment processing. Your card details are protected by industry-standard encryption.",
-
+  "selectDetailedAddress": "Select Detailed Address",
   "siteTitle": "Eremovals",
   "studentMove": "Student Move",
   "homeMove": "Home Move",
@@ -220,6 +228,8 @@
     "questionsContactMessage": "If you have any questions, feel free to reach out to our support team."
   },
   "locations": {
+
+
     "title": "Locations",
     "selectLocation": "Select Location",
     "selectLocations": "Select Locations",
@@ -576,16 +586,7 @@
       "insurance": "£2M Public Liability"
     }
   },
-  "navigation": {
-    "home": "Home",
-    "services": "Our Services",
-    "about": "About Us",
-    "contact": "Contact",
-    "quote": "Get Quote",
-    "blog": "Blog",
-    "faq": "FAQ",
-    "testimonials": "Testimonials"
-  },
+
   "services": {
     "student": {
       "title": "Student Moves",
@@ -667,6 +668,9 @@
     "saturday": "Saturday: 9:00 AM - 4:00 PM",
     "sunday": "Sunday: Closed",
     "emergencyService": "24/7 Emergency Service Available",
+
+    "serviceArea": "Service Area",
+
     "form": {
       "name": "Full Name",
       "email": "Email Address",
@@ -782,6 +786,6 @@
     "reportIssue": "Report Issue"
   },
   "missingLocationData": "Missing Location Data",
-  "pleaseSelectLocations": "Please select your pickup and destination locations first.",
-  "contact": "Contact Us"
+  "pleaseSelectLocations": "Please select your pickup and destination locations first."
+
 }
