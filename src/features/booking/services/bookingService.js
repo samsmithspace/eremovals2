@@ -1,6 +1,6 @@
 // src/features/booking/services/bookingService.js - FIXED PAYMENT METHODS
-import { fetchApi } from '../../../common/utils/apiUtils';
-import config from '../../../config/config';
+import { fetchApi } from 'common/utils/apiUtils';
+import config from 'config/config';
 
 const API_BASE_URL = config.api.baseUrl;
 const ENDPOINTS = config.api.endpoints;

@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import routes from '../../../config/routes';
+import routes from 'config/routes';
 // In src/features/locations/components/LocationSummary.js
 import './LocationSummary.css'; // Add this import at the top
 /**

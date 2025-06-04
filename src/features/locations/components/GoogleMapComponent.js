@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useLocationSearch } from '../hooks/useLocationSearch';
 import { useAddressLookup } from '../hooks/useAddressLookup';
-import config from '../../../config/config';
+import config from 'config/config';
 import './GoogleMapComponent.css';
 
 const libraries = ['places', 'marker'];

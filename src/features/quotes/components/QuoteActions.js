@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import BookingForm from '../../booking/components/BookingForm';
 import PromotionCode from './PromotionCode';
-import { Button, Spinner, Alert } from '../../../common/components/ui';
+import { Button, Spinner, Alert } from 'common/components/ui';
 import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
 import './QuoteActions.css';

@@ -2,7 +2,7 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Alert } from '../../../common/components/ui';
+import { Alert } from 'common/components/ui';
 import './QuoteSummary.css';
 
 // Add inline styles for the simple booking details

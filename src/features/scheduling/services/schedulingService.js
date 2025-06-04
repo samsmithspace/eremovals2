@@ -1,5 +1,5 @@
-import { fetchApi } from '../../../common/utils/apiUtils';
-import config from '../../../config/config';
+import { fetchApi } from 'common/utils/apiUtils';
+import config from 'config/config';
 
 export const schedulingService = {
     async getAvailableTimeSlots(date) {

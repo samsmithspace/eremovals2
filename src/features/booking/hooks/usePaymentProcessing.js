@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { bookingService } from '../services/bookingService';
-import config from '../../../config/config';
+import config from 'config/config';
 
 const stripePromise = loadStripe(config.apiKeys.stripe);
 

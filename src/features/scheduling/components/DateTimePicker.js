@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useAvailableTimeSlots } from '../hooks/useAvailableTimeSlots';
-import { Alert, Spinner } from '../../../common/components/ui';
+import { Alert, Spinner } from 'common/components/ui';
 import './DateTimePicker.css';
 
 /**

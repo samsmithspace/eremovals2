@@ -175,8 +175,8 @@ body {
     right: 0;
     bottom: 0;
     background-image:
-            url('../../../assets/images/van.png'),
-            url('../../../assets/images/shelf.png');
+            url('assets/images/van.png'),
+            url('assets/images/shelf.png');
     background-position:
             bottom 50px right 20px,
             bottom 80px left 20px;

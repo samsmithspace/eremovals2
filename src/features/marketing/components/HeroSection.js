@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaPhone, FaCalculator, FaShieldAlt, FaStar, FaHeart } from 'react-icons/fa';
-import { useScrollPosition } from '../../../common/hooks/useScrollPosition';
+import { useScrollPosition } from 'common/hooks/useScrollPosition';
 import './HeroSection.css';
 
 const HeroSection = () => {

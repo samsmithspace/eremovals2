@@ -1,6 +1,6 @@
 // src/features/locations/hooks/useLocationSearch.js
 import { useJsApiLoader } from '@react-google-maps/api';
-import config from '../../../config/config';
+import config from 'config/config';
 
 const libraries = ['places', 'marker'];
 

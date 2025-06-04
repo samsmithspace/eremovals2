@@ -1,6 +1,6 @@
 // src/features/locations/services/locationService.js
-import { fetchApi } from '../../../common/utils/apiUtils';
-import config from '../../../config/config';
+import { fetchApi } from 'common/utils/apiUtils';
+import config from 'config/config';
 
 /**
  * Enhanced service for location-related API operations

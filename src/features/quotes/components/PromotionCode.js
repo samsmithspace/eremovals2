@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { FormInput, Button, Spinner, Alert } from '../../../common/components/ui';
+import { FormInput, Button, Spinner, Alert } from 'common/components/ui';
 import './PromotionCode.css';
 
 /**

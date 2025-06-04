@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Button, SelectInput } from '../../../common/components/ui';
+import { Button, SelectInput } from 'common/components/ui';
 
 /**
  * Component for selecting special items that need extra care

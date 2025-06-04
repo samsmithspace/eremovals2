@@ -3,21 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button } from '../../../common/components/ui';
-import { useScrollPosition } from '../../../common/hooks/useScrollPosition';
-import routes from '../../../config/routes';
+import { Button } from 'common/components/ui';
+import { useScrollPosition } from 'common/hooks/useScrollPosition';
+import routes from 'config/routes';
 
 // Import hero images
-import studentMoveImg from '../../../assets/images/bt21.png';
-import homeMoveImg from '../../../assets/images/btn3.png';
-import courierImg from '../../../assets/images/courier.png';
-import slidingImage from '../../../assets/images/vanb.png';
-import shelfImage from '../../../assets/images/shelf.png';
+import studentMoveImg from 'assets/images/bt21.png';
+import homeMoveImg from 'assets/images/btn3.png';
+import courierImg from 'assets/images/courier.png';
+import slidingImage from 'assets/images/vanb.png';
+import shelfImage from 'assets/images/shelf.png';
 
 // Service images
-import binImg from '../../../assets/images/disp.png';
-import cleanImg from '../../../assets/images/clean.png';
-import storageImg from '../../../assets/images/shelfwithbox.png';
+import binImg from 'assets/images/disp.png';
+import cleanImg from 'assets/images/clean.png';
+import storageImg from 'assets/images/shelfwithbox.png';
 import './ServiceOverview.css';
 /**
  * Hero section component with service selection and animations

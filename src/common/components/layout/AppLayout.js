@@ -5,9 +5,9 @@ import Footer from './Footer';
 import PropTypes from 'prop-types';
 
 // Import default social icons
-import xLogo from '../../../assets/images/xlogo.svg';
-import waLogo from '../../../assets/images/Digital_Glyph_Green.svg';
-import igLogo from '../../../assets/images/Instagram_Glyph_White.svg';
+import xLogo from 'assets/images/xlogo.svg';
+import waLogo from 'assets/images/Digital_Glyph_Green.svg';
+import igLogo from 'assets/images/Instagram_Glyph_White.svg';
 
 /**
  * AppLayout component to provide consistent layout across the application

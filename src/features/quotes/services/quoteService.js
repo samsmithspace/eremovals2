@@ -1,6 +1,6 @@
 // src/features/quotes/services/quoteService.js - FIXED API ENDPOINT VERSION
-import { fetchApi } from '../../../common/utils/apiUtils';
-import config from '../../../config/config';
+import { fetchApi } from 'common/utils/apiUtils';
+import config from 'config/config';
 
 /**
  * Service for quote-related API operations
