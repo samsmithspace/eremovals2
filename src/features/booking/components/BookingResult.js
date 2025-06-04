@@ -1,11 +1,12 @@
-// src/features/booking/components/BookingResult.js - FIXED localStorage access
-import React, { useEffect, useState } from 'react';
+// src/features/booking/components/BookingResult.js - FIXED duplicate prevention
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { bookingService } from '../services/bookingService';
 import { Spinner, Alert } from '../../../common/components/ui';
 import './BookingResult.css';
+
 /**
  * Component to display booking confirmation details after successful payment
  */
@@ -16,6 +17,11 @@ const BookingResult = () => {
     const [bookingDetails, setBookingDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [emailStatus, setEmailStatus] = useState({ sent: false, error: null });
+
+    // ✅ ADD: Prevent multiple concurrent API calls
+    const isProcessingRef = useRef(false);
+    const processedBookingsRef = useRef(new Set());
 
     // FIXED: Safe localStorage access with fallback
     const getFromLocalStorage = (key) => {
@@ -52,9 +58,18 @@ const BookingResult = () => {
                     throw new Error('No booking ID found in URL');
                 }
 
+                // ✅ PREVENT DUPLICATE PROCESSING
+                if (isProcessingRef.current || processedBookingsRef.current.has(bookingId)) {
+                    console.log('BookingResult: Already processing or processed this booking:', bookingId);
+                    return;
+                }
+
+                isProcessingRef.current = true;
+                processedBookingsRef.current.add(bookingId);
+
                 console.log('BookingResult: Fetching details for bookingId:', bookingId);
 
-                // Check if message has already been sent to avoid duplicate notifications
+                // Check if message has already been sent
                 const messageSentKey = `messageSent_${bookingId}`;
                 const messageSent = getFromLocalStorage(messageSentKey);
 
@@ -66,19 +81,37 @@ const BookingResult = () => {
 
                 setBookingDetails(data.booking);
 
-                // Send booking confirmation if not already sent
-                if (!messageSent) {
+                // ✅ IMPROVED: Better duplicate check with timestamp
+                const now = Date.now();
+                const lastSentTime = getFromLocalStorage(`${messageSentKey}_timestamp`);
+                const timeSinceLastSent = lastSentTime ? (now - parseInt(lastSentTime)) : Infinity;
+
+                // Only send if not sent in the last 5 minutes (300000 ms)
+                const shouldSend = !messageSent || timeSinceLastSent > 300000;
+
+                if (shouldSend) {
                     console.log('BookingResult: Sending booking confirmation...');
                     try {
-                        await bookingService.sendBookingConfirmation(bookingId);
+                        const confirmationResponse = await bookingService.sendBookingConfirmation(bookingId);
+
+                        // ✅ Set both the flag and timestamp
+                        console.log('BookingResult: Confirmation API response:', confirmationResponse);
                         setToLocalStorage(messageSentKey, 'true');
+                        setToLocalStorage(`${messageSentKey}_timestamp`, now.toString());
                         console.log('BookingResult: Confirmation sent successfully');
+                        setEmailStatus({ sent: true, error: null });
+
                     } catch (confirmationError) {
                         console.error('BookingResult: Error sending confirmation:', confirmationError);
-                        // Don't fail the whole page if confirmation sending fails
+
+                        const errorMessage = confirmationError.message || 'Failed to send confirmation email';
+                        setEmailStatus({ sent: false, error: errorMessage });
+
+                        console.warn('BookingResult: Email confirmation failed but continuing to show booking details');
                     }
                 } else {
-                    console.log('BookingResult: Confirmation already sent, skipping');
+                    console.log('BookingResult: Confirmation already sent recently, skipping');
+                    setEmailStatus({ sent: true, error: null });
                 }
 
             } catch (err) {
@@ -86,11 +119,24 @@ const BookingResult = () => {
                 setError(err.message || 'Failed to load booking details');
             } finally {
                 setLoading(false);
+                isProcessingRef.current = false;
             }
         };
 
-        fetchBookingDetails();
-    }, [searchParams]); // FIXED: Removed localStorage dependencies
+        // ✅ ADD: Debounce to prevent rapid successive calls
+        const timeoutId = setTimeout(fetchBookingDetails, 100);
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [searchParams]);
+
+    // ✅ ADD: Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            isProcessingRef.current = false;
+        };
+    }, []);
 
     if (loading) {
         return (
@@ -123,6 +169,15 @@ const BookingResult = () => {
               <h1>{t('bookingConfirmation', 'Booking Confirmation')}</h1>
           </div>
 
+          {/* Email status notification */}
+          {emailStatus.error && (
+            <Alert variant="warning" title={t('emailNotification', 'Email Notification')}>
+                {t('emailFailedButBookingSuccess', 'Your booking was successful, but we had trouble sending the confirmation email. Please save your booking details below.')}
+                <br />
+                <small>Error: {emailStatus.error}</small>
+            </Alert>
+          )}
+
           <div className="booking-info">
               <div className="booking-detail">
                   <strong>{t('bookingId', 'Booking ID')}:</strong>
@@ -154,7 +209,6 @@ const BookingResult = () => {
                   <span>{bookingDetails.destinationLocation}</span>
               </div>
 
-              {/* ADDED: Display payment amount if available */}
               {bookingDetails.price && (
                 <div className="booking-detail">
                     <strong>{t('paidAmount', 'Amount Paid')}:</strong>
@@ -162,7 +216,6 @@ const BookingResult = () => {
                 </div>
               )}
 
-              {/* ADDED: Display payment status if available */}
               {bookingDetails.paymentStatus && (
                 <div className="booking-detail">
                     <strong>{t('paymentStatus', 'Payment Status')}:</strong>
@@ -171,6 +224,16 @@ const BookingResult = () => {
                         </span>
                 </div>
               )}
+
+              <div className="booking-detail">
+                  <strong>{t('emailConfirmation', 'Email Confirmation')}:</strong>
+                  <span className={emailStatus.sent && !emailStatus.error ? 'success-badge' : 'warning-badge'}>
+                        {emailStatus.sent && !emailStatus.error
+                          ? `${t('emailSent', 'Sent Successfully')} ✅`
+                          : `${t('emailFailed', 'Failed to Send')} ⚠️`
+                        }
+                    </span>
+              </div>
           </div>
 
           <div className="thank-you-message">
@@ -181,6 +244,9 @@ const BookingResult = () => {
           <div className="follow-up-message">
               <p>{t('questionsMessage', 'If you have any questions or need to make changes to your booking, please do not hesitate to reach out.')}</p>
               <p>{t('smoothExperienceMessage', 'We\'re here to make sure everything goes smoothly for you.')}</p>
+              {emailStatus.error && (
+                <p><strong>{t('saveBookingDetails', 'Please save your booking details above as the confirmation email could not be sent.')}</strong></p>
+              )}
           </div>
 
           <div className="contact-us">

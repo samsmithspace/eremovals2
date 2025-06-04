@@ -19,7 +19,8 @@ const config = {
   },
 
   // Application mode
-  isDevelopment: process.env.NODE_ENV === 'production',
+  //isDevelopment: true,
+  isDevelopment: process.env.NODE_ENV === 'development',
   //isDevelopment: true,
   // Default settings
   defaults: {
