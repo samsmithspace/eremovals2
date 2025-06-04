@@ -4,7 +4,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { bookingService } from '../services/bookingService';
-import { Spinner, Alert } from '../../../common/components/ui';
+import { Spinner, Alert } from 'common/components/ui';
 import './BookingResult.css';
 
 /**

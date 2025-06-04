@@ -1,7 +1,7 @@
 // src/features/booking/components/PaymentCancellation.js
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert } from '../../../common/components/ui';
+import { Alert } from 'common/components/ui';
 
 /**
  * Component displayed when payment is cancelled
