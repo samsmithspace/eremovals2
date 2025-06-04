@@ -5,7 +5,7 @@ const config = {
     endpoints: {
       bookings: '/api/bookings',
       promoCode: '/api/promocode',
-      priceItems: '/api/price-item',
+      priceItems: '/api/price-item/api/price-item',
       driver: '/api/driver'
     }
   },
