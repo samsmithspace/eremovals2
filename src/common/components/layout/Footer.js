@@ -61,7 +61,7 @@ const Footer = ({ socialIcons = [] }) => {
         {
             name: 'Facebook',
             icon: FaFacebookF,
-            url: 'https://facebook.com/eremovals',
+            url: 'https://www.facebook.com/people/Eremovals/61575685194235/',
             color: '#1877f2'
         },
         {
