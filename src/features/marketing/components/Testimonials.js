@@ -139,9 +139,7 @@ const TrustpilotOverview = ({ businessData, loading }) => {
                 </svg>
               ))}
             </div>
-            <div className="trustpilot-text">
-              Based on <span className="trustpilot-reviews-count">{numberOfReviews.toLocaleString()}</span> reviews
-            </div>
+
           </div>
         </div>
       </div>
