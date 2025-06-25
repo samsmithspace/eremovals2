@@ -65,8 +65,8 @@ export const managerInquiryService = {
           liftAvailabledest: booking.details?.liftAvailabledest || false,
           numberofstairsright: booking.details?.numberofstairsright || 0
         },
-        estimatedPrice: estimatedPrice,
-        estimatedPriceWithHelper: estimatedPriceWithHelper,
+        estimatedPrice: booking.price,
+        estimatedPriceWithHelper: booking.helperprice,
         additionalNotes: `Customer has completed the quote process and is ready to proceed with payment. Booking ID: ${bookingId}`
       };
 
