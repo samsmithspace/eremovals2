@@ -1,12 +1,14 @@
-// Updated BookingForm.js - With improved icons and scoped description
-import React from 'react';
+// Updated BookingForm.js with Manager Inquiry Integration
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useBookingForm } from '../hooks/useBookingForm';
+import { managerInquiryService } from '../services/managerInquiryService';
 import './BookingForm.css';
 
 const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
     const { t } = useTranslation();
+    const [inquiryStatus, setInquiryStatus] = useState({ sent: false, sending: false, error: null });
 
     const {
         formValues,
@@ -15,23 +17,147 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
         isValid,
         handleChange,
         handleBlur,
-        handleSubmit,
-    } = useBookingForm(bookingId, onSubmit);
+        handleSubmit: originalHandleSubmit,
+    } = useBookingForm(bookingId, null); // We'll handle onSubmit ourselves
 
     if (!isVisible) return null;
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Validate form first
+        if (!isValid) {
+            console.log('Form is not valid, cannot submit');
+            return;
+        }
+
+        try {
+            // Set sending status
+            setInquiryStatus({ sent: false, sending: true, error: null });
+
+            console.log('BookingForm: Submitting with values:', formValues);
+
+            // First, update the booking with contact info using the original logic
+            await originalHandleSubmit(e);
+
+            // Then send manager inquiry
+            try {
+                console.log('BookingForm: Sending manager inquiry...');
+
+                // Validate customer data
+                const validation = managerInquiryService.validateCustomerData(formValues);
+                if (!validation.isValid) {
+                    throw new Error(validation.errors.join(', '));
+                }
+
+                // Format customer data
+                const customerData = managerInquiryService.formatCustomerData(formValues);
+
+                // Send inquiry (we'll pass default prices for now, they'll be updated in QuoteActions)
+                await managerInquiryService.sendCustomerInquiry(
+                  customerData,
+                  bookingId,
+                  0, // Will be updated with actual prices in QuoteActions
+                  0  // Will be updated with actual prices in QuoteActions
+                );
+
+                setInquiryStatus({ sent: true, sending: false, error: null });
+                console.log('BookingForm: Manager inquiry sent successfully');
+
+            } catch (inquiryError) {
+                console.warn('BookingForm: Manager inquiry failed but continuing:', inquiryError);
+                setInquiryStatus({ sent: false, sending: false, error: inquiryError.message });
+                // Don't block the main flow - inquiry is supplementary
+            }
+
+            // Call the parent's onSubmit with form data
+            if (onSubmit) {
+                onSubmit(formValues);
+            }
+
+        } catch (error) {
+            console.error('BookingForm: Main submission error:', error);
+            setInquiryStatus({ sent: false, sending: false, error: error.message });
+        }
+    };
+
     return (
       <div className="booking-form-clean">
-          {/* Contact form intro after progress indicator */}
+          {/* Contact form intro */}
           <div className="contact-form-description">
               <span>📋</span>
               <span>
-          {t(
-            'contactDescription',
-            'Please provide your contact information for a personalized quote'
-          )}
-        </span>
+                    {t(
+                      'contactDescription',
+                      'Please provide your contact information for a personalized quote'
+                    )}
+                </span>
           </div>
+
+          {/* Inquiry Status Display */}
+          {inquiryStatus.sending && (
+            <div className="inquiry-status sending" style={{
+                background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)',
+                border: '2px solid #3b82f6',
+                borderRadius: '12px',
+                padding: '1rem',
+                marginBottom: '1rem',
+                color: '#1e40af',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+            }}>
+                <div className="loading-spinner" style={{
+                    width: '16px',
+                    height: '16px',
+                    border: '2px solid rgba(59, 130, 246, 0.3)',
+                    borderRadius: '50%',
+                    borderTopColor: '#3b82f6',
+                    animation: 'spin 1s linear infinite'
+                }}></div>
+                <span>Notifying our team...</span>
+            </div>
+          )}
+
+          {inquiryStatus.sent && (
+            <div className="inquiry-status sent" style={{
+                background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
+                border: '2px solid #10b981',
+                borderRadius: '12px',
+                padding: '1rem',
+                marginBottom: '1rem',
+                color: '#065f46',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+            }}>
+                <span style={{ fontSize: '1.25rem' }}>✅</span>
+                <span>Our team has been notified and will assist you!</span>
+            </div>
+          )}
+
+          {inquiryStatus.error && (
+            <div className="inquiry-status error" style={{
+                background: 'linear-gradient(135deg, #fee2e2, #fecaca)',
+                border: '2px solid #ef4444',
+                borderRadius: '12px',
+                padding: '1rem',
+                marginBottom: '1rem',
+                color: '#991b1b',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+            }}>
+                <span style={{ fontSize: '1.25rem' }}>⚠️</span>
+                <div>
+                    <div>Notification failed, but you can still continue</div>
+                    <small style={{ opacity: 0.8 }}>Error: {inquiryStatus.error}</small>
+                </div>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="contact-form-clean">
               {/* Name */}
@@ -48,7 +174,7 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                     onBlur={handleBlur}
                     placeholder={t('booking.enterFullName', 'Enter your full name')}
                     className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || inquiryStatus.sending}
                     required
                   />
                   {errors.name && <div className="invalid-feedback">{errors.name}</div>}
@@ -68,7 +194,7 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                     onBlur={handleBlur}
                     placeholder={t('booking.enterPhoneNumber', '07XXX XXXXXX')}
                     className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || inquiryStatus.sending}
                     required
                   />
                   {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
@@ -88,15 +214,19 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                     onBlur={handleBlur}
                     placeholder={t('booking.enterEmailAddress', 'your.email@example.com')}
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || inquiryStatus.sending}
                     required
                   />
                   {errors.email && <div className="invalid-feedback">{errors.email}</div>}
               </div>
 
               {/* Submit */}
-              <button type="submit" disabled={!isValid || isSubmitting} className="submit-button-clean">
-                  {isSubmitting ? (
+              <button
+                type="submit"
+                disabled={!isValid || isSubmitting || inquiryStatus.sending}
+                className="submit-button-clean"
+              >
+                  {(isSubmitting || inquiryStatus.sending) ? (
                     <>
                         <div className="loading-spinner"></div>
                         <span>{t('booking.submitting', 'Processing...')}</span>
@@ -106,7 +236,7 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                         </svg>
-                        <span>{t('booking.continueToPayment', 'Check Price')}</span>
+                        <span>{t('booking.continueToPayment', 'Continue to Pricing')}</span>
                     </>
                   )}
               </button>
@@ -118,8 +248,8 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                   <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z" />
               </svg>
               <span className="notice-text">
-          {t('booking.securityNotice', 'Your information is secure and protected')}
-        </span>
+                    {t('booking.securityNotice', 'Your information is secure and our team will assist you')}
+                </span>
           </div>
 
           {/* Alternative Contact */}
@@ -128,7 +258,7 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M20,15.5C18.8,15.5 17.5,15.3 16.4,14.9...Z" />
                   </svg>
-                  {t('booking.orContact', 'Alternative Contact Methods')}
+                  {t('booking.orContact', 'Need Help? Contact Us Directly')}
               </h4>
               <div className="contact-links">
                   <a href="tel:+447404228217" className="contact-link">

@@ -9,12 +9,11 @@ import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
 import './QuoteActions.css';
 
-/**
- * Enhanced QuoteActions with visual discount effects
- */
 const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   const { t, i18n } = useTranslation();
   const [showPricing, setShowPricing] = useState(false);
+  const [customerData, setCustomerData] = useState(null); // Store customer data
+  const [inquirySent, setInquirySent] = useState(false); // Track inquiry status
 
   const {
     processPayment,
@@ -27,23 +26,101 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     currentPrice,
     currentHelperPrice,
     discount,
-    applyPromoCode, // FIXED: Properly destructure applyPromoCode
+    applyPromoCode,
     isApplying: isApplyingPromo,
     error: promoError
   } = usePromoCode(bookingId, price, helperPrice);
 
   const showHelperOption = helperPrice && helperPrice > price;
 
-  const handleContactSubmitted = () => {
+  // NEW: Function to send customer inquiry to manager
+  const sendCustomerInquiry = async (customerInfo) => {
+    try {
+      console.log('Sending customer inquiry to manager...');
+
+      // Get booking details first
+      const bookingResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/bookings/${bookingId}`);
+      const bookingData = await bookingResponse.json();
+
+      if (!bookingData.success) {
+        throw new Error('Failed to get booking details');
+      }
+
+      const booking = bookingData.booking;
+
+      // Prepare inquiry data matching your backend structure
+      const inquiryData = {
+        customerName: customerInfo.name,
+        customerPhone: customerInfo.phone,
+        customerEmail: customerInfo.email,
+        startLocation: booking.startLocation,
+        destinationLocation: booking.destinationLocation,
+        moveDate: booking.date,
+        moveTime: booking.time,
+        moveType: booking.moveType || 'Standard Move',
+        details: {
+          boxDetails: booking.details?.boxDetails || [],
+          furnitureDetails: booking.details?.furnitureDetails || [],
+          applianceDetails: booking.details?.applianceDetails || [],
+          liftAvailable: booking.details?.liftAvailable || false,
+          numberOfStairs: booking.details?.numberOfStairs || 0,
+          liftAvailabledest: booking.details?.liftAvailabledest || false,
+          numberofstairsright: booking.details?.numberofstairsright || 0
+        },
+        estimatedPrice: currentPrice,
+        estimatedPriceWithHelper: currentHelperPrice,
+        additionalNotes: 'Customer has completed the quote process and is ready to proceed with payment.'
+      };
+
+      console.log('Sending inquiry data:', inquiryData);
+
+      // Send to your manager notification endpoint
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/manager/send-inquiry`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inquiryData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        console.log('Customer inquiry sent to manager successfully');
+        setInquirySent(true);
+        return true;
+      } else {
+        throw new Error(result.error || 'Failed to send inquiry');
+      }
+
+    } catch (error) {
+      console.error('Error sending customer inquiry:', error);
+      // Don't block the user flow - log error but continue
+      return false;
+    }
+  };
+
+  const handleContactSubmitted = async (formData) => {
+    console.log('Contact form submitted:', formData);
+
+    // Store customer data
+    setCustomerData(formData);
+
+    // NEW: Send customer inquiry to manager
+    //await sendCustomerInquiry(formData);
+
+    // Show pricing section
     setShowPricing(true);
+
     if (onSubmitted) {
-      onSubmitted({ bookingId, showPricing: true });
+      onSubmitted({ bookingId, showPricing: true, customerData: formData });
     }
   };
 
   const handlePayment = async (withHelper = false) => {
     try {
       clearPaymentError();
+
       const paymentPrice = withHelper ? currentHelperPrice : currentPrice;
       const sessionId = await processPayment(bookingId, paymentPrice, i18n.language, withHelper);
       console.log('Payment processing completed, sessionId:', sessionId);
@@ -54,15 +131,6 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
 
   const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent, fullResult) => {
     console.log('Promo code applied in QuoteActions:', { newPrice, newHelperPrice, discountPercent, fullResult });
-
-    // ADDED: Force component re-render by updating a dummy state
-    console.log('Current state before promo:', {
-      currentPrice,
-      currentHelperPrice,
-      originalPrice: price,
-      originalHelperPrice: helperPrice,
-      discount
-    });
 
     // Force a re-render by updating component state
     setTimeout(() => {
@@ -76,15 +144,12 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         }, 1000);
       }
 
-      // ADDED: Force a re-render to ensure UI updates
       console.log('State after promo should be applied:', {
         currentPrice,
         currentHelperPrice,
         discount
       });
     }, 100);
-
-    // The usePromoCode hook should automatically update the currentPrice values
   };
 
   return (
@@ -99,6 +164,25 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
             </h4>
           </div>
           <div className="section-content">
+            {/* NEW: Show inquiry status if sent */}
+            {inquirySent && (
+              <div className="inquiry-sent-notice" style={{
+                background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
+                border: '2px solid #10b981',
+                borderRadius: '12px',
+                padding: '1rem',
+                marginBottom: '1rem',
+                color: '#065f46',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}>
+                <span style={{ fontSize: '1.25rem' }}>✅</span>
+                <span>Your inquiry has been sent to our team for personalized assistance!</span>
+              </div>
+            )}
+
             <BookingForm
               bookingId={bookingId}
               onSubmit={handleContactSubmitted}
@@ -118,6 +202,7 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
             </h4>
           </div>
           <div className="section-content">
+
             <EnhancedPricingSection
               originalPrice={price}
               originalHelperPrice={helperPrice}
@@ -132,7 +217,7 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
               onPromoCodeApplied={handlePromoCodeApplied}
               isApplyingPromo={isApplyingPromo}
               promoError={promoError}
-              applyPromoCodeFunc={applyPromoCode} // FIXED: Pass the function correctly
+              applyPromoCodeFunc={applyPromoCode}
             />
           </div>
         </div>
