@@ -1,4 +1,4 @@
-// Updated BookingForm.js with Manager Inquiry Integration
+// Updated BookingForm.js with Manager Inquiry Integration and Newsletter Toggle
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -18,9 +18,26 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
         handleChange,
         handleBlur,
         handleSubmit: originalHandleSubmit,
+        setFormValues
     } = useBookingForm(bookingId, null); // We'll handle onSubmit ourselves
 
+    // Initialize newsletter consent as true (default checked)
+    React.useEffect(() => {
+        setFormValues(prev => ({
+            ...prev,
+            newsletterConsent: true
+        }));
+    }, [setFormValues]);
+
     if (!isVisible) return null;
+
+    const handleNewsletterToggle = (e) => {
+        const checked = e.target.checked;
+        setFormValues(prev => ({
+            ...prev,
+            newsletterConsent: checked
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,8 +67,11 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                     throw new Error(validation.errors.join(', '));
                 }
 
-                // Format customer data
-                const customerData = managerInquiryService.formatCustomerData(formValues);
+                // Format customer data including newsletter consent
+                const customerData = {
+                    ...managerInquiryService.formatCustomerData(formValues),
+                    newsletterConsent: formValues.newsletterConsent || false
+                };
 
                 // Send inquiry (we'll pass default prices for now, they'll be updated in QuoteActions)
                 await managerInquiryService.sendCustomerInquiry(
@@ -70,9 +90,12 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                 // Don't block the main flow - inquiry is supplementary
             }
 
-            // Call the parent's onSubmit with form data
+            // Call the parent's onSubmit with form data including newsletter consent
             if (onSubmit) {
-                onSubmit(formValues);
+                onSubmit({
+                    ...formValues,
+                    newsletterConsent: formValues.newsletterConsent || false
+                });
             }
 
         } catch (error) {
@@ -218,6 +241,32 @@ const BookingForm = ({ bookingId, onSubmit, isVisible = true }) => {
                     required
                   />
                   {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+              </div>
+
+              {/* Newsletter Consent Toggle */}
+              <div className="form-group newsletter-consent-group">
+                  <div className="newsletter-toggle-container">
+                      <label className="newsletter-toggle" htmlFor="newsletterConsent">
+                          <input
+                            type="checkbox"
+                            id="newsletterConsent"
+                            name="newsletterConsent"
+                            checked={formValues.newsletterConsent || false}
+                            onChange={handleNewsletterToggle}
+                            disabled={isSubmitting || inquiryStatus.sending}
+                            className="newsletter-checkbox"
+                          />
+                          <span className="newsletter-toggle-slider"></span>
+                          <div className="newsletter-content">
+                              <span className="newsletter-title">
+                                  {t('booking.newsletterTitle', 'Get Better Deals & Updates')}
+                              </span>
+                              <span className="newsletter-description">
+                                  {t('booking.newsletterDescription', 'Receive exclusive discounts, moving tips, and special offers. Unsubscribe anytime.')}
+                              </span>
+                          </div>
+                      </label>
+                  </div>
               </div>
 
               {/* Submit */}

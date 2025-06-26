@@ -1,4 +1,4 @@
-// src/features/booking/hooks/useBookingForm.js - Fixed without any conditional hooks
+// src/features/booking/hooks/useBookingForm.js - Fixed with newsletter consent
 import { useState, useCallback, useEffect } from 'react';
 import { bookingService } from '../services/bookingService';
 
@@ -13,7 +13,8 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
     const [formValues, setFormValues] = useState({
         name: '',
         phone: '',
-        email: ''
+        email: '',
+        newsletterConsent: true // Default to true (checked)
     });
 
     const [errors, setErrors] = useState({});
@@ -41,6 +42,10 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
                 if (!emailRegex.test(value.trim())) return 'Please enter a valid email address';
                 return null;
 
+            case 'newsletterConsent':
+                // Newsletter consent is optional, no validation needed
+                return null;
+
             default:
                 return null;
         }
@@ -50,7 +55,8 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
     const validateForm = useCallback(() => {
         const newErrors = {};
 
-        Object.keys(formValues).forEach(field => {
+        // Only validate required fields
+        ['name', 'phone', 'email'].forEach(field => {
             const error = validateField(field, formValues[field]);
             if (error) {
                 newErrors[field] = error;
@@ -80,7 +86,8 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
             hasNoErrors,
             valid,
             formValues,
-            formErrors
+            formErrors,
+            newsletterConsent: formValues.newsletterConsent
         });
 
         return valid;
@@ -88,13 +95,16 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
 
     // Handle input change
     const handleChange = useCallback((e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
 
-        console.log('Field changed:', { name, value });
+        // Handle different input types
+        const inputValue = type === 'checkbox' ? checked : value;
+
+        console.log('Field changed:', { name, value: inputValue, type });
 
         setFormValues(prev => ({
             ...prev,
-            [name]: value
+            [name]: inputValue
         }));
 
         // Clear error for this field when user starts typing
@@ -122,13 +132,15 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
             [name]: true
         }));
 
-        // Validate field on blur
-        const error = validateField(name, value);
-        if (error) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: error
-            }));
+        // Validate field on blur (skip newsletter consent)
+        if (name !== 'newsletterConsent') {
+            const error = validateField(name, value);
+            if (error) {
+                setErrors(prev => ({
+                    ...prev,
+                    [name]: error
+                }));
+            }
         }
     }, [validateField]);
 
@@ -163,13 +175,26 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
             // Only call booking service if we have a valid bookingId
             if (bookingId) {
                 console.log('Updating contact info for booking:', bookingId);
-                await bookingService.updateContactInfo(bookingId, formValues);
+
+                // Include newsletter consent in the data sent to backend
+                const contactData = {
+                    name: formValues.name,
+                    phone: formValues.phone,
+                    email: formValues.email,
+                    newsletterConsent: formValues.newsletterConsent || false
+                };
+
+                await bookingService.updateContactInfo(bookingId, contactData);
             }
 
             console.log('Form submission successful');
 
             if (onSubmitSuccess) {
-                onSubmitSuccess(formValues);
+                // Pass all form values including newsletter consent
+                onSubmitSuccess({
+                    ...formValues,
+                    newsletterConsent: formValues.newsletterConsent || false
+                });
             }
         } catch (error) {
             console.error('Error updating contact information:', error);
@@ -191,7 +216,7 @@ export const useBookingForm = (bookingId, onSubmitSuccess) => {
         const newErrors = {};
 
         Object.keys(touched).forEach(field => {
-            if (touched[field]) {
+            if (touched[field] && field !== 'newsletterConsent') { // Skip newsletter validation
                 const error = validateField(field, formValues[field]);
                 if (error) {
                     newErrors[field] = error;
