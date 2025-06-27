@@ -1,4 +1,4 @@
-// src/services/managerInquiryService.js
+// src/services/managerInquiryService.js - Updated with newsletter consent
 import config from 'config/config';
 
 /**
@@ -38,8 +38,6 @@ export const managerInquiryService = {
 
       const bookingData = await bookingResponse.json();
 
-
-
       if (!bookingData.booking) {
         throw new Error('Failed to get booking details');
       }
@@ -51,6 +49,7 @@ export const managerInquiryService = {
         customerName: customerData.name,
         customerPhone: customerData.phone,
         customerEmail: customerData.email || '', // Make email optional
+        newsletterConsent: customerData.newsletterConsent || false, // Include newsletter consent
         startLocation: booking.startLocation,
         destinationLocation: booking.destinationLocation,
         moveDate: booking.date,
@@ -67,7 +66,7 @@ export const managerInquiryService = {
         },
         estimatedPrice: booking.price,
         estimatedPriceWithHelper: booking.helperprice,
-        additionalNotes: `Customer has completed the quote process and is ready to proceed with payment. Booking ID: ${bookingId}`
+        additionalNotes: `Customer has completed the quote process and is ready to proceed with payment. Booking ID: ${bookingId}. Newsletter consent: ${customerData.newsletterConsent ? 'Yes' : 'No'}`
       };
 
       console.log('ManagerInquiryService: Prepared inquiry data:', inquiryData);
@@ -116,6 +115,7 @@ export const managerInquiryService = {
     try {
       const inquiryData = {
         ...customerData,
+        newsletterConsent: customerData.newsletterConsent || false,
         bookingId,
         currentPrice,
         currentHelperPrice,
@@ -148,6 +148,7 @@ export const managerInquiryService = {
       name: rawCustomerData.name?.trim() || '',
       phone: rawCustomerData.phone?.trim() || '',
       email: rawCustomerData.email?.trim() || '',
+      newsletterConsent: Boolean(rawCustomerData.newsletterConsent), // Ensure boolean
       submittedAt: new Date().toISOString()
     };
   },
@@ -176,10 +177,106 @@ export const managerInquiryService = {
       }
     }
 
+    // Newsletter consent is optional and doesn't need validation
+    console.log('Newsletter consent validation:', {
+      provided: customerData.newsletterConsent,
+      type: typeof customerData.newsletterConsent
+    });
+
     return {
       isValid: errors.length === 0,
       errors
     };
+  },
+
+  /**
+   * Handle newsletter subscription separately if needed
+   * @param {Object} customerData - Customer data with newsletter consent
+   * @returns {Promise<Object>} Newsletter subscription result
+   */
+  async handleNewsletterSubscription(customerData) {
+    try {
+      if (!customerData.newsletterConsent) {
+        console.log('Customer opted out of newsletter');
+        return { success: true, message: 'Customer opted out of newsletter' };
+      }
+
+      // If you have a separate newsletter API endpoint, call it here
+      // For now, we'll just log the subscription
+      console.log('Customer opted in for newsletter:', {
+        email: customerData.email,
+        name: customerData.name,
+        phone: customerData.phone,
+        timestamp: new Date().toISOString()
+      });
+
+      // You could integrate with services like Mailchimp, SendGrid, etc.
+      // const newsletterResponse = await fetch(`${config.api.baseUrl}/api/newsletter/subscribe`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     email: customerData.email,
+      //     name: customerData.name,
+      //     source: 'booking_form',
+      //     timestamp: new Date().toISOString()
+      //   })
+      // });
+
+      return {
+        success: true,
+        message: 'Customer subscribed to newsletter'
+      };
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      // Don't fail the main process for newsletter subscription errors
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  },
+
+  /**
+   * Send customer data with newsletter preferences to the backend
+   * @param {Object} customerData - Complete customer data
+   * @param {string} bookingId - Associated booking ID
+   * @returns {Promise<Object>} Combined result
+   */
+  async processCustomerInquiry(customerData, bookingId) {
+    try {
+      // Validate the customer data
+      const validation = this.validateCustomerData(customerData);
+      if (!validation.isValid) {
+        throw new Error(`Validation failed: ${validation.errors.join(', ')}`);
+      }
+
+      // Format the customer data
+      const formattedData = this.formatCustomerData(customerData);
+
+      // Send the main inquiry
+      const inquiryResult = await this.sendCustomerInquiry(
+        formattedData,
+        bookingId,
+        0, // Default price, will be updated
+        0  // Default helper price, will be updated
+      );
+
+      // Handle newsletter subscription if opted in
+      let newsletterResult = { success: true, message: 'No newsletter action needed' };
+      if (formattedData.newsletterConsent) {
+        newsletterResult = await this.handleNewsletterSubscription(formattedData);
+      }
+
+      return {
+        inquiry: inquiryResult,
+        newsletter: newsletterResult,
+        success: inquiryResult.success,
+        message: inquiryResult.message
+      };
+    } catch (error) {
+      console.error('Error processing customer inquiry:', error);
+      throw error;
+    }
   }
 };
 

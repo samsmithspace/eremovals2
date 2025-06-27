@@ -1,4 +1,4 @@
-/* Booking Form - Minimal and Professional */
+/* Booking Form - Minimal and Professional + Newsletter Toggle */
 
 /* Main Container */
 .booking-form-clean {
@@ -68,7 +68,6 @@
     flex-direction: column;
     gap: 20px;
     padding: 0 24px;
-
 }
 
 /* Form Group */
@@ -143,6 +142,173 @@
     content: '⚠️';
     font-size: 14px;
     flex-shrink: 0;
+}
+
+/* Newsletter Consent Toggle - Enhanced Modern Design */
+.newsletter-consent-group {
+    margin: 1.5rem 0;
+    padding: 0;
+}
+
+.newsletter-toggle-container {
+    background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+    border: 2px solid #e879f9;
+    border-radius: 16px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newsletter-toggle-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #e879f9, #c084fc, #a855f7);
+    border-radius: 16px 16px 0 0;
+}
+
+.newsletter-toggle-container:hover {
+    border-color: #c084fc;
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232, 121, 249, 0.15);
+}
+
+.newsletter-toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hide default checkbox */
+.newsletter-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Custom Toggle Slider */
+.newsletter-toggle-slider {
+    position: relative;
+    width: 56px;
+    height: 32px;
+    background: #d1d5db;
+    border-radius: 32px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    margin-top: 2px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.newsletter-toggle-slider::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Checked state */
+.newsletter-checkbox:checked + .newsletter-toggle-slider {
+    background: linear-gradient(135deg, #e879f9, #c084fc);
+    box-shadow: 0 4px 12px rgba(232, 121, 249, 0.3);
+}
+
+.newsletter-checkbox:checked + .newsletter-toggle-slider::before {
+    transform: translateX(24px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Toggle icon content */
+.newsletter-toggle-slider::after {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.newsletter-checkbox:checked + .newsletter-toggle-slider::after {
+    opacity: 1;
+    right: 32px;
+}
+
+/* Newsletter Content */
+.newsletter-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.newsletter-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #7c3aed;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.newsletter-title::before {
+    content: '💌';
+    font-size: 1.125rem;
+}
+
+.newsletter-description {
+    font-size: 0.875rem;
+    color: #5b21b6;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Hover effects */
+.newsletter-toggle:hover .newsletter-title {
+    color: #6b46c1;
+}
+
+.newsletter-toggle:hover .newsletter-description {
+    opacity: 1;
+    color: #7c3aed;
+}
+
+/* Focus state for accessibility */
+.newsletter-checkbox:focus + .newsletter-toggle-slider {
+    outline: 2px solid #c084fc;
+    outline-offset: 2px;
+}
+
+/* Disabled state */
+.newsletter-checkbox:disabled + .newsletter-toggle-slider {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f3f4f6;
+}
+
+.newsletter-toggle:has(.newsletter-checkbox:disabled) {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.newsletter-toggle:has(.newsletter-checkbox:disabled) .newsletter-content {
+    opacity: 0.6;
 }
 
 /* Submit Button */
@@ -255,7 +421,29 @@
     font-size: 16px;
 }
 
-/* Responsive */
+/* Contact Form Description */
+.contact-form-description {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-left: 4px solid #fa7731;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 20px;
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.4;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.contact-form-description span:first-child {
+    font-size: 18px;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .booking-form-clean .contact-form-clean {
         padding: 0 20px;
@@ -285,6 +473,37 @@
         grid-template-columns: 1fr;
         gap: 8px;
     }
+
+    .contact-form-description {
+        margin: 16px;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    /* Newsletter toggle mobile responsive */
+    .newsletter-toggle-container {
+        padding: 1rem;
+    }
+
+    .newsletter-toggle {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+
+    .newsletter-toggle-slider {
+        align-self: flex-start;
+        margin-top: 0;
+    }
+
+    .newsletter-title {
+        font-size: 0.95rem;
+    }
+
+    .newsletter-description {
+        font-size: 0.8rem;
+        color: #5b21b6;
+    }
 }
 
 @media (max-width: 480px) {
@@ -308,12 +527,51 @@
     .booking-form-clean .alternative-contact-clean {
         padding: 16px;
     }
+
+    .contact-form-description {
+        margin: 12px;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    /* Newsletter toggle for very small screens */
+    .newsletter-toggle-container {
+        padding: 0.875rem;
+        border-radius: 12px;
+    }
+
+    .newsletter-toggle-slider {
+        width: 48px;
+        height: 28px;
+    }
+
+    .newsletter-toggle-slider::before {
+        width: 20px;
+        height: 20px;
+        top: 4px;
+        left: 4px;
+    }
+
+    .newsletter-checkbox:checked + .newsletter-toggle-slider::before {
+        transform: translateX(20px);
+    }
+
+    .newsletter-title {
+        font-size: 0.9rem;
+    }
+
+    .newsletter-description {
+        font-size: 0.75rem;
+        line-height: 1.3;
+        color: #5b21b6;
+    }
 }
 
 /* Accessibility */
 .booking-form-clean .form-control:focus-visible,
 .booking-form-clean .submit-button-clean:focus-visible,
-.booking-form-clean .contact-link:focus-visible {
+.booking-form-clean .contact-link:focus-visible,
+.newsletter-checkbox:focus-visible + .newsletter-toggle-slider {
     outline: 2px solid #2563eb;
     outline-offset: 2px;
 }
@@ -322,7 +580,69 @@
 @media (prefers-reduced-motion: reduce) {
     .submit-button-clean,
     .form-control,
-    .contact-link {
+    .contact-link,
+    .newsletter-toggle-container,
+    .newsletter-toggle-slider,
+    .newsletter-toggle-slider::before {
         transition: none;
+    }
+
+    .newsletter-toggle-container:hover {
+        transform: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .newsletter-toggle-container {
+        border: 3px solid #7c3aed;
+        background: white;
+    }
+
+    .newsletter-toggle-slider {
+        border: 2px solid #374151;
+    }
+
+    .newsletter-checkbox:checked + .newsletter-toggle-slider {
+        background: #7c3aed;
+        border-color: #7c3aed;
+    }
+
+    .newsletter-title {
+        color: #000000;
+        font-weight: 700;
+    }
+
+    .newsletter-description {
+        color: #1f2937;
+        font-weight: 600;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .newsletter-toggle-container {
+        background: linear-gradient(135deg, #1f1b24 0%, #2d1b69 100%);
+        border-color: #8b5cf6;
+    }
+
+    .newsletter-title {
+        color: #c4b5fd;
+    }
+
+    .newsletter-description {
+        color: #a78bfa;
+    }
+
+    .newsletter-toggle:hover .newsletter-description {
+        color: #c4b5fd;
+    }
+
+    .newsletter-toggle-slider {
+        background: #4b5563;
+    }
+
+    .newsletter-checkbox:checked + .newsletter-toggle-slider {
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
     }
 }

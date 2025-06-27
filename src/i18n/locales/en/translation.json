@@ -225,7 +225,9 @@
     "paymentCancelled": "Payment Cancelled",
     "paymentCancelledMessage": "Your payment has been canceled.",
     "emailInstructionsMessage": "We have emailed you with further instructions. If you wish to continue placing your order or amend it, please use the link provided in the email.",
-    "questionsContactMessage": "If you have any questions, feel free to reach out to our support team."
+    "questionsContactMessage": "If you have any questions, feel free to reach out to our support team.",
+    "newsletterTitle": "Want the Best Offer? We’ll Be in Touch",
+    "newsletterDescription":"Want the best deal? Switch this on and we’ll get in touch with our most competitive quote and special offers—just for you!"
   },
   "locations": {
 
