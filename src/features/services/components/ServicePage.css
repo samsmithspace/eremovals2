@@ -1,0 +1,835 @@
+/* src/features/services/components/ServicePage.css */
+
+/* Scope all styles to service page to avoid affecting other pages */
+.service-page {
+    min-height: 100vh;
+    padding-top: 80px; /* Account for fixed header */
+    font-family: inherit;
+    line-height: inherit;
+}
+
+/* Reset any potential conflicts within service page */
+.service-page * {
+    box-sizing: border-box;
+}
+
+.service-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Hero Section - Scoped to service page */
+.service-page .service-hero {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.service-page .service-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.service-page .service-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(250, 119, 49, 0.8) 0%, rgba(102, 126, 234, 0.8) 100%);
+    z-index: 2;
+}
+
+.service-page .service-hero-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.service-page .service-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.service-page .service-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.service-page .service-subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.service-page .service-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    opacity: 0.9;
+}
+
+.service-page .service-hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.service-page .cta-button,
+.service-page .call-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.service-page .cta-button {
+    background: linear-gradient(135deg, #fa7731, #bf3e03);
+    border: none;
+    color: white;
+    box-shadow: 0 8px 25px rgba(250, 119, 49, 0.4);
+}
+
+.service-page .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(250, 119, 49, 0.5);
+}
+
+.service-page .call-button {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.service-page .call-button:hover {
+    background: white;
+    color: #fa7731;
+    transform: translateY(-3px);
+}
+
+.service-page .service-hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.service-page .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.service-page .stat-icon {
+    color: #ffd700;
+    font-size: 1.2rem;
+}
+
+.service-page .stat-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffd700;
+}
+
+/* Section Headers - Scoped */
+.service-page .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.service-page .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.service-page .section-header p {
+    font-size: 1.2rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Features Section - Scoped */
+.service-page .service-features {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.service-page .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.service-page .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.service-page .feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.service-page .feature-icon {
+    color: #fa7731;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.service-page .feature-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* Process Section - Scoped */
+.service-page .service-process {
+    padding: 6rem 0;
+    background: white;
+}
+
+.service-page .process-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.service-page .process-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.service-page .process-step:last-child {
+    margin-bottom: 0;
+}
+
+.service-page .process-number {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fa7731, #bf3e03);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(250, 119, 49, 0.3);
+}
+
+.service-page .process-content {
+    flex: 1;
+    padding-top: 0.5rem;
+}
+
+.service-page .process-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.service-page .process-description {
+    font-size: 1.1rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.service-page .process-connector {
+    position: absolute;
+    left: 29px;
+    top: 60px;
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(180deg, #fa7731, rgba(250, 119, 49, 0.3));
+}
+
+/* Benefits Section - Scoped */
+.service-page .service-benefits {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.service-page .benefits-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.service-page .benefits-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2rem;
+}
+
+.service-page .benefits-list {
+    margin-bottom: 3rem;
+}
+
+.service-page .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.service-page .benefit-icon {
+    color: #fa7731;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.service-page .pricing-info {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.service-page .price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.service-page .price-label {
+    font-size: 1rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.service-page .price-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fa7731;
+}
+
+.service-page .price-description {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.service-page .benefits-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service-page .benefits-placeholder {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}
+
+.service-page .benefits-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.service-page .benefits-placeholder h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.service-page .benefits-placeholder p {
+    color: #64748b;
+    margin: 0;
+}
+
+/* Testimonials Section - Scoped */
+.service-page .service-testimonials {
+    padding: 6rem 0;
+    background: white;
+}
+
+.service-page .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.service-page .testimonial-card {
+    background: #f8fafc;
+    padding: 2rem;
+    border-radius: 16px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.service-page .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.service-page .quote-icon {
+    color: #fa7731;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.service-page .testimonial-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #374151;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.service-page .testimonial-rating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.service-page .star-filled {
+    color: #fbbf24;
+    font-size: 1.2rem;
+}
+
+.service-page .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.service-page .author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.service-page .author-name {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.service-page .author-location {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* CTA Section - Scoped */
+.service-page .service-cta {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+    color: white;
+    text-align: center;
+}
+
+.service-page .cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.service-page .cta-content p {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.service-page .cta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.service-page .cta-primary {
+    padding: 1.25rem 3rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #fa7731, #bf3e03);
+    border: none;
+    color: white;
+    box-shadow: 0 8px 25px rgba(250, 119, 49, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.service-page .cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(250, 119, 49, 0.5);
+}
+
+.service-page .cta-contact-options {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.service-page .contact-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.service-page .contact-option:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.service-page .contact-icon {
+    font-size: 1.5rem;
+    color: #fa7731;
+}
+
+.service-page .contact-icon.whatsapp {
+    color: #25d366;
+}
+
+.service-page .contact-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.service-page .contact-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 0.25rem;
+}
+
+.service-page .contact-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.service-page .cta-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.service-page .guarantee-icon {
+    color: #10b981;
+    font-size: 1.2rem;
+}
+
+/* Error State - Scoped */
+.service-page .service-page-error {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.service-page .service-page-error h1 {
+    font-size: 2.5rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.service-page .service-page-error p {
+    font-size: 1.2rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+/* Responsive Design - Scoped */
+@media (max-width: 1024px) {
+    .service-page .service-title {
+        font-size: 3rem;
+    }
+
+    .service-page .benefits-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .service-page .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .service-page .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-page {
+        padding-top: 70px;
+    }
+
+    .service-page .service-hero {
+        min-height: 60vh;
+    }
+
+    .service-page .service-hero-content {
+        padding: 3rem 1rem;
+    }
+
+    .service-page .service-title {
+        font-size: 2.5rem;
+    }
+
+    .service-page .service-subtitle {
+        font-size: 1.3rem;
+    }
+
+    .service-page .service-description {
+        font-size: 1.1rem;
+    }
+
+    .service-page .service-hero-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .service-page .cta-button,
+    .service-page .call-button {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .service-page .service-hero-stats {
+        gap: 1.5rem;
+        flex-direction: column;
+    }
+
+    .service-page .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .service-page .section-header p {
+        font-size: 1.1rem;
+    }
+
+    .service-page .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .service-page .feature-item {
+        padding: 1.25rem;
+    }
+
+    .service-page .process-step {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .service-page .process-connector {
+        display: none;
+    }
+
+    .service-page .benefits-text h2 {
+        font-size: 2rem;
+    }
+
+    .service-page .price-amount {
+        font-size: 2rem;
+    }
+
+    .service-page .benefits-placeholder {
+        padding: 2rem;
+    }
+
+    .service-page .testimonial-card {
+        padding: 1.5rem;
+    }
+
+    .service-page .cta-content h2 {
+        font-size: 2rem;
+    }
+
+    .service-page .cta-contact-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .service-page .contact-option {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-page .service-hero-content {
+        padding: 2rem 1rem;
+    }
+
+    .service-page .service-title {
+        font-size: 2rem;
+    }
+
+    .service-page .service-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .service-page .service-icon {
+        font-size: 3rem;
+    }
+
+    .service-page .process-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .service-page .process-title {
+        font-size: 1.25rem;
+    }
+
+    .service-page .benefits-icon {
+        font-size: 3rem;
+    }
+
+    .service-page .cta-primary {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Accessibility - Scoped */
+@media (prefers-reduced-motion: reduce) {
+    .service-page .feature-item,
+    .service-page .testimonial-card,
+    .service-page .cta-button,
+    .service-page .call-button,
+    .service-page .contact-option {
+        transition: none;
+    }
+
+    .service-page .feature-item:hover,
+    .service-page .testimonial-card:hover,
+    .service-page .cta-button:hover,
+    .service-page .call-button:hover,
+    .service-page .contact-option:hover {
+        transform: none;
+    }
+}
+
+/* Focus styles for accessibility - Scoped */
+.service-page .cta-button:focus-visible,
+.service-page .call-button:focus-visible,
+.service-page .contact-option:focus-visible {
+    outline: 3px solid #ffd700;
+    outline-offset: 2px;
+}
+
+/* High contrast mode - Scoped */
+@media (prefers-contrast: high) {
+    .service-page .feature-item,
+    .service-page .testimonial-card,
+    .service-page .pricing-info {
+        border: 2px solid #1e293b;
+    }
+
+    .service-page .service-hero-overlay {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Print styles - Scoped */
+@media print {
+    .service-page {
+        background: white !important;
+        color: black !important;
+    }
+
+    .service-page .service-hero {
+        background: white !important;
+        color: black !important;
+    }
+
+    .service-page .service-hero-overlay {
+        display: none !important;
+    }
+
+    .service-page .service-cta {
+        background: white !important;
+        color: black !important;
+    }
+
+    .service-page .cta-button,
+    .service-page .call-button {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+    }
+}

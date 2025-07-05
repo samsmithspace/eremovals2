@@ -85,11 +85,11 @@ const Footer = ({ socialIcons = [] }) => {
     ];
 
     const serviceLinks = [
-        { key: 'domesticRemovals', path: '/services/domestic' },
-        { key: 'officeRemovals', path: '/services/office' },
-        { key: 'packingServices', path: '/services/packing' },
-        { key: 'storage', path: '/services/storage' },
-        { key: 'internationalRemovals', path: '/services/international' }
+        { key: 'domesticRemovals', path: '/services/domestic', title: 'Domestic Removals' },
+        { key: 'officeRemovals', path: '/services/office', title: 'Office Removals' },
+        { key: 'packingServices', path: '/services/packing', title: 'Packing Services' },
+        { key: 'storage', path: '/services/storage', title: 'Storage Solutions' },
+        { key: 'internationalRemovals', path: '/services/international', title: 'International Removals' }
     ];
 
     const companyLinks = [
