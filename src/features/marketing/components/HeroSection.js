@@ -1,7 +1,7 @@
-// src/features/marketing/components/HeroSection.js
+// src/features/marketing/components/HeroSection.js - Fixed navigation
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { FaPhone, FaCalculator, FaShieldAlt, FaStar, FaHeart } from 'react-icons/fa';
 import { useScrollPosition } from 'common/hooks/useScrollPosition';
 import './HeroSection.css';
@@ -10,8 +10,27 @@ const HeroSection = () => {
   const { lang } = useParams();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [slideIn, setSlideIn] = useState(false);
   const scrollPosition = useScrollPosition();
+
+  // Get current language - handle both /en routes and / root route
+  const getCurrentLanguage = () => {
+    // If lang from params exists, use it
+    if (lang && ['en', 'zh'].includes(lang)) {
+      return lang;
+    }
+
+    // If on root path, check current path
+    if (location.pathname === '/') {
+      return 'en'; // Default to English for root path
+    }
+
+    // Fallback to current i18n language or default to English
+    return i18n.language || 'en';
+  };
+
+  const currentLang = getCurrentLanguage();
 
   useEffect(() => {
     const timer = setTimeout(() => setSlideIn(true), 500);
@@ -20,23 +39,37 @@ const HeroSection = () => {
 
   useEffect(() => {
     // Set language based on URL parameter
-    if (lang && i18n.language !== lang) {
-      i18n.changeLanguage(lang);
+    if (lang && ['en', 'zh'].includes(lang)) {
+      if (i18n.language !== lang) {
+        i18n.changeLanguage(lang);
+      }
     }
   }, [lang, i18n]);
 
   const handleServiceNavigation = (serviceType, locationType = null) => {
+    console.log('Navigation triggered:', { serviceType, locationType, currentLang, currentPath: location.pathname });
+
     if (locationType) {
-      navigate(`/${lang}/location`, {
+      // Navigate to location selection with proper language prefix
+      const targetPath = `/${currentLang}/location`;
+      console.log('Navigating to:', targetPath);
+
+      navigate(targetPath, {
         state: { locationType: { locationType } }
       });
     } else {
-      navigate(`/${lang}/contact`);
+      // Navigate to contact with proper language prefix
+      const targetPath = `/${currentLang}/contact`;
+      console.log('Navigating to:', targetPath);
+
+      navigate(targetPath);
     }
   };
 
   const handleGetQuote = () => {
-    navigate(`/${lang}/contact`);
+    const targetPath = `/${currentLang}/contact`;
+    console.log('Get quote - navigating to:', targetPath);
+    navigate(targetPath);
   };
 
   return (
