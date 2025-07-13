@@ -1,5 +1,8 @@
 /* Simplified QuoteActions.css - Maintains all functionality with cleaner code */
 
+
+
+
 /* Base Variables and Animations */
 :root {
     --primary-orange: #fa7731;
@@ -20,25 +23,40 @@
     --radius-sm: 8px;
 }
 
+
+
+
 @keyframes slideInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+
+
+
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+
+
 
 @keyframes strikethroughAnimation {
     from { transform: translateY(-50%) scaleX(0); }
     to { transform: translateY(-50%) scaleX(1); }
 }
 
+
+
+
 @keyframes priceDiscountApplied {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
     50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
+
+
+
 
 @keyframes bounceIn {
     from, 20%, 40%, 60%, 80%, to { animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000); }
@@ -50,10 +68,16 @@
     to { opacity: 1; transform: scale3d(1, 1, 1); }
 }
 
+
+
+
 @keyframes successFlash {
     0% { left: -100%; }
     100% { left: 100%; }
 }
+
+
+
 
 /* Main Container */
 .quote-actions-optimized {
@@ -65,6 +89,9 @@
     gap: 2rem;
 }
 
+
+
+
 /* Section Containers */
 .section-container {
     background: white;
@@ -75,11 +102,17 @@
     animation: slideInUp 0.5s ease-out;
 }
 
+
+
+
 .section-container:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
     border-color: rgba(250, 119, 49, 0.2);
 }
+
+
+
 
 /* Section Headers - Unified Styles */
 .section-header {
@@ -91,9 +124,15 @@
     background: linear-gradient(135deg, var(--primary-orange) 0%, #ff9a66 100%);
 }
 
+
+
+
 .contact-section .section-header {
     background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
 }
+
+
+
 
 .section-header::before {
     content: '';
@@ -102,6 +141,9 @@
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='50' cy='50' r='4'/%3E%3Ccircle cx='10' cy='10' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
     opacity: 0.3;
 }
+
+
+
 
 .section-header h4 {
     font-size: 1.5rem;
@@ -114,10 +156,16 @@
     z-index: 1;
 }
 
+
+
+
 .section-icon {
     font-size: 1.75rem;
     opacity: 0.9;
 }
+
+
+
 
 /* Section Content */
 .section-content {
@@ -125,13 +173,22 @@
     position: relative;
 }
 
+
+
+
 .contact-section .section-content {
     padding: 1rem;
 }
 
+
+
+
 .payment-booking-section .section-content {
     padding: 2rem;
 }
+
+
+
 
 /* Price Display */
 .price-display {
@@ -146,11 +203,17 @@
     transition: all 0.3s ease;
 }
 
+
+
+
 .price-display.has-discount {
     background: linear-gradient(135deg, #f0fff4, var(--success-light));
     border-color: #16a34a;
     animation: priceDiscountApplied 0.5s ease-out;
 }
+
+
+
 
 .price-item {
     display: flex;
@@ -161,9 +224,15 @@
     transition: all 0.2s ease;
 }
 
+
+
+
 .price-item:last-child {
     border-bottom: none;
 }
+
+
+
 
 .price-item:hover {
     background: rgba(250, 119, 49, 0.02);
@@ -171,6 +240,9 @@
     padding: 1rem;
     border-radius: var(--radius-sm);
 }
+
+
+
 
 .price-label {
     font-weight: 600;
@@ -182,6 +254,9 @@
     gap: 0.5rem;
 }
 
+
+
+
 .price-value {
     display: flex;
     align-items: center;
@@ -190,6 +265,9 @@
     font-weight: bold;
     transition: all 0.3s ease;
 }
+
+
+
 
 .original-price {
     position: relative;
@@ -202,6 +280,9 @@
     opacity: 0.8;
     transition: all 0.3s ease;
 }
+
+
+
 
 .original-price::before {
     content: '';
@@ -216,6 +297,9 @@
     border-radius: 1px;
 }
 
+
+
+
 .current-price {
     color: var(--success-green);
     font-weight: 700;
@@ -224,6 +308,9 @@
     position: relative;
     transition: all 0.3s ease;
 }
+
+
+
 
 /* Discount Elements */
 .discount-badge {
@@ -242,10 +329,16 @@
     animation: bounceIn 0.5s ease-out 0.3s both;
 }
 
+
+
+
 .discount-badge::before {
     content: '🎉';
     font-size: 0.875rem;
 }
+
+
+
 
 .savings-indicator {
     display: flex;
@@ -264,10 +357,62 @@
     justify-content: center;
 }
 
+
+
+
 .savings-indicator::before {
     content: '💰';
     font-size: 1.125rem;
 }
+
+
+
+
+/* Market Comparison Indicator */
+.market-comparison-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+    border: 1px solid #3b82f6;
+    border-radius: var(--radius-md);
+    color: #1e40af;
+    font-weight: 600;
+    font-size: 0.95rem;
+    animation: slideInUp 0.4s ease-out 0.5s both;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.market-comparison-indicator::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+    animation: successFlash 2s ease-out infinite;
+}
+
+
+.market-icon {
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+
+.market-text {
+    line-height: 1.4;
+}
+
+
+
 
 /* Integrated Promotion Section */
 .promotion-section-integrated {
@@ -278,10 +423,16 @@
     margin: 0;
 }
 
+
+
+
 .promo-header-inline {
     margin-bottom: 1.5rem;
     text-align: center;
 }
+
+
+
 
 .promo-title {
     color: var(--primary-orange);
@@ -294,9 +445,15 @@
     gap: 0.5rem;
 }
 
+
+
+
 .promo-icon {
     font-size: 1.25rem;
 }
+
+
+
 
 .promo-description {
     color: #c05621;
@@ -304,6 +461,9 @@
     margin: 0;
     line-height: 1.4;
 }
+
+
+
 
 /* Promotion Code Overrides */
 .promotion-section-integrated .promotion-code-section {
@@ -315,13 +475,22 @@
     box-shadow: none;
 }
 
+
+
+
 .promotion-section-integrated .promo-header {
     display: none;
 }
 
+
+
+
 .promotion-section-integrated .promo-form {
     margin-top: 0;
 }
+
+
+
 
 .promotion-section-integrated .promo-input-group {
     display: flex;
@@ -329,9 +498,13 @@
     align-items: flex-end;
 }
 
+
+
+
 .promotion-section-integrated .promo-input {
     flex: 1;
 }
+
 
 .promotion-section-integrated .apply-button {
     flex-shrink: 0;
@@ -346,17 +519,26 @@
     transition: all 0.2s ease;
 }
 
+
+
+
 .promotion-section-integrated .apply-button:hover:not(:disabled) {
     background: linear-gradient(135deg, var(--primary-orange-hover), var(--primary-orange));
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(250, 119, 49, 0.3);
 }
 
+
+
+
 .promotion-section-integrated .apply-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
+
+
+
 
 /* Helper Explanation */
 .helper-explanation {
@@ -366,6 +548,9 @@
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+
+
 
 .helper-explanation::before {
     content: '';
@@ -377,12 +562,18 @@
     border-radius: 16px 16px 0 0;
 }
 
+
+
+
 .helper-header {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
+
+
+
 
 .helper-icon {
     width: 50px;
@@ -398,6 +589,9 @@
     flex-shrink: 0;
 }
 
+
+
+
 .helper-title {
     color: var(--text-primary);
     font-size: 1.5rem;
@@ -405,6 +599,9 @@
     margin: 0;
     line-height: 1.2;
 }
+
+
+
 
 .helper-description {
     color: var(--text-secondary);
@@ -414,12 +611,18 @@
     font-weight: 500;
 }
 
+
+
+
 .helper-benefits {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     margin-top: 1rem;
 }
+
+
+
 
 .benefit {
     display: flex;
@@ -437,6 +640,9 @@
     overflow: hidden;
 }
 
+
+
+
 .benefit::before {
     content: '';
     position: absolute;
@@ -448,6 +654,9 @@
     transition: left 0.5s;
 }
 
+
+
+
 .benefit:hover {
     border-color: var(--primary-blue);
     background: linear-gradient(135deg, #f7fafc, #ffffff);
@@ -455,9 +664,15 @@
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
 }
 
+
+
+
 .benefit:hover::before {
     left: 100%;
 }
+
+
+
 
 /* Payment Buttons */
 .payment-buttons {
@@ -466,6 +681,9 @@
     gap: 1.5rem;
     margin-top: 2rem;
 }
+
+
+
 
 .payment-button {
     display: flex;
@@ -484,6 +702,9 @@
     cursor: pointer;
 }
 
+
+
+
 .payment-button::before {
     content: '';
     position: absolute;
@@ -495,15 +716,24 @@
     transition: left 0.5s;
 }
 
+
+
+
 .payment-button:hover:not(:disabled)::before {
     left: 100%;
 }
+
+
+
 
 .payment-button.helper-option {
     background: linear-gradient(135deg, var(--primary-blue) 0%, #764ba2 100%);
     color: white;
     box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
 }
+
+
+
 
 .payment-button.helper-option:hover:not(:disabled) {
     background: linear-gradient(135deg, var(--primary-blue-hover) 0%, #6b46c1 100%);
@@ -512,11 +742,17 @@
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+
+
+
 .payment-button.main-option {
     background: linear-gradient(135deg, var(--primary-orange) 0%, #ff9a66 100%);
     color: white;
     box-shadow: 0 10px 25px rgba(250, 119, 49, 0.3);
 }
+
+
+
 
 .payment-button.main-option:hover:not(:disabled) {
     background: linear-gradient(135deg, var(--primary-orange-hover) 0%, var(--primary-orange) 100%);
@@ -525,6 +761,9 @@
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+
+
+
 .payment-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -532,10 +771,16 @@
     box-shadow: none !important;
 }
 
+
+
+
 .payment-button:disabled:hover {
     transform: none !important;
     background: linear-gradient(135deg, var(--text-muted), #718096) !important;
 }
+
+
+
 
 .payment-button-content {
     display: flex;
@@ -544,10 +789,16 @@
     flex: 1;
 }
 
+
+
+
 .payment-button-icon {
     font-size: 2rem;
     opacity: 0.9;
 }
+
+
+
 
 .payment-button-text {
     display: flex;
@@ -556,17 +807,26 @@
     gap: 0.25rem;
 }
 
+
+
+
 .payment-button-title {
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.2;
 }
 
+
+
+
 .payment-button-subtitle {
     font-size: 0.95rem;
     opacity: 0.8;
     font-weight: 500;
 }
+
+
+
 
 .payment-button-price {
     font-size: 1.5rem;
@@ -578,6 +838,9 @@
     backdrop-filter: blur(10px);
 }
 
+
+
+
 .payment-button-price.has-discount .original-button-price {
     display: block;
     font-size: 0.8em;
@@ -586,11 +849,17 @@
     margin-bottom: 0.25rem;
 }
 
+
+
+
 .payment-button-price.has-discount .discounted-button-price {
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     animation: slideInUp 0.3s ease-out;
 }
+
+
+
 
 /* Loading Spinner */
 .loading-spinner {
@@ -602,6 +871,9 @@
     animation: spin 1s linear infinite;
     margin-right: 0.75rem;
 }
+
+
+
 
 /* Security Notice */
 .security-notice {
@@ -618,6 +890,9 @@
     position: relative;
 }
 
+
+
+
 .security-notice::before {
     content: '';
     position: absolute;
@@ -629,11 +904,17 @@
     border-radius: 16px 16px 0 0;
 }
 
+
+
+
 .notice-icon {
     color: var(--success-green);
     font-size: 1.5rem;
     flex-shrink: 0;
 }
+
+
+
 
 .notice-text {
     color: #2f855a;
@@ -642,6 +923,9 @@
     margin: 0;
     font-weight: 600;
 }
+
+
+
 
 /* Contact Form Elements */
 .contact-form-description {
@@ -659,6 +943,9 @@
     gap: 0.5rem;
 }
 
+
+
+
 .security-notice-clean {
     background: #ecfdf5;
     border: 1px solid #bbf7d0;
@@ -672,11 +959,17 @@
     color: #166534;
 }
 
+
+
+
 .security-notice-clean .notice-icon {
     color: #16a34a;
     font-size: 1.125rem;
     flex-shrink: 0;
 }
+
+
+
 
 .alternative-contact-clean {
     background: var(--bg-light);
@@ -685,6 +978,9 @@
     margin-top: 1.5rem;
     border: 1px solid #e9ecef;
 }
+
+
+
 
 .alternative-contact-clean h4 {
     font-size: 1rem;
@@ -696,11 +992,17 @@
     gap: 0.5rem;
 }
 
+
+
+
 .contact-links {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
 }
+
+
+
 
 .contact-link {
     background: white;
@@ -719,6 +1021,9 @@
     gap: 0.25rem;
 }
 
+
+
+
 .contact-link:hover {
     border-color: #2563eb;
     background: #eff6ff;
@@ -726,9 +1031,15 @@
     color: #2563eb;
 }
 
+
+
+
 .contact-link span:first-child {
     font-size: 1rem;
 }
+
+
+
 
 .submit-button-clean {
     width: 100%;
@@ -749,10 +1060,16 @@
     min-height: 56px;
 }
 
+
+
+
 .submit-button-clean:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
 }
+
+
+
 
 .submit-button-clean:disabled {
     opacity: 0.6;
@@ -760,9 +1077,15 @@
     transform: none;
 }
 
+
+
+
 .submit-button-clean .button-icon {
     font-size: 1rem;
 }
+
+
+
 
 /* Price Comparison Elements */
 .price-comparison {
@@ -772,24 +1095,39 @@
     gap: 0.5rem;
 }
 
+
+
+
 .price-row {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
+
+
+
 .price-row.original {
     opacity: 0.8;
 }
+
+
+
 
 .price-row.discounted {
     font-size: 1.1em;
 }
 
+
+
+
 .promo-success-flash {
     position: relative;
     overflow: hidden;
 }
+
+
+
 
 .promo-success-flash::after {
     content: '';
@@ -802,6 +1140,9 @@
     animation: successFlash 0.8s ease-out;
 }
 
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .quote-actions-optimized {
@@ -809,10 +1150,16 @@
         gap: 1.5rem;
     }
 
+
+
+
     .section-header {
         padding: 1.25rem 1.5rem;
         border-radius: 16px 16px 0 0;
     }
+
+
+
 
     .section-header h4 {
         font-size: 1.25rem;
@@ -821,17 +1168,29 @@
         gap: 0.5rem;
     }
 
+
+
+
     .section-content {
         padding: 1.5rem;
     }
+
+
+
 
     .contact-section .section-content {
         padding: 0.5rem;
     }
 
+
+
+
     .helper-explanation {
         padding: 1.5rem;
     }
+
+
+
 
     .helper-header {
         flex-direction: column;
@@ -839,20 +1198,32 @@
         gap: 0.75rem;
     }
 
+
+
+
     .helper-icon {
         width: 45px;
         height: 45px;
         font-size: 1.25rem;
     }
 
+
+
+
     .helper-title {
         font-size: 1.25rem;
     }
+
+
+
 
     .helper-benefits {
         flex-direction: column;
         gap: 0.75rem;
     }
+
+
+
 
     .benefit {
         justify-content: center;
@@ -860,9 +1231,15 @@
         width: 100%;
     }
 
+
+
+
     .price-display {
         padding: 1.25rem;
     }
+
+
+
 
     .price-item {
         flex-direction: column;
@@ -871,6 +1248,9 @@
         padding: 0.75rem 0;
     }
 
+
+
+
     .price-value {
         flex-direction: column;
         align-items: flex-end;
@@ -878,23 +1258,38 @@
         font-size: 1.25rem;
     }
 
+
+
+
     .original-price {
         font-size: 1.1rem;
     }
 
+
+
+
     .current-price {
         font-size: 1.4rem;
     }
+
+
+
 
     .price-comparison {
         align-items: center;
         width: 100%;
     }
 
+
+
+
     .price-row {
         justify-content: center;
         width: 100%;
     }
+
+
+
 
     .payment-button {
         padding: 1.5rem;
@@ -902,16 +1297,25 @@
         font-size: 1.1rem;
     }
 
+
+
+
     .payment-button-content {
         flex-direction: column;
         text-align: center;
         gap: 0.75rem;
     }
 
+
+
+
     .payment-button-price {
         font-size: 1.25rem;
         padding: 0.5rem 0.75rem;
     }
+
+
+
 
     .security-notice {
         flex-direction: column;
@@ -919,9 +1323,15 @@
         padding: 1.25rem;
     }
 
+
+
+
     .section-container {
         border-radius: 16px;
     }
+
+
+
 
     .promotion-section-integrated .promo-input-group {
         flex-direction: column;
@@ -929,14 +1339,23 @@
         align-items: stretch;
     }
 
+
+
+
     .promotion-section-integrated .apply-button {
         width: 100%;
     }
+
+
+
 
     .contact-links {
         grid-template-columns: 1fr;
         gap: 0.5rem;
     }
+
+
+
 
     .contact-link {
         flex-direction: row;
@@ -944,59 +1363,109 @@
         padding: 0.75rem 1rem;
     }
 
+
+
+
     .alternative-contact-clean {
         padding: 1.25rem;
     }
+
+
+
 
     .discount-badge {
         font-size: 0.7rem;
         padding: 0.2rem 0.6rem;
     }
 
+
+
+
     .savings-indicator {
         font-size: 0.85rem;
         padding: 0.6rem 0.8rem;
         margin-top: 0.75rem;
     }
+
+
+    .market-comparison-indicator {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .market-icon {
+        font-size: 1rem;
+    }
 }
+
+
+
 
 @media (max-width: 480px) {
     .quote-actions-optimized {
         gap: 1rem;
     }
 
+
+
+
     .section-header {
         padding: 1rem 1.25rem;
         border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
 
+
+
+
     .section-header h4 {
         font-size: 1.125rem;
     }
+
+
+
 
     .section-content {
         padding: 1.25rem;
     }
 
+
+
+
     .contact-section .section-content {
         padding: 0.25rem;
     }
+
+
+
 
     .helper-explanation {
         padding: 1.25rem;
     }
 
+
+
+
     .helper-title {
         font-size: 1.125rem;
     }
+
+
+
 
     .helper-description {
         font-size: 1rem;
     }
 
+
+
+
     .price-display {
         padding: 1rem;
     }
+
+
+
 
     .price-item {
         flex-direction: column;
@@ -1005,22 +1474,37 @@
         text-align: center;
     }
 
+
+
+
     .price-label {
         font-size: 1.1rem;
         justify-content: center;
     }
 
+
+
+
     .price-value {
         font-size: 1.125rem;
     }
+
+
+
 
     .current-price {
         font-size: 1.25rem;
     }
 
+
+
+
     .original-price {
         font-size: 1rem;
     }
+
+
+
 
     .payment-button {
         padding: 1.25rem;
@@ -1028,13 +1512,22 @@
         font-size: 1rem;
     }
 
+
+
+
     .payment-button-title {
         font-size: 1.125rem;
     }
 
+
+
+
     .payment-button-price {
         font-size: 1.125rem;
     }
+
+
+
 
     .security-notice {
         padding: 1rem;
@@ -1043,14 +1536,30 @@
         gap: 0.5rem;
     }
 
+
+
+
     .section-container {
         border-radius: var(--radius-md);
     }
 
+
+
+
     .promotion-section-integrated {
         padding: 1.25rem;
     }
+
+
+    .market-comparison-indicator {
+        flex-direction: column;
+        gap: 0.25rem;
+        text-align: center;
+    }
 }
+
+
+
 
 /* Focus States for Accessibility */
 .payment-button:focus-visible,
@@ -1059,10 +1568,16 @@
     outline-offset: 2px;
 }
 
+
+
+
 .benefit:focus-visible {
     outline: 2px solid var(--primary-blue);
     outline-offset: 2px;
 }
+
+
+
 
 /* High Contrast Mode Support */
 @media (prefers-contrast: high) {
@@ -1073,43 +1588,77 @@
         border: 3px solid var(--text-primary);
     }
 
+
+
+
     .section-header {
         border-bottom: 2px solid #ffffff;
     }
+
+
+
 
     .payment-button {
         border: 3px solid white !important;
     }
 
+
+
+
     .promotion-section-integrated {
         border: 3px solid var(--primary-orange);
     }
 
+
+
+
     .benefit {
         border-width: 2px;
     }
+
+
+
 
     .original-price {
         text-decoration-color: #000000;
         color: #666666;
     }
 
+
+
+
     .current-price {
         color: #006600;
         text-shadow: none;
     }
+
+
+
 
     .discount-badge {
         background: #cc0000;
         border: 1px solid #000000;
     }
 
+
+
+
     .savings-indicator {
         border: 2px solid #006600;
         background: #e6ffe6;
         color: #000000;
     }
+
+
+    .market-comparison-indicator {
+        border: 2px solid #0066cc;
+        background: #e6f2ff;
+        color: #000033;
+    }
 }
+
+
+
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
@@ -1123,6 +1672,9 @@
         transition: none !important;
     }
 
+
+
+
     .section-container:hover,
     .payment-button:hover,
     .promotion-section-integrated .apply-button:hover,
@@ -1131,10 +1683,17 @@
         transform: none !important;
     }
 
+
+
+
     .payment-button::before,
-    .benefit::before {
+    .benefit::before,
+    .market-comparison-indicator::before {
         display: none;
     }
+
+
+
 
     .original-price::before,
     .promo-success-flash::after {
@@ -1142,16 +1701,26 @@
         transform: translateY(-50%) scaleX(1);
     }
 
+
+
+
     .discount-badge,
     .savings-indicator,
+    .market-comparison-indicator,
     .payment-button-price.has-discount .discounted-button-price {
         animation: none;
     }
+
+
+
 
     .price-display.has-discount {
         animation: none;
     }
 }
+
+
+
 
 /* Print Styles */
 @media print {
@@ -1160,16 +1729,25 @@
         color: black;
     }
 
+
+
+
     .section-container {
         border: 1px solid black;
         box-shadow: none;
         page-break-inside: avoid;
     }
 
+
+
+
     .section-header {
         background: #f0f0f0;
         color: black;
     }
+
+
+
 
     .payment-button,
     .promotion-section-integrated .apply-button {
@@ -1177,13 +1755,44 @@
         color: white;
     }
 
+
+
+
     .security-notice {
         background: #f0f0f0;
         border: 1px solid black;
     }
 
+
+
+
     .promotion-section-integrated {
         background: #f8f8f8;
         border: 1px solid black;
     }
+
+
+    .market-comparison-indicator {
+        background: #e6f2ff;
+        border: 1px solid black;
+        color: black;
+    }
+
+
+    .market-comparison-indicator::before {
+        display: none;
+    }
 }
+
+
+/* Additional styles for promo success animation on market comparison */
+.price-display.has-discount .market-comparison-indicator {
+    animation: bounceIn 0.6s ease-out 0.6s both;
+}
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-// Fixed QuoteActions.js with proper applyPromoCode destructuring
+// Fixed QuoteActions.js with market comparison feature
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -9,11 +9,17 @@ import { usePaymentProcessing } from '../../booking/hooks/usePaymentProcessing';
 import { usePromoCode } from '../hooks/usePromoCode';
 import './QuoteActions.css';
 
+
+
+
 const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   const { t, i18n } = useTranslation();
   const [showPricing, setShowPricing] = useState(false);
   const [customerData, setCustomerData] = useState(null); // Store customer data
   const [inquirySent, setInquirySent] = useState(false); // Track inquiry status
+
+
+
 
   const {
     processPayment,
@@ -21,6 +27,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     error: paymentError,
     clearError: clearPaymentError
   } = usePaymentProcessing(bookingId);
+
+
+
 
   const {
     currentPrice,
@@ -31,22 +40,40 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     error: promoError
   } = usePromoCode(bookingId, price, helperPrice);
 
+
+
+
   const showHelperOption = helperPrice && helperPrice > price;
+
+
+
 
   // NEW: Function to send customer inquiry to manager
   const sendCustomerInquiry = async (customerInfo) => {
     try {
       console.log('Sending customer inquiry to manager...');
 
+
+
+
       // Get booking details first
       const bookingResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/bookings/${bookingId}`);
       const bookingData = await bookingResponse.json();
+
+
+
 
       if (!bookingData.success) {
         throw new Error('Failed to get booking details');
       }
 
+
+
+
       const booking = bookingData.booking;
+
+
+
 
       // Prepare inquiry data matching your backend structure
       const inquiryData = {
@@ -72,7 +99,13 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         additionalNotes: 'Customer has completed the quote process and is ready to proceed with payment.'
       };
 
+
+
+
       console.log('Sending inquiry data:', inquiryData);
+
+
+
 
       // Send to your manager notification endpoint
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/manager/send-inquiry`, {
@@ -83,7 +116,13 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         body: JSON.stringify(inquiryData)
       });
 
+
+
+
       const result = await response.json();
+
+
+
 
       if (result.success) {
         console.log('Customer inquiry sent to manager successfully');
@@ -93,6 +132,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         throw new Error(result.error || 'Failed to send inquiry');
       }
 
+
+
+
     } catch (error) {
       console.error('Error sending customer inquiry:', error);
       // Don't block the user flow - log error but continue
@@ -100,26 +142,47 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     }
   };
 
+
+
+
   const handleContactSubmitted = async (formData) => {
     console.log('Contact form submitted:', formData);
+
+
+
 
     // Store customer data
     setCustomerData(formData);
 
+
+
+
     // NEW: Send customer inquiry to manager
     //await sendCustomerInquiry(formData);
 
+
+
+
     // Show pricing section
     setShowPricing(true);
+
+
+
 
     if (onSubmitted) {
       onSubmitted({ bookingId, showPricing: true, customerData: formData });
     }
   };
 
+
+
+
   const handlePayment = async (withHelper = false) => {
     try {
       clearPaymentError();
+
+
+
 
       const paymentPrice = withHelper ? currentHelperPrice : currentPrice;
       const sessionId = await processPayment(bookingId, paymentPrice, i18n.language, withHelper);
@@ -129,8 +192,14 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
     }
   };
 
+
+
+
   const handlePromoCodeApplied = (newPrice, newHelperPrice, discountPercent, fullResult) => {
     console.log('Promo code applied in QuoteActions:', { newPrice, newHelperPrice, discountPercent, fullResult });
+
+
+
 
     // Force a re-render by updating component state
     setTimeout(() => {
@@ -139,10 +208,16 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
         priceDisplay.classList.add('has-discount');
         priceDisplay.classList.add('promo-success-flash');
 
+
+
+
         setTimeout(() => {
           priceDisplay.classList.remove('promo-success-flash');
         }, 1000);
       }
+
+
+
 
       console.log('State after promo should be applied:', {
         currentPrice,
@@ -151,6 +226,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
       });
     }, 100);
   };
+
+
+
 
   return (
     <div className="quote-actions-optimized">
@@ -183,6 +261,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
               </div>
             )}
 
+
+
+
             <BookingForm
               bookingId={bookingId}
               onSubmit={handleContactSubmitted}
@@ -191,6 +272,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
           </div>
         </div>
       )}
+
+
+
 
       {/* Enhanced Payment & Booking Section */}
       {showPricing && (
@@ -202,6 +286,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
             </h4>
           </div>
           <div className="section-content">
+
+
+
 
             <EnhancedPricingSection
               originalPrice={price}
@@ -226,6 +313,9 @@ const QuoteActions = ({ bookingId, price, helperPrice, onSubmitted }) => {
   );
 };
 
+
+
+
 /**
  * Enhanced pricing section with visual discount effects
  */
@@ -247,10 +337,16 @@ const EnhancedPricingSection = ({
                                 }) => {
   const { t } = useTranslation();
 
+
+
+
   // FIXED: Calculate hasDiscount based on price difference AND discount percentage
   const hasRegularDiscount = (currentPrice < originalPrice) || (discount > 0);
   const hasHelperDiscount = (currentHelperPrice < originalHelperPrice) || (discount > 0);
   const hasAnyDiscount = hasRegularDiscount || hasHelperDiscount || discount > 0;
+
+
+
 
   console.log('EnhancedPricingSection render:', {
     originalPrice,
@@ -265,6 +361,9 @@ const EnhancedPricingSection = ({
     helperPriceDifference: originalHelperPrice - currentHelperPrice
   });
 
+
+
+
   return (
     <div className="combined-pricing-container">
       {paymentError && (
@@ -273,8 +372,14 @@ const EnhancedPricingSection = ({
         </Alert>
       )}
 
+
+
+
       {/* Helper Option Explanation */}
       <HelperExplanation />
+
+
+
 
       {/* Enhanced Price Display with strikethrough effects */}
       <div className={`price-display ${hasAnyDiscount ? 'has-discount' : ''}`}>
@@ -287,6 +392,9 @@ const EnhancedPricingSection = ({
           isMainPrice={true}
         />
 
+
+
+
         <EnhancedPriceItem
           label={t('priceWithHelper', 'Your estimated price with a helper (VAT included)')}
           originalPrice={originalHelperPrice}
@@ -296,6 +404,9 @@ const EnhancedPricingSection = ({
           isMainPrice={false}
         />
       </div>
+
+
+
 
       {/* Promotion Code Section */}
       <div className="promotion-section-integrated">
@@ -309,6 +420,9 @@ const EnhancedPricingSection = ({
           </p>
         </div>
 
+
+
+
         <PromotionCode
           bookingId={bookingId}
           onApplied={onPromoCodeApplied}
@@ -317,6 +431,9 @@ const EnhancedPricingSection = ({
           applyPromoCodeFunc={applyPromoCodeFunc} // FIXED: Pass the function correctly
         />
       </div>
+
+
+
 
       {/* Enhanced Payment Buttons */}
       <div className="payment-buttons">
@@ -336,12 +453,12 @@ const EnhancedPricingSection = ({
               <div className="payment-button-content">
                 <span className="payment-button-icon">👥</span>
                 <div className="payment-button-text">
-                  <span className="payment-button-title">
-                    {t('payAndBookWithHelper', 'Pay and Book with Helper')}
-                  </span>
+                 <span className="payment-button-title">
+                   {t('payAndBookWithHelper', 'Pay and Book with Helper')}
+                 </span>
                   <span className="payment-button-subtitle">
-                    {t('professionalAssistance', 'Professional assistance included')}
-                  </span>
+                   {t('professionalAssistance', 'Professional assistance included')}
+                 </span>
                 </div>
               </div>
               <EnhancedPaymentButtonPrice
@@ -352,6 +469,9 @@ const EnhancedPricingSection = ({
             </>
           )}
         </button>
+
+
+
 
         {/* Main Option Button */}
         <button
@@ -369,12 +489,12 @@ const EnhancedPricingSection = ({
               <div className="payment-button-content">
                 <span className="payment-button-icon">🚀</span>
                 <div className="payment-button-text">
-                  <span className="payment-button-title">
-                    {t('payAndBook', 'Pay and Book without Helper')}
-                  </span>
+                 <span className="payment-button-title">
+                   {t('payAndBook', 'Pay and Book without Helper')}
+                 </span>
                   <span className="payment-button-subtitle">
-                    {t('standardService', 'Standard moving service')}
-                  </span>
+                   {t('standardService', 'Standard moving service')}
+                 </span>
                 </div>
               </div>
               <EnhancedPaymentButtonPrice
@@ -387,6 +507,9 @@ const EnhancedPricingSection = ({
         </button>
       </div>
 
+
+
+
       {/* Security Notice */}
       <div className="security-notice">
         <span className="notice-icon">🔒</span>
@@ -398,21 +521,35 @@ const EnhancedPricingSection = ({
   );
 };
 
+
+
+
 /**
- * FIXED: Enhanced price item component with proper discount detection
+ * UPDATED: Enhanced price item component with market comparison feature
  */
 const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, discount, isMainPrice = true }) => {
   const { t } = useTranslation();
+
 
   // FIXED: More robust discount detection
   const actualSavings = Math.max(0, originalPrice - currentPrice);
   const actualDiscountPercentage = originalPrice > 0 ? Math.round((actualSavings / originalPrice) * 100) : 0;
 
+
   // Use actual discount percentage if available, otherwise use passed discount
   const displayDiscountPercentage = actualDiscountPercentage > 0 ? actualDiscountPercentage : discount;
 
+
   // FIXED: Show discount if there's ANY price difference OR if discount percentage is provided
   const shouldShowDiscount = (actualSavings > 0.01) || (discount > 0) || hasDiscount;
+
+
+  // NEW: Check if price is greater than 300 for market comparison
+  const showMarketComparison = currentPrice > 300;
+
+  // NEW: Calculate 30% of the current price
+  const marketSavings = showMarketComparison ? (currentPrice * 0.30).toFixed(2) : 0;
+
 
   console.log('EnhancedPriceItem render:', {
     label,
@@ -423,19 +560,23 @@ const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, di
     actualSavings,
     actualDiscountPercentage,
     displayDiscountPercentage,
-    discount
+    discount,
+    showMarketComparison,
+    marketSavings
   });
+
 
   return (
     <div className="price-item">
-      <span className="price-label">
-        {label}
-        {shouldShowDiscount && displayDiscountPercentage > 0 && (
-          <span className="discount-badge">
-            {displayDiscountPercentage}% OFF
-          </span>
-        )}
-      </span>
+     <span className="price-label">
+       {label}
+       {shouldShowDiscount && displayDiscountPercentage > 0 && (
+         <span className="discount-badge">
+           {displayDiscountPercentage}% OFF
+         </span>
+       )}
+     </span>
+
 
       <div className="price-comparison">
         {shouldShowDiscount ? (
@@ -445,10 +586,12 @@ const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, di
               <span className="original-price">£{originalPrice.toFixed(2)}</span>
             </div>
 
+
             {/* Discounted price */}
             <div className="price-row discounted">
               <span className="current-price">£{currentPrice.toFixed(2)}</span>
             </div>
+
 
             {/* Savings indicator */}
             {actualSavings > 0 && (
@@ -462,16 +605,34 @@ const EnhancedPriceItem = ({ label, originalPrice, currentPrice, hasDiscount, di
             <span className="current-price">£{currentPrice.toFixed(2)}</span>
           </div>
         )}
+
+
+        {/* NEW: Market comparison savings when price > 300 - showing actual amount */}
+        {showMarketComparison && (
+          <div className="market-comparison-indicator">
+            <span className="market-icon">📊</span>
+            <span className="market-text">
+             {`You save £${marketSavings} compared to average market price!`}
+           </span>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
+
+
+
+
+
 
 /**
  * Enhanced payment button price with discount display
  */
 const EnhancedPaymentButtonPrice = ({ originalPrice, currentPrice, hasDiscount }) => {
   const shouldShowDiscount = hasDiscount && (originalPrice > currentPrice);
+
 
   return (
     <div className={`payment-button-price ${shouldShowDiscount ? 'has-discount' : ''}`}>
@@ -485,11 +646,15 @@ const EnhancedPaymentButtonPrice = ({ originalPrice, currentPrice, hasDiscount }
   );
 };
 
+
+
+
 /**
  * Helper explanation component
  */
 const HelperExplanation = () => {
   const { t } = useTranslation();
+
 
   return (
     <div className="helper-explanation">
@@ -511,6 +676,9 @@ const HelperExplanation = () => {
   );
 };
 
+
+
+
 // PropTypes
 EnhancedPriceItem.propTypes = {
   label: PropTypes.string.isRequired,
@@ -521,11 +689,17 @@ EnhancedPriceItem.propTypes = {
   isMainPrice: PropTypes.bool
 };
 
+
+
+
 EnhancedPaymentButtonPrice.propTypes = {
   originalPrice: PropTypes.number.isRequired,
   currentPrice: PropTypes.number.isRequired,
   hasDiscount: PropTypes.bool.isRequired
 };
+
+
+
 
 EnhancedPricingSection.propTypes = {
   originalPrice: PropTypes.number.isRequired,
@@ -544,11 +718,17 @@ EnhancedPricingSection.propTypes = {
   applyPromoCodeFunc: PropTypes.func.isRequired // FIXED: Add this prop type
 };
 
+
+
+
 QuoteActions.propTypes = {
   bookingId: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   helperPrice: PropTypes.number.isRequired,
   onSubmitted: PropTypes.func
 };
+
+
+
 
 export default QuoteActions;
