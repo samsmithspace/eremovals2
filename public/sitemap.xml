@@ -2,15 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
 
     <!-- Homepage - Primary Entry Points -->
-    <url>
-        <loc>https://www.eremovals.uk/</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
     <url>
         <loc>https://eremovals.uk/</loc>
         <lastmod>2024-12-07</lastmod>
@@ -24,16 +19,10 @@
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
-    <url>
-        <loc>https://www.eremovals.uk/en</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
 
     <!-- Core Service Pages -->
     <url>
-        <loc>https://www.eremovals.uk/en/services</loc>
+        <loc>https://eremovals.uk/en/services</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -41,70 +30,70 @@
 
     <!-- Main Service Categories -->
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services</loc>
+        <loc>https://eremovals.uk/en/removal-services</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/house-relocations</loc>
+        <loc>https://eremovals.uk/en/house-relocations</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/office-removals</loc>
+        <loc>https://eremovals.uk/en/office-removals</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/student-moves</loc>
+        <loc>https://eremovals.uk/en/student-moves</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/packing-services</loc>
+        <loc>https://eremovals.uk/en/packing-services</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/secure-storage</loc>
+        <loc>https://eremovals.uk/en/secure-storage</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/international-removals</loc>
+        <loc>https://eremovals.uk/en/international-removals</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/same-day-move</loc>
+        <loc>https://eremovals.uk/en/same-day-move</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/eco-friendly-disposal</loc>
+        <loc>https://eremovals.uk/en/eco-friendly-disposal</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/professional-movers</loc>
+        <loc>https://eremovals.uk/en/professional-movers</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -112,35 +101,35 @@
 
     <!-- Detailed Service Pages -->
     <url>
-        <loc>https://www.eremovals.uk/en/services/domestic</loc>
+        <loc>https://eremovals.uk/en/services/domestic</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/services/office</loc>
+        <loc>https://eremovals.uk/en/services/office</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/services/packing</loc>
+        <loc>https://eremovals.uk/en/services/packing</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/services/storage</loc>
+        <loc>https://eremovals.uk/en/services/storage</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/services/international</loc>
+        <loc>https://eremovals.uk/en/services/international</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -148,56 +137,56 @@
 
     <!-- Location-Specific Service Pages - Major Cities -->
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-edinburgh</loc>
+        <loc>https://eremovals.uk/en/removal-services-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-glasgow</loc>
+        <loc>https://eremovals.uk/en/removal-services-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-aberdeen</loc>
+        <loc>https://eremovals.uk/en/removal-services-aberdeen</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-dundee</loc>
+        <loc>https://eremovals.uk/en/removal-services-dundee</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-stirling</loc>
+        <loc>https://eremovals.uk/en/removal-services-stirling</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-perth</loc>
+        <loc>https://eremovals.uk/en/removal-services-perth</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-inverness</loc>
+        <loc>https://eremovals.uk/en/removal-services-inverness</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-falkirk</loc>
+        <loc>https://eremovals.uk/en/removal-services-falkirk</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -205,21 +194,21 @@
 
     <!-- House Relocations by City -->
     <url>
-        <loc>https://www.eremovals.uk/en/house-relocations-edinburgh</loc>
+        <loc>https://eremovals.uk/en/house-relocations-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/house-relocations-glasgow</loc>
+        <loc>https://eremovals.uk/en/house-relocations-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/house-relocations-aberdeen</loc>
+        <loc>https://eremovals.uk/en/house-relocations-aberdeen</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -227,21 +216,21 @@
 
     <!-- Office Removals by City -->
     <url>
-        <loc>https://www.eremovals.uk/en/office-removals-edinburgh</loc>
+        <loc>https://eremovals.uk/en/office-removals-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/office-removals-glasgow</loc>
+        <loc>https://eremovals.uk/en/office-removals-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/office-removals-aberdeen</loc>
+        <loc>https://eremovals.uk/en/office-removals-aberdeen</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -249,28 +238,28 @@
 
     <!-- Student Moves by City -->
     <url>
-        <loc>https://www.eremovals.uk/en/student-moves-edinburgh</loc>
+        <loc>https://eremovals.uk/en/student-moves-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/student-moves-glasgow</loc>
+        <loc>https://eremovals.uk/en/student-moves-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/student-moves-aberdeen</loc>
+        <loc>https://eremovals.uk/en/student-moves-aberdeen</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/student-moves-dundee</loc>
+        <loc>https://eremovals.uk/en/student-moves-dundee</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -278,14 +267,14 @@
 
     <!-- Packing Services by Location -->
     <url>
-        <loc>https://www.eremovals.uk/en/packing-services-edinburgh</loc>
+        <loc>https://eremovals.uk/en/packing-services-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/packing-services-glasgow</loc>
+        <loc>https://eremovals.uk/en/packing-services-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -293,14 +282,14 @@
 
     <!-- Storage Services by Location -->
     <url>
-        <loc>https://www.eremovals.uk/en/secure-storage-edinburgh</loc>
+        <loc>https://eremovals.uk/en/secure-storage-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/secure-storage-glasgow</loc>
+        <loc>https://eremovals.uk/en/secure-storage-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -308,35 +297,35 @@
 
     <!-- Functional Pages -->
     <url>
-        <loc>https://www.eremovals.uk/en/contact</loc>
+        <loc>https://eremovals.uk/en/contact</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/quote</loc>
+        <loc>https://eremovals.uk/en/quote</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/location</loc>
+        <loc>https://eremovals.uk/en/location</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/about</loc>
+        <loc>https://eremovals.uk/en/about</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/terms-and-conditions</loc>
+        <loc>https://eremovals.uk/en/terms-and-conditions</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
@@ -344,49 +333,49 @@
 
     <!-- Specific Service Type Combinations -->
     <url>
-        <loc>https://www.eremovals.uk/en/professional-movers-edinburgh</loc>
+        <loc>https://eremovals.uk/en/professional-movers-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/professional-movers-glasgow</loc>
+        <loc>https://eremovals.uk/en/professional-movers-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/same-day-move-edinburgh</loc>
+        <loc>https://eremovals.uk/en/same-day-move-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/same-day-move-glasgow</loc>
+        <loc>https://eremovals.uk/en/same-day-move-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/international-removals-edinburgh</loc>
+        <loc>https://eremovals.uk/en/international-removals-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/eco-friendly-disposal-edinburgh</loc>
+        <loc>https://eremovals.uk/en/eco-friendly-disposal-edinburgh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/eco-friendly-disposal-glasgow</loc>
+        <loc>https://eremovals.uk/en/eco-friendly-disposal-glasgow</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -394,182 +383,28 @@
 
     <!-- Service Area Pages -->
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-scotland</loc>
+        <loc>https://eremovals.uk/en/removal-services-scotland</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-central-scotland</loc>
+        <loc>https://eremovals.uk/en/removal-services-central-scotland</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-lothian</loc>
+        <loc>https://eremovals.uk/en/removal-services-lothian</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <url>
-        <loc>https://www.eremovals.uk/en/removal-services-fife</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <!-- Long-tail Service Combinations -->
-    <url>
-        <loc>https://www.eremovals.uk/en/house-relocations-with-packing-services</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/office-removals-with-secure-storage</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/student-moves-with-storage</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/international-removals-with-packing</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <!-- Information and Resource Pages -->
-    <url>
-        <loc>https://www.eremovals.uk/en/moving-guide</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/moving-checklist</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/packing-tips</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/storage-guide</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/international-moving-guide</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <!-- Reviews and Testimonials -->
-    <url>
-        <loc>https://www.eremovals.uk/en/reviews</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/testimonials</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <!-- FAQ Pages -->
-    <url>
-        <loc>https://www.eremovals.uk/en/faq</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/removal-services-faq</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/packing-services-faq</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/storage-faq</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
-    </url>
-
-    <!-- Pricing and Quotes -->
-    <url>
-        <loc>https://www.eremovals.uk/en/pricing</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/removal-services-pricing</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/free-quote</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <!-- Blog/News Section (if implemented) -->
-    <url>
-        <loc>https://www.eremovals.uk/en/blog</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <!-- Emergency/Urgent Services -->
-    <url>
-        <loc>https://www.eremovals.uk/en/emergency-removals</loc>
-        <lastmod>2024-12-07</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-
-    <url>
-        <loc>https://www.eremovals.uk/en/urgent-removals-edinburgh</loc>
+        <loc>https://eremovals.uk/en/removal-services-fife</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -577,10 +412,12 @@
 
     <!-- Alternative Language (if Chinese is still supported) -->
     <url>
-        <loc>https://www.eremovals.uk/zh</loc>
+        <loc>https://eremovals.uk/zh</loc>
         <lastmod>2024-12-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>
 
 </urlset>
+
+
