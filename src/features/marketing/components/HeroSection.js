@@ -1,4 +1,4 @@
-// src/features/marketing/components/HeroSection.js - Fixed navigation
+// src/features/marketing/components/HeroSection.js - SEO Updated (Layout & Style Unchanged)
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
@@ -84,20 +84,20 @@ const HeroSection = () => {
 
       <div className="hero-section">
         <div className="hero-content">
-          {/* Hero Header */}
+          {/* Hero Header - H1 with SEO keywords */}
           <h1 className="main-heading">
-            {t('marketing.heroTitle', 'Moving Made Easy & Fun! 🚚')}
+            {t('marketing.heroTitle', 'Professional Removal Services Scotland | House Relocations')}
           </h1>
 
           <p className="hero-subtitle">
-            {t('marketing.heroSubtitle', 'From student digs to dream homes - we\'ve got your back with affordable, reliable moving services across Scotland!')}
+            {t('marketing.heroSubtitle', 'Expert house relocations, student moves, and comprehensive removal services throughout Edinburgh, Glasgow, and all of Scotland')}
           </p>
 
           <div className="services-container">
-            {/* Main Moving Services */}
+            {/* Main Moving Services - H2 with keywords */}
             <div className="service-group">
               <h2 className="service-heading">
-                {t('common.movingServices', '🚛 Moving Services')}
+                {t('marketing.movingServicesTitle', '🚛 Student Moves & House Relocations Scotland')}
               </h2>
               <div className="move-buttons-container">
                 <button
@@ -150,10 +150,10 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Additional Services */}
+            {/* Additional Services - H2 with removal services keyword */}
             <div className="service-group additional">
               <h2 className="service-heading">
-                {t('common.additionalServices', '✨ Extra Services')}
+                {t('marketing.additionalServicesTitle', '✨ Complete Removal Services & Storage Solutions')}
               </h2>
               <div className="additional-services-container">
                 <button
@@ -198,13 +198,13 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Call to Action */}
+          {/* Call to Action - H2 with local SEO focus */}
           <div className="cta-section">
             <h2 className="cta-title">
-              {t('marketing.ctaTitle', 'Ready to Move? Let\'s Go! 🚀')}
+              {t('marketing.ctaTitle', 'Get Your Free Scotland Removal Services Quote! 🚀')}
             </h2>
             <p className="cta-subtitle">
-              {t('marketing.ctaSubtitle', 'Get your free quote in seconds - no hidden fees, just honest pricing!')}
+              {t('marketing.ctaSubtitle', 'Professional house relocations and student moves with transparent pricing - no hidden fees!')}
             </p>
 
             <div className="cta-buttons">
