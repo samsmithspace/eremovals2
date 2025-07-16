@@ -1,11 +1,8 @@
 {
   "common": {
-
     "tagline": "Professional Removal Services",
-
     "callNow": "Call Now",
     "selectLanguage": "Select language",
-
     "home": "Home",
     "about": "About",
     "services": "Services",
@@ -50,12 +47,9 @@
   },
   "loadingAddresses": "Loading addresses...",
   "noAddressesFound": "No detailed addresses found for this postcode",
-
   "mapLoadError": "Error loading Google Maps",
   "locationRequired": "Location is required",
   "sameLocationError": "Pickup and destination cannot be the same",
-
-
   "contactDescription": "Please provide your contact information for a personalized quote",
   "paymentAndBooking": "Payment & Booking",
   "estimatedPrice": "Your estimated price (VAT included)",
@@ -139,14 +133,13 @@
   "increase": "Increase",
   "decrease": "Decrease",
   "loadingOptions": "Loading options...",
-  "schedulingSummary":"Scheduling Summary",
+  "schedulingSummary": "Scheduling Summary",
   "reviewYourBooking": "Review Your Booking",
   "reviewDescription": "Please review all details before confirming your booking.",
   "confirmAndGetQuote": "Confirm & Get Quote",
   "quoteInfoText": "After confirmation, you'll receive a detailed quote with pricing information.",
   "calculating": "Calculating...",
   "calculationError": "Calculation Error",
-
   "bookingConfirmation": "Booking Confirmation",
   "loadingBookingDetails": "Loading booking details...",
   "error": "Error",
@@ -166,17 +159,12 @@
   "smoothExperienceMessage": "We're here to make sure everything goes smoothly for you.",
   "needAssistance": "If you need assistance, feel free to",
   "contactUsWhatsApp": "contact us on WhatsApp",
-
   "discountApplied": "Discount Applied!",
   "youSave": "You save",
-
   "promoCodeAppliedWithSavings": "Promotion code applied! You get {{discount}}% off - You saved £{{savings}}!",
-
   "schedulingError": "Scheduling Error",
   "loadingAvailableTimes": "Finding available times...",
   "noAvailableTimesForDate": "No available time slots for this date.",
-
-
   "booking": {
     "submitting": "Processing...",
     "securityNotice": "Your information is secure and protected",
@@ -226,12 +214,10 @@
     "paymentCancelledMessage": "Your payment has been canceled.",
     "emailInstructionsMessage": "We have emailed you with further instructions. If you wish to continue placing your order or amend it, please use the link provided in the email.",
     "questionsContactMessage": "If you have any questions, feel free to reach out to our support team.",
-    "newsletterTitle": "Want the Best Offer? We’ll Be in Touch",
-    "newsletterDescription":"Want the best deal? Switch this on and we’ll get in touch with our most competitive quote and special offers—just for you!"
+    "newsletterTitle": "Want the Best Offer? We'll Be in Touch",
+    "newsletterDescription": "Want the best deal? Switch this on and we'll get in touch with our most competitive quote and special offers—just for you!"
   },
   "locations": {
-
-
     "title": "Locations",
     "selectLocation": "Select Location",
     "selectLocations": "Select Locations",
@@ -364,21 +350,21 @@
     "selectLanguage": "Select your preferred language"
   },
   "marketing": {
+    "heroTitle": "Professional Removal Services Across Scotland",
+    "heroSubtitle": "Expert house relocations, student moves, and comprehensive removal services throughout Edinburgh, Glasgow, and all of Scotland",
+    "ctaTitle": "Ready for Your Move? Get Your Free Quote Today!",
+    "ctaSubtitle": "Join thousands of satisfied customers who chose our professional removal services",
+    "callNowCTA": "Call Now!",
+    "getQuoteCTA": "Get Free Quote",
+    "getFreeQuote": "Get free quote",
+    "happyMoves": "5000+ Successful Moves",
+    "support24x7": "24/7 Support Available",
+    "scotlandWide": "Scotland-Wide Coverage",
+    "whyChooseUs": "Why Choose Us?",
     "heroHeading": "Move at Ease, Move with Confidence",
     "heroSubheading": "Professional moving services tailored to your needs",
     "getStarted": "Get Started",
     "requestQuote": "Request Quote",
-    "whyChooseUs": "Why Choose Us?",
-    "heroTitle": "Moving Made Easy & Fun! 🚚",
-    "heroSubtitle": "From student digs to dream homes - we've got your back with affordable, reliable moving services across Scotland!",
-    "ctaTitle": "Ready to Move? Let's Go! 🚀",
-    "ctaSubtitle": "Get your free quote in seconds - no hidden fees, just honest pricing!",
-    "callNowCTA": "Call Now!",
-    "getQuoteCTA": "Quick Quote",
-    "getFreeQuote": "Get free quote",
-    "happyMoves": "1000+ Happy Moves",
-    "support24x7": "24/7 Support",
-    "scotlandWide": "Scotland Wide",
     "whyChooseUsPoints": [
       "✅ Affordable Rates – Perfect for student budgets",
       "✅ Quick & Reliable Service – We work around your schedule",
@@ -389,6 +375,8 @@
   "whatCustomersSay": "What Our Customers Say",
   "frequentlyAskedQuestions": "Frequently Asked Questions",
   "testimonials": {
+    "title": "What Our Removal Services Customers Say",
+    "subtitle": "Real reviews from house relocations and student moves across Scotland",
     "items": [
       {
         "name": "Nina",
@@ -410,11 +398,7 @@
         "location": "Dundee",
         "text": "Super efficient and friendly crew! They made what could have been a stressful day really easy for us. It's rare to find a company this reliable these days."
       }
-    ]
-  },
-  "testimonials": {
-    "title": "What Our Customers Say",
-    "subtitle": "Real reviews from real customers on Trustpilot",
+    ],
     "cta": {
       "title": "Ready to Join Our Happy Customers?",
       "subtitle": "Get your free quote today and experience our award-winning service",
@@ -422,10 +406,8 @@
     }
   },
   "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to common questions about our moving services"
-  },
-  "faqs": {
+    "title": "Removal Services FAQ",
+    "subtitle": "Common questions about our house relocations and student moves in Scotland",
     "items": [
       {
         "question": "How much do your moving services cost?",
@@ -588,34 +570,52 @@
       "insurance": "£2M Public Liability"
     }
   },
-
   "services": {
+    "mainTitle": "Complete Removal Services Scotland",
+    "houseRelocationsTitle": "House Relocations & Home Moves",
+    "houseRelocationsSubtitle": "Professional House Relocations Throughout Scotland",
+    "studentMovesTitle": "Student Moves & University Relocations",
+    "studentMovesSubtitle": "Affordable Student Moves Across Scotland",
+    "additionalServicesTitle": "Additional Moving & Storage Services",
+    "additionalServicesSubtitle": "Complete Solutions for All Your Moving Needs",
     "student": {
       "title": "Student Moves",
-      "shortDesc": "Quick, affordable moves for students and young professionals",
-      "description": "Affordable moving solutions designed for students and young professionals.",
+      "heading": "Expert Student Moves & University Relocations",
+      "shortDesc": "Affordable student moves designed for university life across Scotland",
+      "description": "Specialized student moves with flexible scheduling and budget-friendly rates for university students throughout Scotland.",
       "price": "From £50",
-      "feature1": "Same-day service available",
-      "feature2": "Competitive student rates",
-      "feature3": "Flexible scheduling"
+      "features": [
+        "Same-day service available",
+        "Student-friendly pricing",
+        "University halls specialists",
+        "End-of-term storage options"
+      ]
     },
     "home": {
-      "title": "Home Moves",
-      "shortDesc": "Full house relocations with care and professionalism",
-      "description": "Complete household relocations with professional packing and care.",
+      "title": "House Relocations",
+      "heading": "Complete House Relocations & Home Moves",
+      "shortDesc": "Full-service house relocations with professional care and attention",
+      "description": "Comprehensive house relocations across Scotland with expert packing, secure transport, and professional handling.",
       "price": "From £200",
-      "feature1": "Full packing service",
-      "feature2": "Furniture protection",
-      "feature3": "Local & long distance"
+      "features": [
+        "Full packing service included",
+        "Furniture protection specialists",
+        "Local & long-distance moves",
+        "Insurance coverage included"
+      ]
     },
     "courier": {
-      "title": "Express Delivery",
-      "shortDesc": "Urgent delivery and small moves - fast & reliable",
-      "description": "Urgent same-day delivery and small item transportation services.",
+      "title": "Same Day Removal Services",
+      "heading": "Express Same Day Removal Services",
+      "shortDesc": "Urgent removal services for time-sensitive moves",
+      "description": "Fast and reliable same-day removal services for urgent relocations and deliveries across Scotland.",
       "price": "From £60",
-      "feature1": "Same-day delivery",
-      "feature2": "Real-time tracking",
-      "feature3": "Secure handling"
+      "features": [
+        "Same-day availability",
+        "Real-time tracking",
+        "Secure handling guaranteed",
+        "Emergency service available"
+      ]
     },
     "storage": {
       "title": "Secure Storage",
@@ -649,7 +649,6 @@
       "title": "Packing Services",
       "description": "Professional packing and unpacking services"
     },
-
     "internationalRemovals": {
       "title": "International Removals",
       "description": "Worldwide moving services with full documentation support"
@@ -670,9 +669,7 @@
     "saturday": "Saturday: 9:00 AM - 4:00 PM",
     "sunday": "Sunday: Closed",
     "emergencyService": "24/7 Emergency Service Available",
-
     "serviceArea": "Service Area",
-
     "form": {
       "name": "Full Name",
       "email": "Email Address",
