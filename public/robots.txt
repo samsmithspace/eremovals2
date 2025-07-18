@@ -2,12 +2,20 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://eremovals.com/sitemap.xml
+# Sitemap location - UPDATE THIS TO YOUR ACTUAL DOMAIN
+Sitemap: https://eremovals.uk/sitemap.xml
 
-# Disallow certain paths if needed
-# Disallow: /admin/
-# Disallow: /api/
+# Allow important files
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.ico
 
 # Crawl-delay for respectful crawling
-# Crawl-delay: 1
+Crawl-delay: 1
