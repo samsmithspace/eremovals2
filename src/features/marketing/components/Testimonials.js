@@ -1,4 +1,4 @@
-// Enhanced Testimonials with Real Trustpilot API Integration
+// Enhanced Testimonials without Trustpilot references
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -11,12 +11,12 @@ import {
   FaExclamationTriangle
 } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import { useTrustpilotReviews } from '../hooks/useTrustpilotReviews';
+import { useCustomerReviews } from '../hooks/useCustomerReviews';
 import { useTestimonials } from '../hooks/useTestimonials';
 import './Testimonials.css';
 
 /**
- * Enhanced Testimonials component with real Trustpilot API integration
+ * Enhanced Testimonials component with customer reviews
  * Features open design without cards and authentic reviews
  */
 const Testimonials = () => {
@@ -25,14 +25,14 @@ const Testimonials = () => {
   const navigate = useNavigate();
   const [openFAQIndex, setOpenFAQIndex] = useState(0);
 
-  // Get real Trustpilot data
+  // Get customer review data
   const {
     reviews,
     businessData,
     loading,
     error,
     refetch
-  } = useTrustpilotReviews();
+  } = useCustomerReviews();
 
   // Fallback testimonials and FAQs
   const { faqs } = useTestimonials();
@@ -51,11 +51,8 @@ const Testimonials = () => {
 
   return (
     <div className="testimonials-container">
-      {/* Section Header */}
-
-
-      {/* Trustpilot Business Overview */}
-      <TrustpilotOverview businessData={businessData} loading={loading} />
+      {/* Customer Reviews Overview */}
+      <ReviewsOverview businessData={businessData} loading={loading} />
 
       {/* Reviews Section */}
       <ReviewsSection
@@ -90,56 +87,49 @@ const Testimonials = () => {
 };
 
 /**
- * Trustpilot business overview with stats and score
+ * Customer reviews overview with stats and score
  */
-const TrustpilotOverview = ({ businessData, loading }) => {
+const ReviewsOverview = ({ businessData, loading }) => {
   const { t } = useTranslation();
 
   if (loading) {
     return (
-      <div className="trustpilot-section">
+      <div className="reviews-section">
         <div className="testimonials-loading">
           <div className="loading-spinner"></div>
-          <p className="loading-text">Loading Trustpilot data...</p>
+          <p className="loading-text">Loading customer reviews...</p>
         </div>
       </div>
     );
   }
 
   const {
-    trustScore = 4.8,
-    numberOfReviews = 1247,
+    averageRating = 4.8,
+    numberOfReviews = 547,
     stars = 5
   } = businessData || {};
 
   return (
-    <section className="trustpilot-section">
-      <div className="trustpilot-header">
-        <div className="trustpilot-logo-container">
-          <img
-            src="https://cdn.trustpilot.net/brand-assets/4.1.0/logo-black.svg"
-            alt="Trustpilot"
-            className="trustpilot-logo"
-          />
-          <div className="trustpilot-badge">Verified Reviews</div>
+    <section className="reviews-section">
+      <div className="reviews-header">
+        <div className="reviews-badge-container">
+          <div className="customer-reviews-badge">Customer Reviews</div>
         </div>
 
-        <div className="trustpilot-score-display">
+        <div className="reviews-score-display">
           <div className="score-section">
-            <div className="trustpilot-rating">{trustScore.toFixed(1)}</div>
-            <div className="trustpilot-stars">
+            <div className="customer-rating">{averageRating.toFixed(1)}</div>
+            <div className="customer-stars">
               {[...Array(5)].map((_, i) => (
-                <svg
+                <FaStar
                   key={i}
-                  className="trustpilot-star"
-                  viewBox="0 0 24 24"
-                  fill={i < Math.floor(stars) ? "#00b67a" : "#ddd"}
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
+                  className={i < Math.floor(stars) ? 'star filled' : 'star'}
+                />
               ))}
             </div>
-
+            <div className="reviews-text">
+              Based on <span className="reviews-count">{numberOfReviews.toLocaleString()}</span> customer reviews
+            </div>
           </div>
         </div>
       </div>
@@ -150,7 +140,7 @@ const TrustpilotOverview = ({ businessData, loading }) => {
           <div className="trust-stat-label">Customer Satisfaction</div>
         </div>
         <div className="trust-stat">
-          <div className="trust-stat-number">5000+</div>
+          <div className="trust-stat-number">1000+</div>
           <div className="trust-stat-label">Successful Moves</div>
         </div>
         <div className="trust-stat">
@@ -180,7 +170,7 @@ const ReviewsSection = ({ reviews, loading, error, onRetry }) => {
       <div className="testimonials-error">
         <FaExclamationTriangle className="error-icon" />
         <h3>Unable to load reviews</h3>
-        <p>We're having trouble connecting to Trustpilot. Please try again.</p>
+        <p>We're having trouble loading customer reviews. Please try again.</p>
         <button onClick={onRetry} className="cta-button">
           Try Again
         </button>
@@ -206,7 +196,7 @@ const ReviewItem = ({
                       title,
                       text,
                       stars,
-                      consumer,
+                      customer,
                       createdAt,
                       isVerified = true
                     }) => {
@@ -219,7 +209,7 @@ const ReviewItem = ({
     });
   };
 
-  // Generate avatar for consumer
+  // Generate avatar for customer
   const generateAvatar = (name) => {
     const initials = name.split(' ').map(word => word[0]).join('').toUpperCase();
     const colors = ['#FF5722', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#009688'];
@@ -258,22 +248,22 @@ const ReviewItem = ({
 
       <div className="testimonial-author">
         <img
-          src={generateAvatar(consumer.displayName)}
-          alt={`${consumer.displayName} profile picture`}
+          src={generateAvatar(customer.displayName)}
+          alt={`${customer.displayName} profile picture`}
           className="author-avatar"
           loading="lazy"
         />
         <div className="author-details">
-          <h4 className="author-name">{consumer.displayName}</h4>
-          {consumer.countryCode && (
+          <h4 className="author-name">{customer.displayName}</h4>
+          {customer.location && (
             <p className="author-location">
-              {getCountryName(consumer.countryCode)}
+              {customer.location}
             </p>
           )}
           <div className="review-source">
             {isVerified && (
-              <div className="trustpilot-verified">
-                Verified Review
+              <div className="verified-review">
+                Verified Customer
               </div>
             )}
             <span className="review-date">{formatDate(createdAt)}</span>
@@ -352,30 +342,10 @@ const FAQItem = ({ faq, index, isOpen, onToggle }) => {
   );
 };
 
-// Helper functions
-const getCountryName = (countryCode) => {
-  const countries = {
-    'GB': 'United Kingdom',
-    'US': 'United States',
-    'CA': 'Canada',
-    'AU': 'Australia',
-    'DE': 'Germany',
-    'FR': 'France',
-    'IT': 'Italy',
-    'ES': 'Spain',
-    'NL': 'Netherlands',
-    'SE': 'Sweden',
-    'NO': 'Norway',
-    'DK': 'Denmark',
-    'IE': 'Ireland'
-  };
-  return countries[countryCode] || countryCode;
-};
-
 // PropTypes
-TrustpilotOverview.propTypes = {
+ReviewsOverview.propTypes = {
   businessData: PropTypes.shape({
-    trustScore: PropTypes.number,
+    averageRating: PropTypes.number,
     numberOfReviews: PropTypes.number,
     stars: PropTypes.number
   }),
@@ -388,9 +358,9 @@ ReviewsSection.propTypes = {
     title: PropTypes.string,
     text: PropTypes.string.isRequired,
     stars: PropTypes.number.isRequired,
-    consumer: PropTypes.shape({
+    customer: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
-      countryCode: PropTypes.string
+      location: PropTypes.string
     }).isRequired,
     createdAt: PropTypes.string.isRequired,
     isVerified: PropTypes.bool
@@ -404,9 +374,9 @@ ReviewItem.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string.isRequired,
   stars: PropTypes.number.isRequired,
-  consumer: PropTypes.shape({
+  customer: PropTypes.shape({
     displayName: PropTypes.string.isRequired,
-    countryCode: PropTypes.string
+    location: PropTypes.string
   }).isRequired,
   createdAt: PropTypes.string.isRequired,
   isVerified: PropTypes.bool

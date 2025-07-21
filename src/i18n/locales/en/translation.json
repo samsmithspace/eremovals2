@@ -352,7 +352,6 @@
   "marketing": {
     "movingServicesTitle": "🚛 Student Moves & House Relocations Scotland",
     "additionalServicesTitle": "✨ Complete Removal Services & Storage Solutions",
-
     "heroTitle": "Professional Removal Services Scotland | House Relocations",
     "heroSubtitle": "Expert house relocations, student moves, and comprehensive removal services throughout Edinburgh, Glasgow, and all of Scotland",
     "ctaTitle": "Ready for Your Move? Get Your Free Quote Today!",
@@ -454,19 +453,19 @@
       }
     ]
   },
-  "trustpilot": {
-    "verifiedReviews": "Verified Reviews",
+  "customerReviews": {
+    "verifiedReviews": "Customer Reviews",
     "basedOn": "Based on",
     "reviews": "reviews",
     "excellent": "Excellent",
     "customerSatisfaction": "Customer Satisfaction",
     "successfulMoves": "Successful Moves",
     "yearsExperience": "Years Experience",
-    "verifiedReview": "Verified Review",
+    "verifiedReview": "Verified Customer",
     "loadingReviews": "Loading customer reviews...",
-    "loadingData": "Loading Trustpilot data...",
+    "loadingData": "Loading customer review data...",
     "errorTitle": "Unable to load reviews",
-    "errorMessage": "We're having trouble connecting to Trustpilot. Please try again.",
+    "errorMessage": "We're having trouble loading customer reviews. Please try again.",
     "retryButton": "Try Again"
   },
   "navigation": {

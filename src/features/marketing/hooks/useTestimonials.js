@@ -169,7 +169,7 @@ export const useTestimonials = () => {
 
     const trustpilotData = useMemo(() => ({
         score: 4.8,
-        reviewCount: 1247,
+        reviewCount: 547,
         excellent: 89,
         great: 8,
         average: 2,

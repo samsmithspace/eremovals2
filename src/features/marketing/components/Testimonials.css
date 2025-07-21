@@ -1,4 +1,4 @@
-/* Open Design Testimonials CSS - No Cards */
+/* Open Design Testimonials CSS - No Trustpilot */
 
 .testimonials-container {
     padding: 5rem 0;
@@ -30,12 +30,14 @@
     z-index: 2;
     padding: 0 2rem;
 }
+
 .faq-section .section-header {
     background: none;
     border: none;
     box-shadow: none;
-    padding: 0 2rem 2rem 2rem; /* Add bottom padding instead */
+    padding: 0 2rem 2rem 2rem;
 }
+
 .faq-section .section-header h2 {
     font-size: 3rem;
     font-weight: 800;
@@ -54,6 +56,7 @@
     margin: 0 auto 2rem;
     line-height: 1.6;
 }
+
 .section-header h2 {
     font-size: 3.5rem;
     font-weight: 800;
@@ -96,8 +99,8 @@
     border-radius: 5px;
 }
 
-/* Trustpilot Integration - Open Design */
-.trustpilot-section {
+/* Customer Reviews Integration - Open Design */
+.reviews-section {
     text-align: center;
     margin-bottom: 5rem;
     padding: 0 2rem;
@@ -105,7 +108,7 @@
     z-index: 2;
 }
 
-.trustpilot-header {
+.reviews-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,28 +117,23 @@
     flex-wrap: wrap;
 }
 
-.trustpilot-logo-container {
+.reviews-badge-container {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.trustpilot-logo {
-    height: 45px;
-    width: auto;
-}
-
-.trustpilot-badge {
-    background: linear-gradient(135deg, #00b67a 0%, #00d4aa 100%);
+.customer-reviews-badge {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
     font-weight: 700;
     font-size: 0.9rem;
-    box-shadow: 0 4px 15px rgba(0, 182, 122, 0.3);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
-.trustpilot-score-display {
+.reviews-score-display {
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -151,35 +149,35 @@
     text-align: center;
 }
 
-.trustpilot-rating {
+.customer-rating {
     font-size: 3rem;
     font-weight: 900;
-    color: #00b67a;
+    color: #2563eb;
     line-height: 1;
     margin-bottom: 0.5rem;
 }
 
-.trustpilot-stars {
+.customer-stars {
     display: flex;
     gap: 0.25rem;
     justify-content: center;
     margin-bottom: 0.5rem;
 }
 
-.trustpilot-star {
+.customer-stars .star {
     width: 28px;
     height: 28px;
-    fill: #00b67a;
+    color: #fbbf24;
 }
 
-.trustpilot-text {
+.reviews-text {
     font-size: 1rem;
     color: #64748b;
     font-weight: 600;
 }
 
-.trustpilot-reviews-count {
-    color: #00b67a;
+.reviews-count {
+    color: #2563eb;
     font-weight: 700;
 }
 
@@ -357,8 +355,8 @@
     margin-top: 0.5rem;
 }
 
-.trustpilot-verified {
-    background: #00b67a;
+.verified-review {
+    background: #059669;
     color: white;
     font-size: 0.75rem;
     padding: 0.25rem 0.75rem;
@@ -369,7 +367,7 @@
     gap: 0.25rem;
 }
 
-.trustpilot-verified::before {
+.verified-review::before {
     content: '✓';
     font-weight: bold;
 }
@@ -427,7 +425,7 @@
     padding: 4rem 2rem 2rem;
     position: relative;
     z-index: 2;
-    background: transparent; /* Remove any background */
+    background: transparent;
 }
 
 .faq-container {
@@ -596,7 +594,7 @@
         padding: 0 1.5rem;
     }
 
-    .trustpilot-score-display {
+    .reviews-score-display {
         flex-direction: column;
         gap: 1.5rem;
         padding: 2rem;
@@ -613,13 +611,13 @@
     }
 
     .section-header,
-    .trustpilot-section,
+    .reviews-section,
     .faq-section {
         padding-left: 1rem;
         padding-right: 1rem;
     }
 
-    .trustpilot-header {
+    .reviews-header {
         flex-direction: column;
         gap: 2rem;
     }
