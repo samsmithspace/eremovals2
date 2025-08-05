@@ -1,4 +1,4 @@
-// src/App.js - FIXED VERSION
+// src/App.js - FIXED VERSION - Eliminates Duplicate Routes
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
@@ -57,12 +57,12 @@ const NotFound = () => (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
       <h1>404 - Page Not Found</h1>
       <p>The page you're looking for doesn't exist.</p>
-      <a href="/" style={{ color: '#fa7731' }}>Return to Home</a>
+      <a href="/en" style={{ color: '#fa7731' }}>Return to Home</a>
     </div>
   </AppLayout>
 );
 
-// About page placeholder
+// Placeholder components for missing pages
 const AboutPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -72,7 +72,6 @@ const AboutPage = () => (
   </AppLayout>
 );
 
-// Blog page placeholder
 const BlogPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -82,7 +81,6 @@ const BlogPage = () => (
   </AppLayout>
 );
 
-// Testimonials page placeholder
 const TestimonialsPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -92,7 +90,6 @@ const TestimonialsPage = () => (
   </AppLayout>
 );
 
-// Privacy Policy page placeholder
 const PrivacyPolicyPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -102,7 +99,6 @@ const PrivacyPolicyPage = () => (
   </AppLayout>
 );
 
-// Cookie Policy page placeholder
 const CookiePolicyPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -112,7 +108,6 @@ const CookiePolicyPage = () => (
   </AppLayout>
 );
 
-// Careers page placeholder
 const CareersPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -122,7 +117,6 @@ const CareersPage = () => (
   </AppLayout>
 );
 
-// Reviews page placeholder
 const ReviewsPage = () => (
   <AppLayout>
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
@@ -157,53 +151,53 @@ function App() {
             <Router>
               <div className="App">
                 <Routes>
-                  {/* FIXED: Direct homepage route for SEO */}
+                  {/* FIXED: Root homepage redirects to /en */}
                   <Route
                     path="/"
-                    element={
-                      <AppLayout>
-                        <HomePage />
-                      </AppLayout>
-                    }
+                    element={<Navigate to="/en" replace />}
                   />
 
-                  {/* FIXED: Direct SEO routes without language prefix */}
-                  <Route path="/services" element={<AppLayout><SEOPage /></AppLayout>} />
-                  <Route path="/removal-services" element={<AppLayout><SEOPage /></AppLayout>} />
-                  <Route path="/house-relocations" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/office-removals" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/student-moves" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/packing-services" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/secure-storage" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/international-removals" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/same-day-move" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/contact" element={<AppLayout><ContactPage /></AppLayout>} />
+                  {/* FIXED: All direct routes (without language) redirect to /en versions */}
+                  <Route path="/services" element={<Navigate to="/en/services" replace />} />
+                  <Route path="/removal-services" element={<Navigate to="/en/removal-services" replace />} />
+                  <Route path="/house-relocations" element={<Navigate to="/en/house-relocations" replace />} />
+                  <Route path="/office-removals" element={<Navigate to="/en/office-removals" replace />} />
+                  <Route path="/student-moves" element={<Navigate to="/en/student-moves" replace />} />
+                  <Route path="/packing-services" element={<Navigate to="/en/packing-services" replace />} />
+                  <Route path="/secure-storage" element={<Navigate to="/en/secure-storage" replace />} />
+                  <Route path="/international-removals" element={<Navigate to="/en/international-removals" replace />} />
+                  <Route path="/same-day-move" element={<Navigate to="/en/same-day-move" replace />} />
+                  <Route path="/contact" element={<Navigate to="/en/contact" replace />} />
+                  <Route path="/about" element={<Navigate to="/en/about" replace />} />
+                  <Route path="/blog" element={<Navigate to="/en/blog" replace />} />
+                  <Route path="/testimonials" element={<Navigate to="/en/testimonials" replace />} />
+                  <Route path="/reviews" element={<Navigate to="/en/reviews" replace />} />
+                  <Route path="/careers" element={<Navigate to="/en/careers" replace />} />
+                  <Route path="/privacy-policy" element={<Navigate to="/en/privacy-policy" replace />} />
+                  <Route path="/cookie-policy" element={<Navigate to="/en/cookie-policy" replace />} />
+                  <Route path="/terms-and-conditions" element={<Navigate to="/en/terms-and-conditions" replace />} />
 
-                  {/* FIXED: Direct routes for missing pages */}
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/blog" element={<BlogPage />} />
-                  <Route path="/testimonials" element={<TestimonialsPage />} />
-                  <Route path="/reviews" element={<ReviewsPage />} />
-                  <Route path="/careers" element={<CareersPage />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-                  <Route path="/cookie-policy" element={<CookiePolicyPage />} />
-                  <Route path="/terms-and-conditions" element={<AppLayout><TermsAndConditions /></AppLayout>} />
+                  {/* FIXED: All location-specific redirects */}
+                  <Route path="/removal-services-edinburgh" element={<Navigate to="/en/removal-services-edinburgh" replace />} />
+                  <Route path="/removal-services-glasgow" element={<Navigate to="/en/removal-services-glasgow" replace />} />
+                  <Route path="/removal-services-aberdeen" element={<Navigate to="/en/removal-services-aberdeen" replace />} />
+                  <Route path="/removal-services-dundee" element={<Navigate to="/en/removal-services-dundee" replace />} />
+                  <Route path="/house-relocations-edinburgh" element={<Navigate to="/en/house-relocations-edinburgh" replace />} />
+                  <Route path="/house-relocations-glasgow" element={<Navigate to="/en/house-relocations-glasgow" replace />} />
+                  <Route path="/house-relocations-aberdeen" element={<Navigate to="/en/house-relocations-aberdeen" replace />} />
+                  <Route path="/office-removals-edinburgh" element={<Navigate to="/en/office-removals-edinburgh" replace />} />
+                  <Route path="/office-removals-glasgow" element={<Navigate to="/en/office-removals-glasgow" replace />} />
+                  <Route path="/office-removals-aberdeen" element={<Navigate to="/en/office-removals-aberdeen" replace />} />
+                  <Route path="/student-moves-edinburgh" element={<Navigate to="/en/student-moves-edinburgh" replace />} />
+                  <Route path="/student-moves-glasgow" element={<Navigate to="/en/student-moves-glasgow" replace />} />
+                  <Route path="/student-moves-aberdeen" element={<Navigate to="/en/student-moves-aberdeen" replace />} />
+                  <Route path="/student-moves-dundee" element={<Navigate to="/en/student-moves-dundee" replace />} />
+                  <Route path="/packing-services-edinburgh" element={<Navigate to="/en/packing-services-edinburgh" replace />} />
+                  <Route path="/packing-services-glasgow" element={<Navigate to="/en/packing-services-glasgow" replace />} />
+                  <Route path="/secure-storage-edinburgh" element={<Navigate to="/en/secure-storage-edinburgh" replace />} />
+                  <Route path="/secure-storage-glasgow" element={<Navigate to="/en/secure-storage-glasgow" replace />} />
 
-                  {/* FIXED: Location-specific SEO routes */}
-                  <Route path="/removal-services-edinburgh" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/removal-services-glasgow" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/removal-services-aberdeen" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/house-relocations-edinburgh" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/house-relocations-glasgow" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/house-relocations-aberdeen" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/office-removals-glasgow" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/student-moves-edinburgh" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/student-moves-glasgow" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/packing-services-edinburgh" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/secure-storage-edinburgh" element={<AppLayout><ServicePage /></AppLayout>} />
-                  <Route path="/secure-storage-glasgow" element={<AppLayout><ServicePage /></AppLayout>} />
-
-                  {/* Language-specific routes */}
+                  {/* FIXED: Only language-specific routes remain - these are the canonical versions */}
                   <Route path="/:lang/*" element={
                     <LanguageWrapper>
                       <AppLayout>
@@ -266,15 +260,15 @@ function App() {
                           <Route path="/secure-storage-edinburgh" element={<ServicePage />} />
                           <Route path="/secure-storage-glasgow" element={<ServicePage />} />
 
-                          {/* FIXED: Catch unmatched routes within language to 404 instead of redirecting */}
+                          {/* 404 for unmatched routes within language */}
                           <Route path="*" element={<NotFound />} />
                         </Routes>
                       </AppLayout>
                     </LanguageWrapper>
                   } />
 
-                  {/* FIXED: Final catch-all for completely unmatched routes */}
-                  <Route path="*" element={<NotFound />} />
+                  {/* Final catch-all for completely unmatched routes */}
+                  <Route path="*" element={<Navigate to="/en" replace />} />
                 </Routes>
               </div>
             </Router>

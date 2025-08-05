@@ -21,16 +21,17 @@
   <meta name="author" content="Eremovals Scotland" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://eremovals.uk/" />
+  <!-- FIXED: Canonical URL points to English version -->
+  <link rel="canonical" href="https://eremovals.uk/en" />
 
-  <!-- Alternate language versions -->
+  <!-- FIXED: Proper hreflang implementation -->
   <link rel="alternate" hreflang="en-GB" href="https://eremovals.uk/en" />
-  <link rel="alternate" hreflang="x-default" href="https://eremovals.uk/" />
+  <link rel="alternate" hreflang="zh" href="https://eremovals.uk/zh" />
+  <link rel="alternate" hreflang="x-default" href="https://eremovals.uk/en" />
 
   <!-- Enhanced Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://eremovals.uk/" />
+  <meta property="og:url" content="https://eremovals.uk/en" />
   <meta property="og:site_name" content="Eremovals Scotland" />
   <meta property="og:title" content="Professional Removal Services Scotland | House Relocations & Student Moves" />
   <meta property="og:description" content="Expert removal services, house relocations, and student moves across Scotland. Professional movers in Edinburgh, Glasgow & throughout Scotland. Fully insured." />
@@ -66,6 +67,14 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- FIXED: Redirect script for root URL -->
+  <script>
+    // Redirect root URL to /en to prevent duplicate content
+    if (window.location.pathname === '/') {
+      window.location.replace('/en');
+    }
+  </script>
+
   <!-- Enhanced Structured Data for SEO -->
   <script type="application/ld+json">
     {
@@ -74,7 +83,7 @@
       "name": "Eremovals",
       "alternateName": "Eremovals Scotland",
       "description": "Professional removal services across Scotland including house relocations, office removals, student moves, packing services, secure storage, and international removals",
-      "url": "https://eremovals.uk",
+      "url": "https://eremovals.uk/en",
       "telephone": "+447404228217",
       "email": "eremovalsscot@gmail.com",
       "foundingDate": "2014",
