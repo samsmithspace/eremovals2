@@ -1,4 +1,4 @@
-// src/common/components/layout/Footer.js
+// src/common/components/layout/Footer.js - COMPLETE FIXED VERSION
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +32,7 @@ const Footer = ({ socialIcons = [] }) => {
 
     const handleNewsletterSubmit = async (e) => {
         e.preventDefault();
-        if (!newsletterEmail) return;
+        if (!newsletterEmail.trim()) return;
 
         setNewsletterStatus('loading');
 
@@ -45,6 +45,14 @@ const Footer = ({ socialIcons = [] }) => {
         } catch (error) {
             setNewsletterStatus('error');
             setTimeout(() => setNewsletterStatus(''), 3000);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        setNewsletterEmail(e.target.value);
+        // Clear error status when user starts typing
+        if (newsletterStatus === 'error') {
+            setNewsletterStatus('');
         }
     };
 
@@ -175,7 +183,7 @@ const Footer = ({ socialIcons = [] }) => {
                                   className="footer-link"
                                 >
                                     <FaArrowRight className="link-icon" />
-                                    {t(`services.${link.key}.title`, link.key)}
+                                    {t(`services.${link.key}.title`, link.title)}
                                 </Link>
                             </li>
                           ))}
@@ -263,7 +271,7 @@ const Footer = ({ socialIcons = [] }) => {
                       </div>
                   </div>
 
-                  {/* Newsletter Section */}
+                  {/* Newsletter Section - COMPLETELY FIXED */}
                   <div className="footer-section footer-newsletter">
                       <h4 className="footer-section-title">
                           {t('footer.newsletter.title', 'Stay Updated')}
@@ -279,33 +287,36 @@ const Footer = ({ socialIcons = [] }) => {
                                 className="newsletter-input"
                                 placeholder={t('footer.newsletter.placeholder', 'Enter your email address')}
                                 value={newsletterEmail}
-                                onChange={(e) => setNewsletterEmail(e.target.value)}
+                                onChange={handleInputChange}
                                 required
                                 disabled={newsletterStatus === 'loading'}
+                                autoComplete="email"
                               />
                               <button
                                 type="submit"
                                 className={`newsletter-button ${newsletterStatus}`}
-                                disabled={newsletterStatus === 'loading' || !newsletterEmail}
+                                disabled={newsletterStatus === 'loading' || !newsletterEmail.trim()}
+                                aria-label={t('footer.newsletter.subscribe', 'Subscribe to newsletter')}
                               >
                                   {newsletterStatus === 'loading' ? (
-                                    <div className="button-spinner"></div>
+                                    <div className="button-spinner" aria-hidden="true"></div>
                                   ) : newsletterStatus === 'success' ? (
-                                    <FaCheckCircle />
+                                    <FaCheckCircle aria-hidden="true" />
                                   ) : (
-                                    <FaArrowRight />
+                                    <FaArrowRight aria-hidden="true" />
                                   )}
                               </button>
                           </div>
 
                           {newsletterStatus === 'success' && (
-                            <p className="newsletter-success">
+                            <p className="newsletter-success" role="status" aria-live="polite">
+                                <FaCheckCircle aria-hidden="true" />
                                 {t('footer.newsletter.success', 'Thank you for subscribing!')}
                             </p>
                           )}
 
                           {newsletterStatus === 'error' && (
-                            <p className="newsletter-error">
+                            <p className="newsletter-error" role="alert" aria-live="assertive">
                                 {t('footer.newsletter.error', 'Please enter a valid email address')}
                             </p>
                           )}
@@ -314,37 +325,35 @@ const Footer = ({ socialIcons = [] }) => {
               </div>
           </div>
 
-          {/* Footer Bottom */}
+          {/* Footer Bottom - COMPLETELY FIXED */}
           <div className="footer-bottom">
-              <div className="footer-container">
-                  <div className="footer-bottom-content">
-                      <div className="footer-copyright">
-                          <p>
-                              © {currentYear} {t('common.siteTitle', 'Eremovals')}. {t('footer.copyright', 'All rights reserved.')}
-                          </p>
-                      </div>
-
-                      <div className="footer-legal-links">
-                          <Link
-                            to={`/${lang}/terms-and-conditions`}
-                            className="legal-link"
-                          >
-                              {t('footer.termsAndConditions', 'Terms and Conditions')}
-                          </Link>
-                          <Link
-                            to={`/${lang}/privacy-policy`}
-                            className="legal-link"
-                          >
-                              {t('footer.privacyPolicy', 'Privacy Policy')}
-                          </Link>
-                          <Link
-                            to={`/${lang}/cookie-policy`}
-                            className="legal-link"
-                          >
-                              {t('footer.cookiePolicy', 'Cookie Policy')}
-                          </Link>
-                      </div>
+              <div className="footer-bottom-content">
+                  <div className="footer-copyright">
+                      <p>
+                          © {currentYear} {t('common.siteTitle', 'Eremovals')}. {t('footer.copyright', 'All rights reserved.')}
+                      </p>
                   </div>
+
+                  <nav className="footer-legal-links" aria-label="Legal pages">
+                      <Link
+                        to={`/${lang}/terms-and-conditions`}
+                        className="legal-link"
+                      >
+                          {t('footer.termsAndConditions', 'Terms and Conditions')}
+                      </Link>
+                      <Link
+                        to={`/${lang}/privacy-policy`}
+                        className="legal-link"
+                      >
+                          {t('footer.privacyPolicy', 'Privacy Policy')}
+                      </Link>
+                      <Link
+                        to={`/${lang}/cookie-policy`}
+                        className="legal-link"
+                      >
+                          {t('footer.cookiePolicy', 'Cookie Policy')}
+                      </Link>
+                  </nav>
               </div>
           </div>
       </footer>
