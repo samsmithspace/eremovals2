@@ -45,7 +45,7 @@ const StudentMovesEdinburghLanding = () => {
   };
 
   return (
-    <>
+    <div className="student-moves-landing-page">
       {/* SEO Meta Tags - Specific to this landing page */}
       <Helmet>
         <title>Student Moves Edinburgh - From £50 | Book Online Today</title>
@@ -313,28 +313,8 @@ const StudentMovesEdinburghLanding = () => {
         </div>
       </section>
 
-      {/* Footer - Minimal, no distracting links */}
-      <footer className="landing-footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-left">
-              <h3>Eremovals - Student Moves Edinburgh</h3>
-              <p>Professional, affordable, reliable</p>
-            </div>
-            <div className="footer-right">
-              <div className="contact-info">
-                <p>📞 07404 228217</p>
-                <p>✉️ eremovalsscot@gmail.com</p>
-                <p>📍 Serving all Edinburgh areas</p>
-              </div>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>&copy; 2024 Eremovals. Licensed & Insured Removal Company.</p>
-          </div>
-        </div>
-      </footer>
-    </>
+
+    </div>
   );
 };
 
