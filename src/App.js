@@ -17,6 +17,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import SEOPage from './pages/SEOPage';
 import ServicePage from './features/services/components/ServicePage';
 import AppLayout from './common/components/layout/AppLayout';
+import StudentMovesEdinburghLanding from './pages/landing/StudentMovesEdinburghLanding';
 
 // Import styles
 import './styles/variables.css';
@@ -260,7 +261,7 @@ function App() {
                           <Route path="/secure-storage-edinburgh" element={<ServicePage />} />
                           <Route path="/secure-storage-glasgow" element={<ServicePage />} />
                           <Route path="/landing/student-moves-edinburgh" element={<StudentMovesEdinburghLanding />} />
-                          <Route path="/landing/emergency-removals" element={<EmergencyRemovalsLanding />} />
+
                           {/* 404 for unmatched routes within language */}
                           <Route path="*" element={<NotFound />} />
                         </Routes>
