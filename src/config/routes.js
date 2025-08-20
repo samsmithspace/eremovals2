@@ -1,4 +1,4 @@
-// src/config/routes.js
+// src/config/routes.js - FIXED VERSION with sameDayQuote
 /**
  * Application routes configuration
  * Centralizes route definitions for easier management
@@ -12,7 +12,8 @@ const routes = {
         contact: '/:lang/contact',
         termsAndConditions: '/:lang/terms-and-conditions',
         bookingResult: '/:lang/booking-result',
-        bookingCancel: '/:lang/booking-cancel'
+        bookingCancel: '/:lang/booking-cancel',
+        sameDayQuote: '/:lang/same-day-quote' // ADDED: Same day quote route
     },
 
     // Route parameter patterns for validation
@@ -64,7 +65,21 @@ const routes = {
          * @param {string} lang - Language code
          * @returns {string} Quote route path
          */
-        quote: (lang = 'en') => routes.generate.path('quote', lang)
+        quote: (lang = 'en') => routes.generate.path('quote', lang),
+
+        /**
+         * Generate contact route for the given language
+         * @param {string} lang - Language code
+         * @returns {string} Contact route path
+         */
+        contact: (lang = 'en') => routes.generate.path('contact', lang),
+
+        /**
+         * ADDED: Generate same day quote route for the given language
+         * @param {string} lang - Language code
+         * @returns {string} Same day quote route path
+         */
+        sameDayQuote: (lang = 'en') => routes.generate.path('sameDayQuote', lang)
     },
 
     // URL query parameter names

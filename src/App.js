@@ -1,4 +1,4 @@
-// src/App.js - FIXED VERSION - Eliminates Duplicate Routes
+// src/App.js - FIXED VERSION - Eliminates Duplicate Routes + Same Day Quote
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
@@ -168,6 +168,7 @@ function App() {
                   <Route path="/secure-storage" element={<Navigate to="/en/secure-storage" replace />} />
                   <Route path="/international-removals" element={<Navigate to="/en/international-removals" replace />} />
                   <Route path="/same-day-move" element={<Navigate to="/en/same-day-move" replace />} />
+                  <Route path="/same-day-quote" element={<Navigate to="/en/same-day-quote" replace />} />
                   <Route path="/contact" element={<Navigate to="/en/contact" replace />} />
                   <Route path="/about" element={<Navigate to="/en/about" replace />} />
                   <Route path="/blog" element={<Navigate to="/en/blog" replace />} />
@@ -208,6 +209,7 @@ function App() {
                           <Route path="/location" element={<LocationSelection />} />
                           <Route path="/quote" element={<QuotePage />} />
                           <Route path="/contact" element={<ContactPage />} />
+                          <Route path="/same-day-quote" element={<ContactPage />} />
                           <Route path="/booking-result" element={<BookingResult />} />
                           <Route path="/booking-cancel" element={<PaymentCancellation />} />
                           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
