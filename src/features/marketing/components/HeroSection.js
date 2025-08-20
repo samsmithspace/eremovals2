@@ -1,9 +1,10 @@
-// src/features/marketing/components/HeroSection.js - SEO Updated (Layout & Style Unchanged)
+// src/features/marketing/components/HeroSection.js - Updated for your route structure
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { FaPhone, FaCalculator, FaShieldAlt, FaStar, FaHeart } from 'react-icons/fa';
 import { useScrollPosition } from 'common/hooks/useScrollPosition';
+import routes from 'config/routes'; // Your routes file
 import './HeroSection.css';
 
 const HeroSection = () => {
@@ -49,9 +50,17 @@ const HeroSection = () => {
   const handleServiceNavigation = (serviceType, locationType = null) => {
     console.log('Navigation triggered:', { serviceType, locationType, currentLang, currentPath: location.pathname });
 
+    // Special handling for same day delivery service - NEW
+    if (serviceType === 'courier' || serviceType === 'same-day') {
+      const targetPath = routes.generate.sameDayQuote(currentLang);
+      console.log('Navigating to same day quote:', targetPath);
+      navigate(targetPath);
+      return;
+    }
+
     if (locationType) {
       // Navigate to location selection with proper language prefix
-      const targetPath = `/${currentLang}/location`;
+      const targetPath = routes.generate.location(currentLang);
       console.log('Navigating to:', targetPath);
 
       navigate(targetPath, {
@@ -59,7 +68,7 @@ const HeroSection = () => {
       });
     } else {
       // Navigate to contact with proper language prefix
-      const targetPath = `/${currentLang}/contact`;
+      const targetPath = routes.generate.contact(currentLang);
       console.log('Navigating to:', targetPath);
 
       navigate(targetPath);
@@ -67,7 +76,7 @@ const HeroSection = () => {
   };
 
   const handleGetQuote = () => {
-    const targetPath = `/${currentLang}/contact`;
+    const targetPath = routes.generate.contact(currentLang);
     console.log('Get quote - navigating to:', targetPath);
     navigate(targetPath);
   };
