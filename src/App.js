@@ -1,4 +1,4 @@
-// src/App.js - FIXED VERSION - Eliminates Duplicate Routes + Same Day Quote
+// src/App.js - FIXED VERSION - Add SameDayQuote import
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
@@ -18,6 +18,9 @@ import SEOPage from './pages/SEOPage';
 import ServicePage from './features/services/components/ServicePage';
 import AppLayout from './common/components/layout/AppLayout';
 import StudentMovesEdinburghLanding from './pages/landing/StudentMovesEdinburghLanding';
+
+// FIXED: Add the missing SameDayQuote import
+import SameDayQuote from './features/quotes/components/SameDayQuote';
 
 // Import styles
 import './styles/variables.css';
@@ -209,7 +212,7 @@ function App() {
                           <Route path="/location" element={<LocationSelection />} />
                           <Route path="/quote" element={<QuotePage />} />
                           <Route path="/contact" element={<ContactPage />} />
-                          <Route path="/same-day-quote" element={<ContactPage />} />
+                          <Route path="/same-day-quote" element={<SameDayQuote />} />
                           <Route path="/booking-result" element={<BookingResult />} />
                           <Route path="/booking-cancel" element={<PaymentCancellation />} />
                           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
