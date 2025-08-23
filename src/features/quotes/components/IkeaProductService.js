@@ -1,441 +1,356 @@
-// src/features/quotes/components/IkeaProductSearch.js
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import {
-  FaSearch,
-  FaPlus,
-  FaMinus,
-  FaShoppingCart,
-  FaExternalLinkAlt,
-  FaTimes,
-  FaRedo,
-  FaRuler
-} from 'react-icons/fa';
-import { useIkeaProductSearch } from '../hooks/useIkeaProductSearch';
-import { ikeaProductService } from '../services/ikeaProductService';
-import { Button, Spinner } from 'common/components/ui';
-import './IkeaProductSearch.css';
+// src/features/quotes/services/ikeaProductService.js
+import { fetchApi } from 'common/utils/apiUtils';
 
 /**
- * IKEA Product Search Component
- * Allows customers to search and select IKEA products for delivery
+ * Service for IKEA product-related operations
  */
-const IkeaProductSearch = ({ onProductsChange, initialProducts = [] }) => {
-  const { t } = useTranslation();
-  const [showSelected, setShowSelected] = useState(false);
+export const ikeaProductService = {
+  /**
+   * Search for IKEA products
+   * @param {string} searchTerm - Search term
+   * @param {number} limit - Maximum number of results
+   * @returns {Promise<Array>} Array of products
+   */
+  searchProducts: async (searchTerm, limit = 10) => {
+    try {
+      // Mock data for now - replace with actual API call
+      const mockProducts = [
+        {
+          id: 'billy-bookcase-white',
+          name: 'BILLY Bookcase, white',
+          price: 60,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/billy-bookcase-white-00263850/',
+          dimensions: { width: 80, depth: 28, height: 202, unit: 'cm' },
+          category: 'Storage & organisation'
+        },
+        {
+          id: 'kallax-shelving-unit',
+          name: 'KALLAX Shelving unit, white',
+          price: 45,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/kallax-shelving-unit-white-20275814/',
+          dimensions: { width: 77, depth: 39, height: 77, unit: 'cm' },
+          category: 'Storage & organisation'
+        },
+        {
+          id: 'malm-bed-frame',
+          name: 'MALM Bed frame, high, white',
+          price: 179,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/malm-bed-frame-high-white-00266743/',
+          dimensions: { width: 156, depth: 209, height: 97, unit: 'cm' },
+          category: 'Beds & mattresses'
+        },
+        {
+          id: 'hemnes-chest-drawers',
+          name: 'HEMNES Chest of 3 drawers, white stain',
+          price: 120,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/hemnes-chest-of-3-drawers-white-stain-80318581/',
+          dimensions: { width: 108, depth: 50, height: 96, unit: 'cm' },
+          category: 'Chests & other furniture'
+        },
+        {
+          id: 'expedit-shelving-unit',
+          name: 'EXPEDIT Shelving unit, white',
+          price: 85,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/expedit-shelving-unit-white-17132739/',
+          dimensions: { width: 149, depth: 39, height: 149, unit: 'cm' },
+          category: 'Storage & organisation'
+        },
+        {
+          id: 'lack-side-table',
+          name: 'LACK Side table, white',
+          price: 12,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/lack-side-table-white-20011408/',
+          dimensions: { width: 55, depth: 55, height: 45, unit: 'cm' },
+          category: 'Tables & desks'
+        },
+        {
+          id: 'ivar-shelf-unit',
+          name: 'IVAR Shelf unit, pine',
+          price: 65,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/ivar-shelf-unit-pine-89085454/',
+          dimensions: { width: 80, depth: 30, height: 124, unit: 'cm' },
+          category: 'Storage & organisation'
+        },
+        {
+          id: 'friheten-sofa-bed',
+          name: 'FRIHETEN Corner sofa-bed with storage',
+          price: 399,
+          currency: '£',
+          image: '/api/placeholder/300/300',
+          link: 'https://www.ikea.com/gb/en/p/friheten-corner-sofa-bed-with-storage-skiftebo-dark-grey-s59175806/',
+          dimensions: { width: 230, depth: 151, height: 66, unit: 'cm' },
+          category: 'Sofas & armchairs'
+        }
+      ];
 
-  const {
-    searchTerm,
-    products,
-    isLoading,
-    error,
-    hasSearched,
-    selectedProducts,
-    totalValue,
-    totalQuantity,
-    handleSearchTermChange,
-    triggerSearch,
-    clearSearch,
-    retrySearch,
-    addProduct,
-    removeProduct,
-    updateProductQuantity,
-    clearSelection
-  } = useIkeaProductSearch({
-    autoSearch: true,
-    debounceMs: 500,
-    maxResults: 12
-  });
+      // Filter products based on search term
+      const filteredProducts = mockProducts.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
-  // Get popular categories for quick search
-  const popularCategories = ikeaProductService.getPopularCategories();
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-  // Handle product selection changes
-  React.useEffect(() => {
-    if (onProductsChange) {
-      onProductsChange(selectedProducts);
+      return filteredProducts.slice(0, limit);
+
+      // TODO: Replace with actual API call
+      // const response = await fetchApi(`/api/ikea/search?q=${encodeURIComponent(searchTerm)}&limit=${limit}`);
+      // return response.products || [];
+
+    } catch (error) {
+      console.error('Error searching IKEA products:', error);
+      throw new Error('Failed to search IKEA products');
     }
-  }, [selectedProducts, onProductsChange]);
+  },
 
-  const handleCategorySearch = (category) => {
-    handleSearchTermChange(category.searchTerm);
-  };
+  /**
+   * Get popular product categories
+   * @returns {Array} Array of popular categories
+   */
+  getPopularCategories: () => {
+    return [
+      {
+        id: 'bookcases',
+        name: 'Bookcases',
+        icon: '📚',
+        searchTerm: 'BILLY bookcase'
+      },
+      {
+        id: 'storage',
+        name: 'Storage',
+        icon: '📦',
+        searchTerm: 'KALLAX'
+      },
+      {
+        id: 'beds',
+        name: 'Beds',
+        icon: '🛏️',
+        searchTerm: 'MALM bed'
+      },
+      {
+        id: 'desks',
+        name: 'Desks',
+        icon: '🪑',
+        searchTerm: 'desk'
+      },
+      {
+        id: 'sofas',
+        name: 'Sofas',
+        icon: '🛋️',
+        searchTerm: 'sofa'
+      },
+      {
+        id: 'tables',
+        name: 'Tables',
+        icon: '🪑',
+        searchTerm: 'table'
+      },
+      {
+        id: 'wardrobes',
+        name: 'Wardrobes',
+        icon: '👔',
+        searchTerm: 'wardrobe'
+      },
+      {
+        id: 'chairs',
+        name: 'Chairs',
+        icon: '🪑',
+        searchTerm: 'chair'
+      }
+    ];
+  },
 
-  const handleQuantityChange = (productId, change) => {
-    const product = selectedProducts.find(p => p.id === productId);
-    if (product) {
-      const newQuantity = Math.max(0, product.quantity + change);
-      updateProductQuantity(productId, newQuantity);
+  /**
+   * Get product by ID
+   * @param {string} productId - Product ID
+   * @returns {Promise<Object>} Product details
+   */
+  getProductById: async (productId) => {
+    try {
+      // TODO: Replace with actual API call
+      const response = await fetchApi(`/api/ikea/products/${productId}`);
+      return response.product;
+    } catch (error) {
+      console.error('Error fetching IKEA product:', error);
+      throw new Error('Failed to fetch product details');
     }
-  };
+  },
 
-  const formatPrice = (price, currency = '£') => {
-    return `${currency}${price.toFixed(2)}`;
-  };
+  /**
+   * Get product availability
+   * @param {string} productId - Product ID
+   * @param {string} storeCode - Store code (e.g., 'GB_Edinburgh')
+   * @returns {Promise<Object>} Availability information
+   */
+  getProductAvailability: async (productId, storeCode = 'GB_Edinburgh') => {
+    try {
+      // TODO: Replace with actual API call
+      const response = await fetchApi(`/api/ikea/availability/${productId}?store=${storeCode}`);
+      return {
+        available: response.available,
+        quantity: response.quantity,
+        store: response.store,
+        lastUpdated: response.lastUpdated
+      };
+    } catch (error) {
+      console.error('Error checking product availability:', error);
+      return {
+        available: true, // Default to available
+        quantity: 'Unknown',
+        store: storeCode,
+        lastUpdated: new Date().toISOString()
+      };
+    }
+  },
 
-  const formatDimensions = (dimensions) => {
-    if (!dimensions) return null;
+  /**
+   * Calculate collection fee for IKEA products
+   * @param {Array} products - Array of selected products
+   * @param {string} storeLocation - IKEA store location
+   * @returns {Object} Collection fee details
+   */
+  calculateCollectionFee: (products, storeLocation = 'Edinburgh') => {
+    const totalValue = products.reduce((sum, product) => {
+      return sum + (product.price * product.quantity);
+    }, 0);
 
-    if (dimensions.width && dimensions.depth && dimensions.height) {
-      return `${dimensions.width}×${dimensions.depth}×${dimensions.height} ${dimensions.unit}`;
+    const totalItems = products.reduce((sum, product) => {
+      return sum + product.quantity;
+    }, 0);
+
+    // Base collection fee structure
+    let baseFee = 15; // Base collection fee
+    let handlingFee = totalValue * 0.02; // 2% handling fee
+    let itemFee = Math.max(0, (totalItems - 5) * 2); // £2 per item over 5
+
+    // Store-specific adjustments
+    const storeMultipliers = {
+      'Edinburgh': 1.0,
+      'Glasgow': 1.1,
+      'Aberdeen': 1.2
+    };
+
+    const multiplier = storeMultipliers[storeLocation] || 1.0;
+
+    const totalFee = Math.round((baseFee + handlingFee + itemFee) * multiplier);
+
+    return {
+      baseFee,
+      handlingFee: Math.round(handlingFee * 100) / 100,
+      itemFee,
+      storeMultiplier: multiplier,
+      totalFee,
+      breakdown: {
+        collection: baseFee,
+        handling: Math.round(handlingFee * 100) / 100,
+        extraItems: itemFee,
+        storeAdjustment: Math.round((totalFee - (baseFee + handlingFee + itemFee)) * 100) / 100
+      }
+    };
+  },
+
+  /**
+   * Format product for display
+   * @param {Object} rawProduct - Raw product data
+   * @returns {Object} Formatted product
+   */
+  formatProduct: (rawProduct) => {
+    return {
+      id: rawProduct.id || rawProduct.productId,
+      name: rawProduct.name || rawProduct.title,
+      price: parseFloat(rawProduct.price) || 0,
+      currency: rawProduct.currency || '£',
+      image: rawProduct.image || rawProduct.imageUrl,
+      link: rawProduct.link || rawProduct.url,
+      dimensions: rawProduct.dimensions || null,
+      category: rawProduct.category || 'General',
+      description: rawProduct.description || '',
+      availability: rawProduct.availability || 'Unknown'
+    };
+  },
+
+  /**
+   * Validate product selection
+   * @param {Array} products - Selected products
+   * @returns {Object} Validation result
+   */
+  validateSelection: (products) => {
+    const errors = [];
+
+    if (!products || products.length === 0) {
+      errors.push('At least one product must be selected');
     }
 
-    if (dimensions.size) {
-      return `${dimensions.size} ${dimensions.unit}`;
-    }
+    products.forEach((product, index) => {
+      if (!product.id) {
+        errors.push(`Product ${index + 1} is missing ID`);
+      }
 
-    return null;
-  };
+      if (!product.name) {
+        errors.push(`Product ${index + 1} is missing name`);
+      }
 
-  return (
-    <div className="ikea-product-search">
-      {/* Search Header */}
-      <div className="search-header">
-        <div className="search-title">
-          <h3>🛋️ Search IKEA Products</h3>
-          <p>Find and select IKEA furniture for your same-day delivery</p>
-        </div>
+      if (!product.price || product.price <= 0) {
+        errors.push(`Product ${index + 1} has invalid price`);
+      }
 
-        {selectedProducts.length > 0 && (
-          <div className="selected-summary">
-            <button
-              className="selected-toggle"
-              onClick={() => setShowSelected(!showSelected)}
-            >
-              <FaShoppingCart />
-              <span>{totalQuantity} items (£{totalValue.toFixed(2)})</span>
-            </button>
-          </div>
-        )}
-      </div>
+      if (!product.quantity || product.quantity <= 0) {
+        errors.push(`Product ${index + 1} has invalid quantity`);
+      }
+    });
 
-      {/* Search Input */}
-      <div className="search-input-section">
-        <div className="search-input-group">
-          <div className="search-input-wrapper">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search IKEA products (e.g., BILLY bookcase, KALLAX storage)"
-              value={searchTerm}
-              onChange={(e) => handleSearchTermChange(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && triggerSearch()}
-            />
-            {searchTerm && (
-              <button
-                className="clear-search-btn"
-                onClick={clearSearch}
-                aria-label="Clear search"
-              >
-                <FaTimes />
-              </button>
-            )}
-          </div>
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  },
 
-          <Button
-            onClick={triggerSearch}
-            disabled={!searchTerm.trim() || isLoading}
-            className="search-btn"
-          >
-            {isLoading ? <Spinner size="sm" /> : <FaSearch />}
-          </Button>
-        </div>
+  /**
+   * Get estimated delivery time for IKEA collection
+   * @param {string} storeLocation - IKEA store location
+   * @param {string} deliveryLocation - Delivery address
+   * @returns {Object} Estimated delivery time
+   */
+  getEstimatedDeliveryTime: (storeLocation = 'Edinburgh', deliveryLocation) => {
+    // Base collection time from IKEA (1-2 hours)
+    const collectionTime = 1.5;
 
-        {/* Popular Categories */}
-        <div className="popular-categories">
-          <span className="categories-label">Popular:</span>
-          <div className="category-chips">
-            {popularCategories.slice(0, 6).map((category) => (
-              <button
-                key={category.id}
-                className="category-chip"
-                onClick={() => handleCategorySearch(category)}
-              >
-                <span className="category-icon">{category.icon}</span>
-                <span className="category-name">{category.name}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+    // Estimated travel time (simplified calculation)
+    const travelTime = 0.5; // 30 minutes average
 
-      {/* Selected Products Panel */}
-      {showSelected && selectedProducts.length > 0 && (
-        <div className="selected-products-panel">
-          <div className="selected-header">
-            <h4>Selected Products ({totalQuantity})</h4>
-            <div className="selected-actions">
-              <span className="total-price">Total: £{totalValue.toFixed(2)}</span>
-              <button
-                className="clear-all-btn"
-                onClick={clearSelection}
-              >
-                Clear All
-              </button>
-            </div>
-          </div>
+    // Processing time
+    const processingTime = 0.5;
 
-          <div className="selected-products-list">
-            {selectedProducts.map((product) => (
-              <div key={product.id} className="selected-product-item">
-                <div className="selected-product-info">
-                  <img
-                    src={product.image || '/api/placeholder/60/60'}
-                    alt={product.name}
-                    className="selected-product-image"
-                  />
-                  <div className="selected-product-details">
-                    <h5>{product.name}</h5>
-                    <span className="selected-product-price">
-                      {formatPrice(product.price)} each
-                    </span>
-                  </div>
-                </div>
+    const totalTime = collectionTime + travelTime + processingTime;
 
-                <div className="selected-product-controls">
-                  <div className="quantity-controls">
-                    <button
-                      onClick={() => handleQuantityChange(product.id, -1)}
-                      className="quantity-btn"
-                    >
-                      <FaMinus />
-                    </button>
-                    <span className="quantity-display">{product.quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange(product.id, 1)}
-                      className="quantity-btn"
-                    >
-                      <FaPlus />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => removeProduct(product.id)}
-                    className="remove-btn"
-                    aria-label="Remove product"
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Search Results */}
-      <div className="search-results">
-        {/* Loading State */}
-        {isLoading && (
-          <div className="search-loading">
-            <Spinner size="lg" />
-            <p>Searching IKEA products...</p>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && (
-          <div className="search-error">
-            <div className="error-content">
-              <h4>Search Error</h4>
-              <p>{error}</p>
-              <Button onClick={retrySearch} variant="outline">
-                <FaRedo /> Try Again
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* No Results */}
-        {hasSearched && !isLoading && !error && products.length === 0 && (
-          <div className="no-results">
-            <div className="no-results-content">
-              <h4>No Products Found</h4>
-              <p>Try searching for popular IKEA products like BILLY, KALLAX, or MALM</p>
-            </div>
-          </div>
-        )}
-
-        {/* Products Grid */}
-        {products.length > 0 && !isLoading && (
-          <div className="products-grid">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onAdd={addProduct}
-                isSelected={selectedProducts.some(p => p.id === product.id)}
-                selectedQuantity={
-                  selectedProducts.find(p => p.id === product.id)?.quantity || 0
-                }
-                onQuantityChange={(quantity) =>
-                  updateProductQuantity(product.id, quantity)
-                }
-                formatPrice={formatPrice}
-                formatDimensions={formatDimensions}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+    return {
+      collectionTime,
+      travelTime,
+      processingTime,
+      totalTime,
+      estimatedDelivery: `${Math.ceil(totalTime)}-${Math.ceil(totalTime + 1)} hours`,
+      breakdown: {
+        collection: `${collectionTime} hours`,
+        travel: `${travelTime} hours`,
+        processing: `${processingTime} hours`
+      }
+    };
+  }
 };
 
-/**
- * Individual Product Card Component
- */
-const ProductCard = ({
-                       product,
-                       onAdd,
-                       isSelected,
-                       selectedQuantity,
-                       onQuantityChange,
-                       formatPrice,
-                       formatDimensions
-                     }) => {
-  const { t } = useTranslation();
-  const [imageError, setImageError] = useState(false);
-
-  const handleAddToCart = () => {
-    onAdd(product, 1);
-  };
-
-  const handleQuantityChange = (change) => {
-    const newQuantity = Math.max(0, selectedQuantity + change);
-    onQuantityChange(newQuantity);
-  };
-
-  const dimensions = formatDimensions(product.dimensions);
-
-  return (
-    <div className={`product-card ${isSelected ? 'selected' : ''}`}>
-      {/* Product Image */}
-      <div className="product-image-container">
-        {!imageError && product.image ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="product-image"
-            onError={() => setImageError(true)}
-            loading="lazy"
-          />
-        ) : (
-          <div className="product-image-placeholder">
-            <span>🛋️</span>
-          </div>
-        )}
-
-        {product.link && (
-          <a
-            href={product.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="product-link-overlay"
-            aria-label="View on IKEA website"
-          >
-            <FaExternalLinkAlt />
-          </a>
-        )}
-      </div>
-
-      {/* Product Details */}
-      <div className="product-details">
-        <h4 className="product-name" title={product.name}>
-          {product.name}
-        </h4>
-
-        <div className="product-meta">
-          {dimensions && (
-            <div className="product-dimensions">
-              <FaRuler className="dimension-icon" />
-              <span>{dimensions}</span>
-            </div>
-          )}
-
-          <div className="product-category">
-            {product.category}
-          </div>
-        </div>
-
-        <div className="product-price">
-          <span className="price-amount">
-            {formatPrice(product.price, product.currency)}
-          </span>
-          <span className="price-label">each</span>
-        </div>
-      </div>
-
-      {/* Product Actions */}
-      <div className="product-actions">
-        {!isSelected ? (
-          <button
-            className="add-to-cart-btn"
-            onClick={handleAddToCart}
-          >
-            <FaPlus />
-            <span>Add to Order</span>
-          </button>
-        ) : (
-          <div className="quantity-controls-card">
-            <button
-              onClick={() => handleQuantityChange(-1)}
-              className="quantity-btn-card"
-              aria-label="Decrease quantity"
-            >
-              <FaMinus />
-            </button>
-
-            <span className="quantity-display-card">
-              {selectedQuantity}
-            </span>
-
-            <button
-              onClick={() => handleQuantityChange(1)}
-              className="quantity-btn-card"
-              aria-label="Increase quantity"
-            >
-              <FaPlus />
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Selected Badge */}
-      {isSelected && (
-        <div className="selected-badge">
-          <FaShoppingCart />
-          <span>{selectedQuantity}</span>
-        </div>
-      )}
-    </div>
-  );
-};
-
-ProductCard.propTypes = {
-  product: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    currency: PropTypes.string,
-    image: PropTypes.string,
-    link: PropTypes.string,
-    dimensions: PropTypes.object,
-    category: PropTypes.string
-  }).isRequired,
-  onAdd: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  selectedQuantity: PropTypes.number.isRequired,
-  onQuantityChange: PropTypes.func.isRequired,
-  formatPrice: PropTypes.func.isRequired,
-  formatDimensions: PropTypes.func.isRequired
-};
-
-IkeaProductSearch.propTypes = {
-  onProductsChange: PropTypes.func,
-  initialProducts: PropTypes.array
-};
-
-export default IkeaProductSearch;
+export default ikeaProductService;
