@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import GoogleMapComponent from '../../locations/components/GoogleMapComponent';
-import IkeaProductSearch from './IkeaProductSearch';
+// FIXED: Changed from './IkeaProductSearch' to './IkeaProductService'
+// since the actual file is named IkeaProductService.js
+import IkeaProductSearch from './IkeaProductService';
 import './SameDayQuote.css';
 
 const SameDayQuote = () => {
