@@ -12,7 +12,7 @@ import './GoogleMapComponent.css';
 import { locationService } from '../services/locationService';
 
 /**
- * Fixed Location Selection Component with proper flow control
+ * Fixed Location Selection Component with proper scroll behavior
  */
 const LocationSelection = () => {
   const location = useLocation();
@@ -31,6 +31,12 @@ const LocationSelection = () => {
 
   // Get location type from navigation state
   const locationType = location.state || {};
+
+  // FIX: Scroll to top when component mounts
+  useEffect(() => {
+    // Scroll to top immediately when component loads
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
   // Animation and UX effects
   useEffect(() => {
@@ -70,10 +76,10 @@ const LocationSelection = () => {
     setWaitingForDetailedAddress(false);
     setValidationErrors(prev => ({ ...prev, startLocation: null, sameLocation: null }));
 
-    // Scroll back to start location section
+    // FIX: Only scroll if not on initial load - add a small delay to ensure it's user-initiated
     setTimeout(() => {
       const startSection = document.querySelector('.start-location-section');
-      if (startSection) {
+      if (startSection && startLocation !== null) { // Only scroll if we had a previous selection
         startSection.scrollIntoView({
           behavior: 'smooth',
           block: 'center'
@@ -86,10 +92,10 @@ const LocationSelection = () => {
     setDestinationLocation(null);
     setValidationErrors(prev => ({ ...prev, destinationLocation: null, sameLocation: null }));
 
-    // Scroll back to destination location section
+    // FIX: Only scroll if destination was previously set
     setTimeout(() => {
       const destinationSection = document.querySelector('.destination-location-section');
-      if (destinationSection) {
+      if (destinationSection && destinationLocation !== null) { // Only scroll if we had a previous selection
         destinationSection.scrollIntoView({
           behavior: 'smooth',
           block: 'center'
@@ -145,16 +151,17 @@ const LocationSelection = () => {
     setWaitingForDetailedAddress(false);
     setValidationErrors(prev => ({ ...prev, startLocation: null, sameLocation: null }));
 
-    // Smooth scroll to destination section after a delay
+    // FIX: Only scroll to destination after user has actually selected a location
+    // Add a longer delay and make it conditional
     setTimeout(() => {
       const destinationSection = document.querySelector('.destination-location-section');
-      if (destinationSection) {
+      if (destinationSection && locationString && showDestinationSection) {
         destinationSection.scrollIntoView({
           behavior: 'smooth',
-          block: 'center'
+          block: 'start' // Changed from 'center' to 'start' for better positioning
         });
       }
-    }, 500);
+    }, 800); // Increased delay to ensure section is fully rendered
   };
 
   const handleDestinationLocationSelected = (place) => {
@@ -178,16 +185,16 @@ const LocationSelection = () => {
     setDestinationLocation(locationString);
     setValidationErrors(prev => ({ ...prev, destinationLocation: null, sameLocation: null }));
 
-    // Smooth scroll to confirmation after a delay
+    // FIX: Only scroll to confirmation after user has selected destination
     setTimeout(() => {
       const confirmationSection = document.querySelector('.confirmation-section');
-      if (confirmationSection) {
+      if (confirmationSection && locationString && showConfirmation) {
         confirmationSection.scrollIntoView({
           behavior: 'smooth',
-          block: 'center'
+          block: 'start' // Changed from 'center' to 'start'
         });
       }
-    }, 500);
+    }, 800);
   };
 
   const handleConfirm = async () => {
@@ -577,7 +584,7 @@ const RouteInformation = ({ startLocation, destinationLocation }) => {
   );
 };
 
-// PropTypes
+// PropTypes remain the same...
 ProgressIndicator.propTypes = {
   steps: PropTypes.arrayOf(PropTypes.string).isRequired
 };

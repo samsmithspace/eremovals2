@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import GoogleMapComponent from '../../locations/components/GoogleMapComponent';
 // FIXED: Changed from './IkeaProductSearch' to './IkeaProductService'
 // since the actual file is named IkeaProductService.js
-import IkeaProductSearch from './IkeaProductService';
+import IkeaProductService from './IkeaProductService';
 import './SameDayQuote.css';
 
 const SameDayQuote = () => {
@@ -275,7 +275,7 @@ const SameDayQuote = () => {
                 <div className="ikea-products-section">
                   <h3>Select IKEA Products</h3>
                   <div className="ikea-search-container">
-                    <IkeaProductSearch
+                    <IkeaProductService
                       onProductsChange={handleProductsChange}
                       initialProducts={selectedProducts}
                     />

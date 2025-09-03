@@ -15,7 +15,7 @@ import {
 import { useIkeaProductSearch } from '../hooks/useIkeaProductSearch';
 import { ikeaProductService } from '../services/ikeaProductService';
 import { Button, Spinner } from 'common/components/ui';
-import './IkeaProductSearch.css';
+import './IkeaProductService.css';
 
 /**
  * IKEA Product Search Component
